@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2020/09/01 12:07:38 by nieyraud         ###   ########.fr        #
+#    Updated: 2020/09/04 10:16:39 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,11 +27,16 @@ rouge=\033[31m
 #####################
 #		SOURCES		#
 #####################
+
 NAME = a.out
 
 SRC_FILE = main.cpp
 
-INCLUDE	= srcs/list/List.hpp srcs/stack/Stack.hpp srcs/queue/Queue.hpp srcs/vector/Vector.hpp srcs/map/Map.hpp
+INCLUDE	=	srcs/list/List.hpp srcs/list/List_node.hpp srcs/list/List_iterator.hpp \
+			srcs/stack/Stack.hpp \
+			srcs/queue/Queue.hpp \
+			srcs/vector/Vector.hpp \
+			srcs/map/Map.hpp
 
 #############################
 #		DIRCTORIES PATH		#

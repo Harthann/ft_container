@@ -1,30 +1,23 @@
 #ifndef LIST_HPP
 #define LIST_HPP
-
 #include <iostream>
 
-template <typename T> class List;
-template <typename T> class List_iterator;
+namespace ftc {
 
-template <typename T>
-class list_node
-{
-	public:
-		list_node(T data, list_node *ptr) : data(data), next(ptr) {}
-		~list_node() { delete next; }
 
-		friend class List<T>;
-	private:
-		T data;
-		list_node *next;
-};
+#include "List_iterator.hpp"
+#include "List_node.hpp"
 
-template <typename T>
+// template <class T> class List_node;
+// template <class T> class List_iterator;
+
+template <class T>
 class List
 {
 	public:
 
-		typedef list_iterator<T> iterator;
+		typedef ftc::List_iterator<T> iterator;
+		typedef ftc::List_const_iterator<T> const_iterator;
 
 		List() : head(nullptr), tail(nullptr) {}
 		// List(const List<T>& tmp);
@@ -32,54 +25,45 @@ class List
 		
 		void push_front(T tmp);
 		void push_back(T tmp);
-		// iterator begin(void) const;
-		// iterator end(void) const;
+		ftc::List_iterator<T> begin();
+		ftc::List_iterator<T> end();
+		ftc::List_const_iterator<T> begin() const;
+		ftc::List_const_iterator<T> end() const;
 
 		void print(); // testing function, will be delete
 	private:
-		list_node<T> *head;
-		list_node<T> *tail;
+		ftc::List_node<T> *head;
+		ftc::List_node<T> *tail;
 
 };
 
-template <typename T>
-class list_iterator
-{
-	public:
-		list_iterator()
 
-	private:
-		T *data;
-}
 
 //###################################
 //##	CONSTRUCTOR/DESTRUCTOR		#
 //###################################
 
-// template <typename T>
-// List<T>::List(const List<T>& tmp)
-// {
-	
-// }
-
 //###############################
 //##							#
 //###############################
 
-template <typename T>
+template <class T>
 void List<T>::push_front(T tmp)
 {
-	list_node<T> *new_node = new list_node<T>(tmp, head);
+	ftc::List_node<T> *new_node = new ftc::List_node<T>(tmp, head);
 	if (!tail)
 		tail = head;
 	head = new_node;
+	if (head->next)
+		head->next->previous = head;
 }
 
-template <typename T>
+template <class T>
 void List<T>::push_back(T tmp)
 {
-	list_node<T> *new_node = new list_node<T>(tmp, nullptr);
+	ftc::List_node<T> *new_node = new ftc::List_node<T>(tmp, nullptr);
 
+	new_node->previous = head;
 	if (!head)
 		head = new_node;
 	else if (tail)
@@ -91,29 +75,38 @@ void List<T>::push_back(T tmp)
 //#		ITERATOR	#
 //###################
 
-// template <typename T>
-// List<T>::iterator List<T>::begin(void) const
-// {
-// 	return (iterator(this->first));
-// }
+template <class T>
+ftc::List_iterator<T> List<T>::begin(void)
+{
+	return (ftc::List_iterator<T>(head));
+}
 
-// template <typename T>
-// List<T>::iterator List<T>::end(void) const
-// {
-// 	List<T>::iterator it = this->begin();
-// 	while (it->next)
-// 		it = it->next;
-// 	return (it);
-// }
+template <class T>
+ftc::List_iterator<T> List<T>::end(void)
+{
+	return (ftc::List_iterator<T>(tail->next));
+}
+
+template <class T>
+ftc::List_const_iterator<T> List<T>::begin(void) const
+{
+	return (ftc::List_const_iterator<T>(head));
+}
+
+template <class T>
+ftc::List_const_iterator<T> List<T>::end(void) const
+{
+	return (ftc::List_const_iterator<T>(tail->next));
+}
 
 //###################
 //#		OTHER		#
 //###################
 
-template <typename T>
+template <class T>
 void List<T>::print()
 {
-	list_node<T> *tmp = head;
+	ftc::List_node<T> *tmp = head;
 
 	while (tmp)
 	{
@@ -125,4 +118,5 @@ void List<T>::print()
 	std::cout << "\n";
 }
 
+}
 #endif
