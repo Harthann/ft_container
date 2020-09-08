@@ -1,0 +1,32 @@
+Size of vector is : 10
+Container vec's capacity is : 16
+Vector : 
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+Vec is empty : 0
+Max_size of vec is : 4611686018427387903
+
+	RESERVE
+Size of vector after reserve is : 10
+Container vec's capacity after reserve is : 25
+Vector after reserve : 
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+
+	SHRINK
+Container vec's capacity after shrink is : 10
+Vector after shrink : 
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+
+	CLEAR
+Vector after clear : 
+
+Container vec's capacity after clear is : 10
+
+	ERASE
+Vector after erase : 
+0 : 1 : 2 : 4 : 5 : 6 : 7 : 8 : 9
+Container vec's capacity after erase is : 10
+
+	ERASE 2
+Vector after erase : 
+0 : 1 : 2 : 6 : 7 : 8 : 9
+Container vec's capacity after erase is : 10

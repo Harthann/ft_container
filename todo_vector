@@ -1,0 +1,46 @@
+MEMBER FUNCTIONS
+operator= : 
+assign
+
+ELement access
+at
+operator[]
+front
+back
+data
+
+Iterators :
+cbegin
+cend
+rbegin
+crbegin
+rend
+crend
+
+Capacity :
+empty \/
+max_size
+reserve \/
+capacity \/
+shrink_to_fit \/
+
+Modifiers:
+clar
+insert
+emplace
+erase
+emplace_back
+pop_back
+resize
+swap
+
+Operators/ nonmembers
+==
+!=
+<
+<=
+>
+>=
+<=>
+std::swap ()specialize swap algorithm
+eraseerase_if

@@ -1,0 +1,8 @@
+STL : 45 --> 50 --> 2 --> 445 --> 56 --> 4 --> 2 --> 999 --> 453456
+FTC : 45 --> 50 --> 2 --> 445 --> 56 --> 4 --> 2 --> 999 --> 453456
+STL : 
+	Value of *it : 45
+	Modified value of *it : 0
+FTC : 
+	Value of *it : 45
+	Modified value of *it : 0

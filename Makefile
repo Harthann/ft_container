@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2020/09/04 10:16:39 by nieyraud         ###   ########.fr        #
+#    Updated: 2020/09/07 09:31:28 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,22 +30,22 @@ rouge=\033[31m
 
 NAME = a.out
 
-SRC_FILE = main.cpp
+SRC_FILE = main.cpp list_test.cpp test_vector.cpp
 
 INCLUDE	=	srcs/list/List.hpp srcs/list/List_node.hpp srcs/list/List_iterator.hpp \
 			srcs/stack/Stack.hpp \
 			srcs/queue/Queue.hpp \
-			srcs/vector/Vector.hpp \
+			srcs/vector/Vector.hpp srcs/vector/MyAlloc.hpp srcs/vector/Vector_iterator.hpp \
 			srcs/map/Map.hpp
 
 #############################
 #		DIRCTORIES PATH		#
 #############################
 
-# PATH = ${shell find srcs -type d}
-PATH = ./
+PATH = ${shell find srcs -type d}
+# PATH = ./
 OBJ_PATH = objs
-vpath %.c $(foreach dir, $(PATH), $(dir))
+vpath %.cpp $(foreach dir, $(PATH), $(dir))
 
 #################################
 #		FILES	VARIABLE		#
