@@ -22,11 +22,23 @@ Vector after clear :
 Container vec's capacity after clear is : 10
 
 	ERASE
+Element returned by erase : 4
 Vector after erase : 
 0 : 1 : 2 : 4 : 5 : 6 : 7 : 8 : 9
 Container vec's capacity after erase is : 10
 
 	ERASE 2
+Element returned by erase : 6
 Vector after erase : 
 0 : 1 : 2 : 6 : 7 : 8 : 9
 Container vec's capacity after erase is : 10
+
+	INSERT
+Vector after insert : 
+0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9
+Container vec's capacity after insert is : 20
+
+	INSERT 2
+Vector after insert : 
+0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9 : 0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9
+Container vec's capacity after insert is : 22

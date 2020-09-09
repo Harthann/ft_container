@@ -37,6 +37,24 @@ class Vector_iterator
 			return (tmp);
 		}
 
+		bool operator==(const Vector_iterator<T>& base) {
+			return (base.ptr == this->ptr) ;
+		}
+
+		Vector_iterator<T> operator+(int i) {
+			Vector_iterator<T> tmp(ptr + i);
+			return (tmp);
+		}
+
+		Vector_iterator<T> operator-(int i) {
+			Vector_iterator<T> tmp(ptr - i);
+			return (tmp);
+		}
+
+		size_t operator-(Vector_iterator<T> i) {
+			return (ptr - i.ptr);
+		}
+
 		void operator=(const Vector_iterator& base) {
 			ptr = base.ptr;
 		}

@@ -2,6 +2,7 @@
 #define VECTOR_HPP
 
 #include <iostream>
+#include <string>
 #include "MyAlloc.hpp"
 #include "Vector_iterator.hpp"
 
@@ -24,8 +25,8 @@ class Vector {
 				alloc.deallocate(array, allocated_size);
 		};
 
-		T* begin() { return (array); };
-		T* end() { return (array + size_value); };
+		ftc::Vector_iterator<T> begin() { return (array); };
+		ftc::Vector_iterator<T> end() { return (array + size_value); };
 
 		size_t size() { return (size_value); };
 
@@ -40,9 +41,12 @@ class Vector {
 		// Modifiers block
 		void push_back(T value);
 		void clear();
-		T* erase(T* start);
-		T* erase(T* start, T* end);
 
+		ftc::Vector_iterator<T> erase(ftc::Vector_iterator<T> start);
+		ftc::Vector_iterator<T> erase(ftc::Vector_iterator<T> start, ftc::Vector_iterator<T> end);
+
+		ftc::Vector_iterator<T> insert(ftc::Vector_iterator<T> pos, const T& value);
+		ftc::Vector_iterator<T> insert(ftc::Vector_iterator<T> pos, ftc::Vector_iterator<T> its, ftc::Vector_iterator<T> ite);
 
 		private:
 		T *array;
@@ -94,7 +98,6 @@ void Vector<T, A>::push_back(T value)
 	A alloc;
 	T *tmp;
 
-	std::cout << "Push back function, allocated value is : " << allocated_size << "\n";
 	if (allocated_size < size_value + 1) {
 		tmp = alloc.allocate(allocated_size * 2 + (allocated_size == 0));
 	}
@@ -165,9 +168,9 @@ void Vector<T,A>::clear()
 }
 
 template <class T, class A>
-T* Vector<T,A>::erase(T* start)
+ftc::Vector_iterator<T> Vector<T,A>::erase(ftc::Vector_iterator<T> start)
 {
-	T* tmp;
+	ftc::Vector_iterator<T> tmp;
 	int i = 0;
 
 	tmp = this->end();
@@ -180,23 +183,79 @@ T* Vector<T,A>::erase(T* start)
 	size_value--;
 	if (start == tmp)
 		return (this->end());
-	return (start + 1);
+	return (start);
 }
 
 template <class T, class A>
-T* Vector<T,A>::erase(T* start, T*end)
+ftc::Vector_iterator<T> Vector<T,A>::erase(ftc::Vector_iterator<T> start, ftc::Vector_iterator<T>end)
 {
-	size_t i = size_value - (this->end() - start);
-	size_t new_size = size_value - i;
-
-	while (i < size_value)
+	ftc::Vector_iterator<T> mem = start;
+	while (end != this->end())
 	{
-		if (i + 1 <= size_value)
-			array[i] = array[i + 1];
-		i++;
+		*start = *end;
+		start++;
+		end++;
 	}
-	size_value = new_size;
-	return (end);
+	size_value = start - this->begin();
+	return (mem);
+}
+
+
+template <class T, class A>
+ftc::Vector_iterator<T> Vector<T,A>::insert(ftc::Vector_iterator<T> pos, const T& value)
+{
+	ftc::Vector_iterator<T> it;
+	size_t delta = pos - this->begin();
+
+	if (allocated_size < size_value + 1) {
+		this->reserve(allocated_size * 2 + (allocated_size == 0));
+		pos = this->begin() + delta;
+	}
+	std::cout << "reserve done \n";
+	it = this->end();
+	while (it != pos)
+	{
+		*it = *(it - 1);
+		it--;
+	}
+	*it = value;
+	size_value++;
+	return (pos);
+}
+
+template <class T, class A>
+ftc::Vector_iterator<T> Vector<T,A>::insert(ftc::Vector_iterator<T> pos, ftc::Vector_iterator<T> its, ftc::Vector_iterator<T> ite)
+{
+	ftc::Vector_iterator<T> it;
+	ftc::Vector_iterator<T> tmp = pos;
+	size_t delta = its - ite;
+
+	if (allocated_size < size_value + delta) {
+		if (allocated_size * 2 < size_value + delta)
+		{
+			this->reserve(size_value + delta + (allocated_size == 0));
+			std::cout << "Entered big alloc\n";
+		}
+		else
+		{
+			this->reserve(allocated_size * 2 + (allocated_size == 0));
+			std::cout << "Entered little alloc\n";
+		}
+	}
+	it = this->end();
+	while (it != pos)
+	{
+		*(it + delta) = *(it);
+		it--;
+	}
+	while (ite != its)
+	{
+		*it = *ite;
+		ite++;
+		it++;
+	}
+	size_value += delta;
+	return (tmp);
 }
 
 
