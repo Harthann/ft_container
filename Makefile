@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2020/09/07 09:31:28 by nieyraud         ###   ########.fr        #
+#    Updated: 2020/09/11 10:53:51 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ cyanclair=\033[1;36m
 vertfonce=\033[0;32m
 vertclair=\033[1;32m
 rouge=\033[31m
+orange=\033[33m
 
 #####################
 #		SOURCES		#
@@ -35,8 +36,9 @@ SRC_FILE = main.cpp list_test.cpp test_vector.cpp
 INCLUDE	=	srcs/list/List.hpp srcs/list/List_node.hpp srcs/list/List_iterator.hpp \
 			srcs/stack/Stack.hpp \
 			srcs/queue/Queue.hpp \
-			srcs/vector/Vector.hpp srcs/vector/MyAlloc.hpp srcs/vector/Vector_iterator.hpp \
-			srcs/map/Map.hpp
+			srcs/vector/Vector.hpp srcs/vector/Vector_iterator.hpp \
+			srcs/map/Map.hpp \
+			srcs/allocator/MyAlloc.hpp 
 
 #############################
 #		DIRCTORIES PATH		#
@@ -66,7 +68,8 @@ INCLUDE_FLAGS = -I srcs/list \
 				-I srcs/queue \
 				-I srcs/map \
 				-I srcs/vector \
-				-I srcs/stack
+				-I srcs/stack \
+				-I srcs/allocator 
 
 #########################
 #		LIBRARIES		#

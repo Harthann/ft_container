@@ -41,12 +41,12 @@ class Vector_iterator
 			return (base.ptr == this->ptr) ;
 		}
 
-		Vector_iterator<T> operator+(int i) {
+		Vector_iterator<T> operator+(size_t i) {
 			Vector_iterator<T> tmp(ptr + i);
 			return (tmp);
 		}
 
-		Vector_iterator<T> operator-(int i) {
+		Vector_iterator<T> operator-(size_t i) {
 			Vector_iterator<T> tmp(ptr - i);
 			return (tmp);
 		}

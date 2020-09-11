@@ -33,12 +33,25 @@ Vector after erase :
 0 : 1 : 2 : 6 : 7 : 8 : 9
 Container vec's capacity after erase is : 10
 
-	INSERT
+	INSERT NUMBER WITH SPECIFIC POSITION
 Vector after insert : 
 0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9
 Container vec's capacity after insert is : 20
 
-	INSERT 2
+	INSERT WITH RANGE ELEMENTS FROM OTHER VEC
+Vector before insert : 
+0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9
+Cpy to insert : 
+0 : 1 : 2 : 6 : 7 : 8 : 9
+Insert output return value is : 0
 Vector after insert : 
-0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9 : 0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9
-Container vec's capacity after insert is : 22
+0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9 : 0 : 1 : 2 : 6 : 7 : 8 : 9
+Container vec's capacity after insert is : 20
+
+	INSERT SPECIFIC VALUE AT SPECIFIC POS WITH SPECIFIC QUANTITY
+Vector before insert count value : 
+0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9 : 0 : 1 : 2 : 6 : 7 : 8 : 9
+Insert output return value is : 34
+Vector after insert : 
+0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9 : 0 : 1 : 2 : 6 : 7 : 8 : 9 : 34
+Container vec's capacity after insert is : 20
