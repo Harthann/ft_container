@@ -1,16 +1,19 @@
 #ifndef VECTOR_ITERATOR_HPP
 #define VECTOR_ITERATOR_HPP
 
+#include "base_iterator.hpp"
+
 namespace ftc {
 
 // template <class T, class A> class Vector;
+template <class T> class __base_iterator;
 
 template <class T>
-class Vector_iterator
+class Vector_iterator : public __base_iterator<T>
 {
-	typedef T& reference;
 
 	public:
+		typedef T& reference;
 		Vector_iterator() : ptr(nullptr) { };
 		Vector_iterator(T* ptr) : ptr(ptr) {} ;
 		Vector_iterator(const Vector_iterator&);
