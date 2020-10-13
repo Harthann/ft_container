@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2020/09/11 10:53:51 by nieyraud         ###   ########.fr        #
+#    Updated: 2020/10/12 10:54:58 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,14 +38,13 @@ INCLUDE	=	srcs/list/List.hpp srcs/list/List_node.hpp srcs/list/List_iterator.hpp
 			srcs/queue/Queue.hpp \
 			srcs/vector/Vector.hpp srcs/vector/Vector_iterator.hpp \
 			srcs/map/Map.hpp \
-			srcs/allocator/MyAlloc.hpp 
+			srcs/iterators/base_iterator.hpp
 
 #############################
 #		DIRCTORIES PATH		#
 #############################
 
 PATH = ${shell find srcs -type d}
-# PATH = ./
 OBJ_PATH = objs
 vpath %.cpp $(foreach dir, $(PATH), $(dir))
 
@@ -61,7 +60,7 @@ OBJ		= ${addprefix ${OBJ_PATH}/, ${SRC_FILE:%.cpp=%.o}}
 #			FLAGS		#
 #########################
 
-FLAGS = -Wall -Werror -Wextra -O2 -march=native
+FLAGS = -Wall -Werror -Wextra --std=c++98
 SAN = -g3 -fsanitize=address
 OPT_FLAGS = -flto
 INCLUDE_FLAGS = -I srcs/list \
@@ -69,7 +68,8 @@ INCLUDE_FLAGS = -I srcs/list \
 				-I srcs/map \
 				-I srcs/vector \
 				-I srcs/stack \
-				-I srcs/allocator 
+				-I srcs/allocator \
+				-I srcs/iterators
 
 #########################
 #		LIBRARIES		#

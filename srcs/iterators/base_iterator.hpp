@@ -3,8 +3,6 @@
 
 namespace ftc {
 
-// template <class T, class A> class __base;
-
 template <class T>
 class __base_iterator
 {
@@ -14,6 +12,7 @@ class __base_iterator
 		__base_iterator() : ptr(nullptr) { };
 		__base_iterator(T* ptr) : ptr(ptr) {} ;
 		__base_iterator(const __base_iterator&);
+		size_t distance(__base_iterator<T> start, __base_iterator<T> end);
 
 		__base_iterator<T>& operator++() {
 			this->ptr++;
@@ -68,7 +67,7 @@ class __base_iterator
 			return (*ptr);
 		}
 
-	private:
+	protected:
 		T *ptr;
 };
 
@@ -85,6 +84,20 @@ __base_iterator<T>::__base_iterator(const __base_iterator& base)
 //###################################
 //#		CONST VERSION OF ITERATOR	#
 //###################################
+
+template <class T>
+size_t __base_iterator<T>::distance(__base_iterator<T> start, __base_iterator<T> end)
+{
+	size_t i = 0;
+	__base_iterator<T> tmp = start;
+
+	while (tmp != end)
+	{
+		i++;
+		tmp++;
+	}
+	return (i);
+}
 
 } // end namespace definition
 

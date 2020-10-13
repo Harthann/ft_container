@@ -4,18 +4,16 @@
 #include <iostream>
 #include <initializer_list>
 #include <string>
-#include "MyAlloc.hpp"
 #include "Vector_iterator.hpp"
 #include "base_iterator.hpp"
 
 
 namespace ftc {
 
-template <class T> class MyAlloc;
 template <class T> class Vector_iterator;
 template <class T> class __base_iterator;
 
-template <class T, class A = MyAlloc<T> >
+template <class T, class A = std::allocator<T> >
 class Vector {
 
 	public:
@@ -30,8 +28,8 @@ class Vector {
 				alloc.deallocate(array, allocated_size);
 		};
 
-		iterator begin() { return (array); };
-		iterator end() { return (array + size_value); };
+		iterator begin() { return (array); };//iterator it(array); return (it); };
+		iterator end() { return (array + size_value); }; //iterator it(array + size_value); return (it);};
 
 		size_t size() { return (size_value); };
 
@@ -134,7 +132,7 @@ void Vector<T,A>::reserve(size_t new_cap)
 		for (size_t i = 0; i < size_value; i++)
 			tmp[i] = array[i];
 		alloc.deallocate(array, allocated_size);
-		array = tmp;
+		this->array = tmp;
 		allocated_size = new_cap;
 	}
 }
@@ -243,11 +241,13 @@ ftc::Vector_iterator<T> Vector<T,A>::insert(ftc::Vector_iterator<T> pos, __input
 	A alloc;
 	T *tmp;
 	size_t new_alloc;
-	size_t delta = 0;
+	// return (pos);
+	std::cout << "its is : " << *ite << "and ite is : " << std::endl;
+	size_t delta = its.distance(its, ite);
 	size_t i;
 
-	for (__input_it tmp_it = its; tmp_it != ite; tmp_it++)
-		delta++;
+	std::cout << delta << std::endl;
+	std::cout << "Delta iterators is : " << delta <<std::endl;
 	if (delta && allocated_size < size_value + delta) {
 		if (allocated_size * 2 < size_value + delta)
 			new_alloc = size_value + delta + (allocated_size == 0);
@@ -296,6 +296,7 @@ ftc::Vector_iterator<T> Vector<T,A>::insert(ftc::Vector_iterator<T> pos, __input
 			ite--;
 			delta--;
 		}
+		std::cout << "Entered insert member function\n";
 		*(it + delta) = *ite;
 	}
 	return (pos);

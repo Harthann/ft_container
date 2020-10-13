@@ -7,13 +7,25 @@
 #include <list>
 
 template <class T>
-struct test_alloc : std::allocator<T> {
+struct test_alloc_green : std::allocator<T> {
 	T *allocate(size_t size) {
-		std::cout << "Allocate request of size : " << size << std::endl;
+		std::cout << "\033[0;32mAllocate request of size : " << size << std::endl;
 		return (new T[size]);
 	}
 	void deallocate(T *ptr, size_t size) {
-		std::cout << "Deallocation request of size : " << size << std::endl;
+		std::cout << "\033[0;32mDeallocation request of size : " << size << std::endl;
+		delete ptr;
+	}
+};
+
+template <class T>
+struct test_alloc_red : std::allocator<T> {
+	T *allocate(size_t size) {
+		std::cout << "\033[31mAllocate request of size : " << size << std::endl;
+		return (new T[size]);
+	}
+	void deallocate(T *ptr, size_t size) {
+		std::cout << "\033[31mDeallocation request of size : " << size << std::endl;
 		delete ptr;
 	}
 };
@@ -53,15 +65,16 @@ void test_insert_vector(T &vec, T cpy, std::ofstream &output, L list)
 	output << print_container(vec.begin(), vec.end(), "Vector before insert : \n");
 	output << print_container(cpy.begin(), cpy.end(), "Cpy to insert : \n");
 	output << "Insert output return value is : " << *vec.insert(vec.end(), cpy.begin(), cpy.end()) << std::endl;
+	// return ;
 	// vec.shrink_to_fit();
 	output << print_container(vec.begin(), vec.end(), "Vector after insert : \n");
 	output << "Container vec's capacity after insert is : " << vec.capacity() << std::endl;
 
-	std::cout << "\n\tINSERT WITH RANGE ELEMENTS FROM OTHER CONTAINER\n";
-	output << "\n\tINSERT WITH RANGE ELEMENTS FROM OTHER CONTAINER\n";
-	output << print_container(vec.begin(), vec.end(), "Vector before insert : \n");
-	output << print_container(list.begin(), list.end(), "List to insert : \n");
-	output << "Insert output return value is : " << *vec.insert(vec.end(), list.begin(), list.end()) << std::endl;
+	// std::cout << "\n\tINSERT WITH RANGE ELEMENTS FROM OTHER CONTAINER\n";
+	// output << "\n\tINSERT WITH RANGE ELEMENTS FROM OTHER CONTAINER\n";
+	// output << print_container(vec.begin(), vec.end(), "Vector before insert : \n");
+	// output << print_container(list.begin(), list.end(), "List to insert : \n");
+	// output << "Insert output return value is : " << *vec.insert(vec.end(), list.begin(), list.end()) << std::endl;
 	// vec.shrink_to_fit();
 	output << print_container(vec.begin(), vec.end(), "Vector after insert : \n");
 	output << "Container vec's capacity after insert is : " << vec.capacity() << std::endl;
@@ -96,7 +109,7 @@ void test_exec(T &vec, L list, std::string output_name)
 	output << "Size of vector after reserve is : " << vec.size() << std::endl;
 	output << "Container vec's capacity after reserve is : " << vec.capacity() << std::endl;
 	output << print_container(vec.begin(), vec.end(), "Vector after reserve : \n");
-
+	return ;
 	std::cout << "\n\tSHRINK\n";
 	output << "\n\tSHRINK\n";
 	vec.shrink_to_fit();
@@ -132,8 +145,8 @@ void test_exec(T &vec, L list, std::string output_name)
 typedef int my_type;
 void test_vector(void)
 {
-	ftc::Vector<my_type, test_alloc<my_type> > ftc;
-	std::vector<my_type, test_alloc<my_type> > stl;
+	ftc::Vector<my_type, test_alloc_red<my_type> > ftc;
+	std::vector<my_type, test_alloc_green<my_type> > stl;
 
 	std::vector<my_type> to_insert;
 	ftc::Vector<my_type> to_insert2;
@@ -150,6 +163,7 @@ void test_vector(void)
 	// stl.insert(stl.begin(), ftc.begin(), ftc.end());
 	// system ("sleep 1"); 
 	test_exec(stl, to_insert, "stl_vector_output");
+	getchar();
 	// system ("sleep 1");
 	test_exec(ftc, to_insert2,"ftc_vector_output");
 
