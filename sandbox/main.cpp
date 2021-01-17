@@ -1,6 +1,8 @@
 // #include "base_iterator.hpp"
 #include <iostream>
 #include <string>
+#include <vector>
+#include <list>
 
 template <class T>
 class A
@@ -38,15 +40,36 @@ T B<T>::delta(__input__ end)
 
 int main(void)
 {
-	int a = 6;
-	int b = 9;
+	std::vector<int> vec;
+	std::list<int> lst;
+	// std::vector<int>::iterator it;
+
+	for (int i = 0; i < 10; i++)
+		lst.push_back(i);
+	vec.insert(vec.begin(), lst.begin(), lst.end());
+	for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+		std::cout << *it << std::endl;
+	// std::cout << *it << std::endl;
+	// *it = 2;
+		// for (int i = 0; i < 10; i++)
+		// lst.push_front(i);
+	// std::vector<int>::iterator it(lst.begin());
+	// it = vec.begin();
+	// std::cout << *it;
+	// for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+	// 	*it = 4;
+	// for (std::vector<int>::const_iterator it = vec.cbegin(); it != vec.cend(); it++)
+	// 	std::cout << *it << std::endl;
+	// std::cout << *it << std::endl;	
+	// int a = 6;
+	// int b = 9;
 	// A<int> test(&a);
-	B<int> inheritance_test(&b);
-	B<int> inheritance_test2(&a);
+	// B<int> inheritance_test(&b);
+	// B<int> inheritance_test2(&a);
 
 	// std::cout << (test == 6) << std::endl;
 	// std::cout << *inheritance_test << std::endl;
 	// std::cout << (inheritance_test == "Hello") << std::endl;
-	std::cout << inheritance_test.delta(inheritance_test2) << std::endl;
+	// std::cout << inheritance_test.delta(inheritance_test2) << std::endl;
 	return (0);
 }

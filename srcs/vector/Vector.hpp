@@ -5,20 +5,31 @@
 #include <initializer_list>
 #include <string>
 #include "Vector_iterator.hpp"
+#include "Vector_reverse_iterator.hpp"
 #include "base_iterator.hpp"
 
 
 namespace ftc {
 
 template <class T> class Vector_iterator;
+template <class T> class Vector_reverse_iterator;
 template <class T> class __base_iterator;
 
 template <class T, class A = std::allocator<T> >
 class Vector {
 
 	public:
-		typedef ftc::Vector_iterator<T> iterator;
-		typedef ftc::__base_iterator<T> __input_it;
+		typedef ftc::Vector_iterator<T>					iterator;
+		typedef ftc::Vector_reverse_iterator<T>			reverse_iterator;
+		typedef ftc::Vector_iterator<const T>			const_iterator;
+		typedef ftc::Vector_reverse_iterator<const T>	const_reverse_iterator;
+		typedef ftc::__base_iterator<T>					__input_it;
+
+		typedef A	allocator_type;
+		typedef typename allocator_type::reference	reference;
+		typedef typename allocator_type::const_reference	const_reference;
+		typedef typename allocator_type::pointer	pointer;
+		typedef typename allocator_type::const_pointer	const_pointer;
 		// Vector() : array(nullptr), size(0), allocated_size(1) {};
 		Vector(size_t size = 0);
 		Vector(const Vector&);
@@ -28,15 +39,22 @@ class Vector {
 				alloc.deallocate(array, allocated_size);
 		};
 
-		iterator begin() { return (array); };//iterator it(array); return (it); };
-		iterator end() { return (array + size_value); }; //iterator it(array + size_value); return (it);};
+		allocator_type get_allocator() const;
+		iterator begin() { return (array); };
+		const_iterator cbegin() { return (array); };
+		reverse_iterator rbegin() { return (array + size_value - 1); };
+		const_reverse_iterator crbegin() { return (array + size_value - 1); };
+		iterator end() { return (array + size_value); };
+		const_iterator cend() { return (array + size_value); };
+		reverse_iterator rend() { return (array - 1); };
+		const_reverse_iterator crend() { return (array - 1); };
 
 		size_t size() { return (size_value); };
 
 		// Capacity block
 
 		bool empty() const { return (size_value == 0); } ;
-		size_t max_size() const { return (std::numeric_limits<int>::max()) ; };
+		size_t max_size() const { return (std::numeric_limits<difference_type>::max()) ; };
 		size_t capacity() const { return (allocated_size); };
 		void reserve(size_t new_cap);
 		void shrink_to_fit();
@@ -131,6 +149,7 @@ void Vector<T,A>::reserve(size_t new_cap)
 		tmp = alloc.allocate(new_cap);
 		for (size_t i = 0; i < size_value; i++)
 			tmp[i] = array[i];
+		
 		alloc.deallocate(array, allocated_size);
 		this->array = tmp;
 		allocated_size = new_cap;
@@ -196,13 +215,11 @@ template <class T, class A>
 ftc::Vector_iterator<T> Vector<T,A>::erase(ftc::Vector_iterator<T> start, ftc::Vector_iterator<T>end)
 {
 	ftc::Vector_iterator<T> mem = start;
-	while (end != this->end())
+	while (start != end)
 	{
-		*start = *end;
-		start++;
-		end++;
+		this->erase(start);
+		end--;
 	}
-	size_value = start - this->begin();
 	return (mem);
 }
 
@@ -237,68 +254,15 @@ ftc::Vector_iterator<T> Vector<T,A>::insert(ftc::Vector_iterator<T> pos, const T
 template <class T, class A>
 ftc::Vector_iterator<T> Vector<T,A>::insert(ftc::Vector_iterator<T> pos, __input_it its, __input_it ite)
 {
-	ftc::Vector_iterator<T> it;
-	A alloc;
-	T *tmp;
-	size_t new_alloc;
-	// return (pos);
-	std::cout << "its is : " << *ite << "and ite is : " << std::endl;
 	size_t delta = its.distance(its, ite);
-	size_t i;
 
-	std::cout << delta << std::endl;
-	std::cout << "Delta iterators is : " << delta <<std::endl;
-	if (delta && allocated_size < size_value + delta) {
-		if (allocated_size * 2 < size_value + delta)
-			new_alloc = size_value + delta + (allocated_size == 0);
-		else
-			new_alloc = allocated_size * 2 + (allocated_size == 0); 
-		delta = pos - this->begin();
-		tmp = alloc.allocate(new_alloc);
-		it = this->begin();
-		i = 0;
-		while (it != pos)
-		{
-			tmp[i] = *it;
-			it++;
-			i++;
-		}
-		while (its != ite)
-		{
-			tmp[i] = *its;
-			i++;
-			its++;
-		}
-		while (it != this->end())
-		{
-			tmp[i] = *it;
-			it++;
-			i++;
-		}
-		size_value = i;
-		alloc.deallocate(array, allocated_size);
-		allocated_size = new_alloc;
-		array = tmp;
-		pos = this->begin() + delta;
-	}
-	else {
-		it = this->end();
-		std::cout << *pos << std::endl;
-		while (it != pos)
-		{
-			it--;
-			*(it + delta) = *(it);
-		}
-		size_value += delta;
-		while (its != ite)
-		{
-			*(it + delta) = *ite;
-			ite--;
-			delta--;
-		}
-		std::cout << "Entered insert member function\n";
-		*(it + delta) = *ite;
-	}
+	if (this->capacity() <= delta + this->size())
+		this->reserve(delta + this->size());
+	for (ftc::Vector_iterator<T> it = this->end(); it != pos; it--)
+		*(this->end() + delta - 1) = *it;
+	for (size_t i = 0; i < delta; i++)
+		*(pos + i) = *(its + i);
+	this->size_value = delta + this->size();
 	return (pos);
 }
 

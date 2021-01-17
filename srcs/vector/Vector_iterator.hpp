@@ -18,30 +18,8 @@ class Vector_iterator : public ftc::__base_iterator<T>
 		Vector_iterator(T* ptr) : __base_iterator<T>(ptr) {} ;
 		Vector_iterator(const Vector_iterator&);
 
-		// Vector_iterator<T>& operator++() {
-		// 	this->ptr++;
-		// 	return (*this);
-		// }
-
-		// Vector_iterator<T> operator++(int) {
-		// 	Vector_iterator<T> tmp(*this);
-		// 	operator++();
-		// 	return (tmp);
-		// }
-
-		// Vector_iterator<T>& operator--() {
-		// 	ptr--;
-		// 	return (*this);
-		// }
-
-		// Vector_iterator<T> operator--(int) {
-		// 	Vector_iterator<T> tmp(*this);
-		// 	operator--();
-		// 	return (tmp);
-		// }
-
 		bool operator==(const Vector_iterator<T>& base) {
-			return (*base == **this) ;
+			return (base.ptr == this->ptr) ;
 		}
 
 		Vector_iterator<T> operator+(size_t i) {
@@ -58,23 +36,21 @@ class Vector_iterator : public ftc::__base_iterator<T>
 			return (**this - *i);
 		}
 
+		size_t operator+(Vector_iterator<T> i) {
+			return (**this + *i);
+		}
+
 		void operator=(const Vector_iterator& base) {
 			this->ptr = base.ptr;
 		}
 
 		bool operator!=(const Vector_iterator<T>& x) {
-			return (**this != *x);
+			return (this->ptr != x.ptr);
 		}
 		
 		using __base_iterator<T>::operator*;
 		using __base_iterator<T>::operator--;
 		using __base_iterator<T>::operator++;
-		// reference operator*() const {
-		// 	return (*this->ptr);
-		// }
-
-	// private:
-	// 	T *ptr;
 };
 
 //###################################

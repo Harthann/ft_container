@@ -10,10 +10,12 @@ template <class T>
 struct test_alloc_green : std::allocator<T> {
 	T *allocate(size_t size) {
 		std::cout << "\033[0;32mAllocate request of size : " << size << std::endl;
+		std::cout << "\033[0m";
 		return (new T[size]);
 	}
 	void deallocate(T *ptr, size_t size) {
 		std::cout << "\033[0;32mDeallocation request of size : " << size << std::endl;
+		std::cout << "\033[0m";
 		delete ptr;
 	}
 };
@@ -22,16 +24,19 @@ template <class T>
 struct test_alloc_red : std::allocator<T> {
 	T *allocate(size_t size) {
 		std::cout << "\033[31mAllocate request of size : " << size << std::endl;
+		std::cout << "\033[0m";
+		std::cout << "\033[0m";
 		return (new T[size]);
 	}
 	void deallocate(T *ptr, size_t size) {
 		std::cout << "\033[31mDeallocation request of size : " << size << std::endl;
+		std::cout << "\033[0m";
 		delete ptr;
 	}
 };
 
 template <class T>
-std::string print_container(T start, T end, const std::string str)
+std::string	print_container(T start, T end, const std::string str)
 {
 	std::string tmp(str);
 
@@ -48,7 +53,6 @@ std::string print_container(T start, T end, const std::string str)
 template < class T, class L >
 void test_insert_vector(T &vec, T cpy, std::ofstream &output, L list)
 {
-
 	for (size_t i = 0; i < 25; i++)
 		list.push_back(i);
 	std::cout << "\n\tINSERT NUMBER WITH SPECIFIC POSITION\n";
@@ -65,7 +69,6 @@ void test_insert_vector(T &vec, T cpy, std::ofstream &output, L list)
 	output << print_container(vec.begin(), vec.end(), "Vector before insert : \n");
 	output << print_container(cpy.begin(), cpy.end(), "Cpy to insert : \n");
 	output << "Insert output return value is : " << *vec.insert(vec.end(), cpy.begin(), cpy.end()) << std::endl;
-	// return ;
 	// vec.shrink_to_fit();
 	output << print_container(vec.begin(), vec.end(), "Vector after insert : \n");
 	output << "Container vec's capacity after insert is : " << vec.capacity() << std::endl;
@@ -75,9 +78,9 @@ void test_insert_vector(T &vec, T cpy, std::ofstream &output, L list)
 	// output << print_container(vec.begin(), vec.end(), "Vector before insert : \n");
 	// output << print_container(list.begin(), list.end(), "List to insert : \n");
 	// output << "Insert output return value is : " << *vec.insert(vec.end(), list.begin(), list.end()) << std::endl;
-	// vec.shrink_to_fit();
-	output << print_container(vec.begin(), vec.end(), "Vector after insert : \n");
-	output << "Container vec's capacity after insert is : " << vec.capacity() << std::endl;
+	// // vec.shrink_to_fit();
+	// output << print_container(vec.begin(), vec.end(), "Vector after insert : \n");
+	// output << "Container vec's capacity after insert is : " << vec.capacity() << std::endl;
 
 	std::cout << "\n\tINSERT SPECIFIC VALUE AT SPECIFIC POS WITH SPECIFIC QUANTITY\n";
 	output << "\n\tINSERT SPECIFIC VALUE AT SPECIFIC POS WITH SPECIFIC QUANTITY\n";
@@ -91,25 +94,21 @@ void test_insert_vector(T &vec, T cpy, std::ofstream &output, L list)
 template < class T, class L >
 void test_exec(T &vec, L list, std::string output_name)
 {
-	// std::cout << "entered templated functionm test :\n\n";
+	std::cout << "entered templated functionm test :\n\n";
 	for (int i = 0; i < 10; i++)
-	{
 		vec.push_back(i);
-	}
 	std::ofstream output (output_name, std::ios::out | std::ios::ate);
 	output << "Size of vector is : " << vec.size() << std::endl;
 	output << "Container vec's capacity is : " << vec.capacity() << std::endl;
 	output << print_container(vec.begin(), vec.end(), "Vector : \n");
 	output << "Vec is empty : " << vec.empty() << std::endl;
 	output << "Max_size of vec is : " << vec.max_size() << std::endl;
-
 	std::cout << "\n\tRESERVE\n";
 	output << "\n\tRESERVE\n";
 	vec.reserve(25);
 	output << "Size of vector after reserve is : " << vec.size() << std::endl;
 	output << "Container vec's capacity after reserve is : " << vec.capacity() << std::endl;
 	output << print_container(vec.begin(), vec.end(), "Vector after reserve : \n");
-	return ;
 	std::cout << "\n\tSHRINK\n";
 	output << "\n\tSHRINK\n";
 	vec.shrink_to_fit();
@@ -136,6 +135,12 @@ void test_exec(T &vec, L list, std::string output_name)
 	output << print_container(vec.begin(), vec.end(), "Vector after erase : \n");
 	output << "Container vec's capacity after erase is : " << vec.capacity() << std::endl;
 
+	std::cout << "\n\tERASE RANGE OF 0\n";
+	output << "\n\tERASE RANGE OF 0\n";
+	output << "Element returned by erase : " << *vec.erase(vec.begin() + 3, vec.begin() + 3) << std::endl;
+	output << print_container(vec.begin(), vec.end(), "Vector after erase : \n");
+	output << "Container vec's capacity after erase is : " << vec.capacity() << std::endl;
+
 	test_insert_vector(vec, vec, output, list);
 
 	output.close();
@@ -151,10 +156,21 @@ void test_vector(void)
 	std::vector<my_type> to_insert;
 	ftc::Vector<my_type> to_insert2;
 
-
-
 	// for (size_t i = 0; i < 25; i++)
-	// 	ftc.push_back(i);
+		// ftc.push_back(i);
+	// for (size_t i = 0; i < 25; i++)
+		// stl.push_back(i);
+	// std::cout << "array address is : " << &*ftc.begin() << std::endl;
+	// std::cout << print_container(stl.begin(), stl.end(), "FTC is : \n");
+	// for (ftc::Vector<my_type>::const_iterator it = ftc.cbegin(); it != ftc.cend(); it++)
+	// 	*it = 5;
+	// std::cout << ftc.size() << " " << (ftc.begin() == ftc.end()) << std::endl;
+	// std::cout << print_container(ftc.begin(), ftc.end(), "FTC is : \n");
+	// getchar();
+	// ftc.reserve(50);
+	// std::cout << "array address is : " << &*ftc.begin() << std::endl;
+	// std::cout << print_container(ftc.begin(), ftc.end(), "FTC is after reserve : \n");
+
 	// ftc::Vector<int>::iterator it = ftc.begin();
 	// std::cout << *it << std::endl;
 	// *it = 46;
@@ -162,10 +178,12 @@ void test_vector(void)
 	// std::cout << print_container(ftc.begin(), ftc.end(), "ftc : ");
 	// stl.insert(stl.begin(), ftc.begin(), ftc.end());
 	// system ("sleep 1"); 
-	test_exec(stl, to_insert, "stl_vector_output");
-	getchar();
-	// system ("sleep 1");
-	test_exec(ftc, to_insert2,"ftc_vector_output");
+
+	// // getchar();
+	test_exec(stl, to_insert, "outputs/vector/stl_vector_output");
+
+	test_exec(ftc, to_insert2,"outputs/vector/ftc_vector_output");
+	system ("diff outputs/vector/ftc_vector_output outputs/vector/stl_vector_output > outputs/vector/diff_results");
 
 	// getchar();
 }

@@ -1,5 +1,5 @@
 MEMBER FUNCTIONS
-operator= : 
+operator= 
 assign
 
 ELement access
@@ -10,12 +10,12 @@ back
 data
 
 Iterators :
-cbegin
-cend
-rbegin
-crbegin
-rend
-crend
+cbegin ok
+cend ok 
+rbegin	ok
+crbegin	ok
+rend	ok
+crend	ok
 
 Capacity :
 empty \/
