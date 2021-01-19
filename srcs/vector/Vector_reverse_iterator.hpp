@@ -3,13 +3,13 @@
 
 #include "base_iterator.hpp"
 
-namespace ftc {
+namespace ft {
 
 // template <class T, class A> class Vector;
 template <class T> class __base_iterator;
 
 template <class T>
-class Vector_reverse_iterator : public ftc::__base_iterator<T>
+class Vector_reverse_iterator : public ft::__base_iterator<T>
 {
 
 	public:

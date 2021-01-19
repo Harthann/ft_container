@@ -67,26 +67,26 @@ void test_lists(void)
 {
 	std::ofstream myfile ("list_output", std::ios::out | std::ios::ate);
 
-	ftc::List<int> my_list;
+	ft::List<int> my_list;
 	std::list<int> real_list;
 
 	init_list(&real_list);
 	init_list(&my_list);
 
 	myfile << print_list(real_list.begin(), real_list.end(), "STL : ");
-	myfile << print_list(my_list.begin(), my_list.end(), "FTC : ");
+	myfile << print_list(my_list.begin(), my_list.end(), "ft : ");
 
 	myfile << test_const(real_list.begin(), "STL : ");
-	myfile << test_const(my_list.begin(), "FTC : ");
+	myfile << test_const(my_list.begin(), "ft : ");
 
 	std::list<int>::const_iterator it_start = real_list.begin();
 	std::list<int>::const_iterator it_end = real_list.end();
-	// ftc::List<int>::const_iterator i_start = my_list.begin();
-	// ftc::List<int>::const_iterator i_end = my_list.end();
+	// ft::List<int>::const_iterator i_start = my_list.begin();
+	// ft::List<int>::const_iterator i_end = my_list.end();
 	print_list(it_start, it_end, "STL : ");
-	// print_list(i_start, i_end, "FTC : ");
+	// print_list(i_start, i_end, "ft : ");
 	// *it_start = 9;
 	// *i_start = 9;
-	// print_list(i_start, i_end, "FTC : ");
+	// print_list(i_start, i_end, "ft : ");
 	myfile.close();
 }

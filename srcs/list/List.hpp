@@ -2,7 +2,7 @@
 #define LIST_HPP
 #include <iostream>
 
-namespace ftc {
+namespace ft {
 
 
 #include "List_iterator.hpp"
@@ -16,8 +16,8 @@ class List
 {
 	public:
 
-		typedef ftc::List_iterator<T> iterator;
-		typedef ftc::List_const_iterator<T> const_iterator;
+		typedef ft::List_iterator<T> iterator;
+		typedef ft::List_const_iterator<T> const_iterator;
 
 		List() : head(nullptr), tail(nullptr) {}
 		// List(const List<T>& tmp);
@@ -25,15 +25,15 @@ class List
 		
 		void push_front(T tmp);
 		void push_back(T tmp);
-		ftc::List_iterator<T> begin();
-		ftc::List_iterator<T> end();
-		ftc::List_const_iterator<T> begin() const;
-		ftc::List_const_iterator<T> end() const;
+		ft::List_iterator<T> begin();
+		ft::List_iterator<T> end();
+		ft::List_const_iterator<T> begin() const;
+		ft::List_const_iterator<T> end() const;
 
 		void print(); // testing function, will be delete
 	private:
-		ftc::List_node<T> *head;
-		ftc::List_node<T> *tail;
+		ft::List_node<T> *head;
+		ft::List_node<T> *tail;
 
 };
 
@@ -50,7 +50,7 @@ class List
 template <class T>
 void List<T>::push_front(T tmp)
 {
-	ftc::List_node<T> *new_node = new ftc::List_node<T>(tmp, head);
+	ft::List_node<T> *new_node = new ft::List_node<T>(tmp, head);
 	if (!tail)
 		tail = head;
 	head = new_node;
@@ -61,7 +61,7 @@ void List<T>::push_front(T tmp)
 template <class T>
 void List<T>::push_back(T tmp)
 {
-	ftc::List_node<T> *new_node = new ftc::List_node<T>(tmp, nullptr);
+	ft::List_node<T> *new_node = new ft::List_node<T>(tmp, nullptr);
 
 	new_node->previous = head;
 	if (!head)
@@ -76,27 +76,27 @@ void List<T>::push_back(T tmp)
 //###################
 
 template <class T>
-ftc::List_iterator<T> List<T>::begin(void)
+ft::List_iterator<T> List<T>::begin(void)
 {
-	return (ftc::List_iterator<T>(head));
+	return (ft::List_iterator<T>(head));
 }
 
 template <class T>
-ftc::List_iterator<T> List<T>::end(void)
+ft::List_iterator<T> List<T>::end(void)
 {
-	return (ftc::List_iterator<T>(tail->next));
+	return (ft::List_iterator<T>(tail->next));
 }
 
 template <class T>
-ftc::List_const_iterator<T> List<T>::begin(void) const
+ft::List_const_iterator<T> List<T>::begin(void) const
 {
-	return (ftc::List_const_iterator<T>(head));
+	return (ft::List_const_iterator<T>(head));
 }
 
 template <class T>
-ftc::List_const_iterator<T> List<T>::end(void) const
+ft::List_const_iterator<T> List<T>::end(void) const
 {
-	return (ftc::List_const_iterator<T>(tail->next));
+	return (ft::List_const_iterator<T>(tail->next));
 }
 
 //###################
@@ -106,7 +106,7 @@ ftc::List_const_iterator<T> List<T>::end(void) const
 template <class T>
 void List<T>::print()
 {
-	ftc::List_node<T> *tmp = head;
+	ft::List_node<T> *tmp = head;
 
 	while (tmp)
 	{

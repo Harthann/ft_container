@@ -1,7 +1,7 @@
 #ifndef LIST_ITERATOR_HPP
 #define LIST_ITERATOR_HPP
 
-namespace ftc {
+namespace ft {
 
 template <class T> class List;
 template <class T> class List_node;
@@ -52,7 +52,7 @@ class List_iterator
 		}
 
 	private:
-		ftc::List_node<T> *ptr;
+		ft::List_node<T> *ptr;
 };
 
 //###################################
@@ -70,12 +70,12 @@ List_iterator<T>::List_iterator(const List_iterator& base)
 //###################################
 
 template <class T>
-class List_const_iterator : ftc::List_iterator<T> {
+class List_const_iterator : ft::List_iterator<T> {
 	typedef const T& const_reference;
 
 	public:
 		List_const_iterator() : ptr(nullptr) { };
-		List_const_iterator(ftc::List_node<T>* ptr) : ptr(ptr) {} ;
+		List_const_iterator(ft::List_node<T>* ptr) : ptr(ptr) {} ;
 		List_const_iterator(const List_const_iterator&);
 
 		List_const_iterator<T>& operator++() {
@@ -113,7 +113,7 @@ class List_const_iterator : ftc::List_iterator<T> {
 			return (ptr->data);
 		}
 	private:
-		ftc::List_node<T> *ptr;
+		ft::List_node<T> *ptr;
 };
 
 template <class T>

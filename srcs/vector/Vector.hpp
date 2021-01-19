@@ -9,9 +9,9 @@
 #include "base_iterator.hpp"
 
 
-namespace ftc {
+namespace ft {
 
-template <class T> class Vector_iterator;
+// template <class T> class Vector_iterator;
 template <class T> class Vector_reverse_iterator;
 template <class T> class __base_iterator;
 
@@ -19,18 +19,21 @@ template <class T, class A = std::allocator<T> >
 class Vector {
 
 	public:
-		typedef ftc::Vector_iterator<T>					iterator;
-		typedef ftc::Vector_reverse_iterator<T>			reverse_iterator;
-		typedef ftc::Vector_iterator<const T>			const_iterator;
-		typedef ftc::Vector_reverse_iterator<const T>	const_reverse_iterator;
-		typedef ftc::__base_iterator<T>					__input_it;
+		typedef ft::Vector_iterator<T>						iterator;
+		typedef ft::Vector_reverse_iterator<T>				reverse_iterator;
+		typedef ft::Vector_iterator<const T>				const_iterator;
+		typedef ft::Vector_reverse_iterator<const T>		const_reverse_iterator;
+		typedef ft::__base_iterator<T>						__input_it;
+		typedef std::allocator_traits<A>					__alloc_traits;
+		typedef typename __alloc_traits::size_type			size_type;
+		typedef typename __alloc_traits::difference_type	difference_type;
 
 		typedef A	allocator_type;
 		typedef typename allocator_type::reference	reference;
 		typedef typename allocator_type::const_reference	const_reference;
 		typedef typename allocator_type::pointer	pointer;
 		typedef typename allocator_type::const_pointer	const_pointer;
-		// Vector() : array(nullptr), size(0), allocated_size(1) {};
+		
 		Vector(size_t size = 0);
 		Vector(const Vector&);
 		~Vector() {
@@ -41,20 +44,24 @@ class Vector {
 
 		allocator_type get_allocator() const;
 		iterator begin() { return (array); };
-		const_iterator cbegin() { return (array); };
-		reverse_iterator rbegin() { return (array + size_value - 1); };
-		const_reverse_iterator crbegin() { return (array + size_value - 1); };
 		iterator end() { return (array + size_value); };
-		const_iterator cend() { return (array + size_value); };
+		const_iterator begin() const { return (array); };
+		// const_iterator cbegin() { return (array); };
+		const_iterator end() const { return (array + size_value); };
+		// const_iterator cend() { return (array + size_value); };
+		reverse_iterator rbegin() { return (array + size_value - 1); };
+		// const_reverse_iterator crbegin() { return (array + size_value - 1); };
+		const_reverse_iterator rbegin() const { return (array + size_value - 1); };
 		reverse_iterator rend() { return (array - 1); };
-		const_reverse_iterator crend() { return (array - 1); };
+		const_reverse_iterator rend() const { return (array - 1); };
+		// const_reverse_iterator crend() { return (array - 1); };
 
 		size_t size() { return (size_value); };
 
 		// Capacity block
 
 		bool empty() const { return (size_value == 0); } ;
-		size_t max_size() const { return (std::numeric_limits<difference_type>::max()) ; };
+		// size_t max_size() const { return (std::numeric_limits<difference_type>::max()) ; };
 		size_t capacity() const { return (allocated_size); };
 		void reserve(size_t new_cap);
 		void shrink_to_fit();
@@ -193,9 +200,9 @@ void Vector<T,A>::clear()
 }
 
 template <class T, class A>
-ftc::Vector_iterator<T> Vector<T,A>::erase(ftc::Vector_iterator<T> start)
+ft::Vector_iterator<T> Vector<T,A>::erase(ft::Vector_iterator<T> start)
 {
-	ftc::Vector_iterator<T> tmp;
+	ft::Vector_iterator<T> tmp;
 	int i = 0;
 
 	tmp = this->end();
@@ -212,9 +219,9 @@ ftc::Vector_iterator<T> Vector<T,A>::erase(ftc::Vector_iterator<T> start)
 }
 
 template <class T, class A>
-ftc::Vector_iterator<T> Vector<T,A>::erase(ftc::Vector_iterator<T> start, ftc::Vector_iterator<T>end)
+ft::Vector_iterator<T> Vector<T,A>::erase(ft::Vector_iterator<T> start, ft::Vector_iterator<T>end)
 {
-	ftc::Vector_iterator<T> mem = start;
+	ft::Vector_iterator<T> mem = start;
 	while (start != end)
 	{
 		this->erase(start);
@@ -231,9 +238,9 @@ ftc::Vector_iterator<T> Vector<T,A>::erase(ftc::Vector_iterator<T> start, ftc::V
 
 
 template <class T, class A>
-ftc::Vector_iterator<T> Vector<T,A>::insert(ftc::Vector_iterator<T> pos, const T& value)
+ft::Vector_iterator<T> Vector<T,A>::insert(ft::Vector_iterator<T> pos, const T& value)
 {
-	ftc::Vector_iterator<T> it;
+	ft::Vector_iterator<T> it;
 	size_t delta = pos - this->begin();
 
 	if (allocated_size < size_value + 1) {
@@ -252,13 +259,13 @@ ftc::Vector_iterator<T> Vector<T,A>::insert(ftc::Vector_iterator<T> pos, const T
 }
 
 template <class T, class A>
-ftc::Vector_iterator<T> Vector<T,A>::insert(ftc::Vector_iterator<T> pos, __input_it its, __input_it ite)
+ft::Vector_iterator<T> Vector<T,A>::insert(ft::Vector_iterator<T> pos, __input_it its, __input_it ite)
 {
 	size_t delta = its.distance(its, ite);
 
 	if (this->capacity() <= delta + this->size())
 		this->reserve(delta + this->size());
-	for (ftc::Vector_iterator<T> it = this->end(); it != pos; it--)
+	for (ft::Vector_iterator<T> it = this->end(); it != pos; it--)
 		*(this->end() + delta - 1) = *it;
 	for (size_t i = 0; i < delta; i++)
 		*(pos + i) = *(its + i);
@@ -267,9 +274,9 @@ ftc::Vector_iterator<T> Vector<T,A>::insert(ftc::Vector_iterator<T> pos, __input
 }
 
 template <class T, class A>
-ftc::Vector_iterator<T>  ftc::Vector<T,A>::insert(ftc::Vector_iterator<T>  pos, size_t count, const T& value )
+ft::Vector_iterator<T>  ft::Vector<T,A>::insert(ft::Vector_iterator<T>  pos, size_t count, const T& value )
 {
-	ftc::Vector_iterator<T> it;
+	ft::Vector_iterator<T> it;
 	size_t delta = pos - this->begin();
 
 	if (allocated_size < size_value + count)

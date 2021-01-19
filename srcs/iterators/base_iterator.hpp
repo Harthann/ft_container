@@ -1,7 +1,7 @@
 #ifndef BASE_ITERATOR_HPP
 #define BASE_ITERATOR_HPP
 
-namespace ftc {
+namespace ft {
 
 template <class T>
 class __base_iterator

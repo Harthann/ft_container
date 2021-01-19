@@ -50,6 +50,7 @@ std::string	print_container(T start, T end, const std::string str)
 	return (tmp);
 }
 
+
 template < class T, class L >
 void test_insert_vector(T &vec, T cpy, std::ofstream &output, L list)
 {
@@ -102,7 +103,7 @@ void test_exec(T &vec, L list, std::string output_name)
 	output << "Container vec's capacity is : " << vec.capacity() << std::endl;
 	output << print_container(vec.begin(), vec.end(), "Vector : \n");
 	output << "Vec is empty : " << vec.empty() << std::endl;
-	output << "Max_size of vec is : " << vec.max_size() << std::endl;
+	// output << "Max_size of vec is : " << vec.max_size() << std::endl;
 	std::cout << "\n\tRESERVE\n";
 	output << "\n\tRESERVE\n";
 	vec.reserve(25);
@@ -148,42 +149,43 @@ void test_exec(T &vec, L list, std::string output_name)
 }
 
 typedef int my_type;
+
 void test_vector(void)
 {
-	ftc::Vector<my_type, test_alloc_red<my_type> > ftc;
+	ft::Vector<my_type, test_alloc_red<my_type> > ft;
 	std::vector<my_type, test_alloc_green<my_type> > stl;
 
 	std::vector<my_type> to_insert;
-	ftc::Vector<my_type> to_insert2;
+	ft::Vector<my_type> to_insert2;
 
 	// for (size_t i = 0; i < 25; i++)
-		// ftc.push_back(i);
+	// 	ft.push_back(i);
 	// for (size_t i = 0; i < 25; i++)
-		// stl.push_back(i);
-	// std::cout << "array address is : " << &*ftc.begin() << std::endl;
-	// std::cout << print_container(stl.begin(), stl.end(), "FTC is : \n");
-	// for (ftc::Vector<my_type>::const_iterator it = ftc.cbegin(); it != ftc.cend(); it++)
-	// 	*it = 5;
-	// std::cout << ftc.size() << " " << (ftc.begin() == ftc.end()) << std::endl;
-	// std::cout << print_container(ftc.begin(), ftc.end(), "FTC is : \n");
+	// 	stl.push_back(i);
+	// std::cout << "array address is : " << &*ft.begin() << std::endl;
+	// std::cout << print_container(stl.begin(), stl.end(), "ft is : \n");
+	// for (ft::Vector<my_type>::const_iterator it = ft.begin(); it != ft.end(); it++)
+	// 	std::cout << *it;
+	// std::cout << ft.size() << " " << (ft.begin() == ft.end()) << std::endl;
+	// std::cout << print_container(ft.begin(), ft.end(), "ft is : \n");
 	// getchar();
-	// ftc.reserve(50);
-	// std::cout << "array address is : " << &*ftc.begin() << std::endl;
-	// std::cout << print_container(ftc.begin(), ftc.end(), "FTC is after reserve : \n");
+	// ft.reserve(50);
+	// std::cout << "array address is : " << &*ft.begin() << std::endl;
+	// std::cout << print_container(ft.begin(), ft.end(), "ft is after reserve : \n");
 
-	// ftc::Vector<int>::iterator it = ftc.begin();
+	// ft::Vector<int>::iterator it = ft.begin();
 	// std::cout << *it << std::endl;
 	// *it = 46;
 	// std::cout << *it << std::endl;
-	// std::cout << print_container(ftc.begin(), ftc.end(), "ftc : ");
-	// stl.insert(stl.begin(), ftc.begin(), ftc.end());
+	// std::cout << print_container(ft.begin(), ft.end(), "ft : ");
+	// stl.insert(stl.begin(), ft.begin(), ft.end());
 	// system ("sleep 1"); 
 
 	// // getchar();
 	test_exec(stl, to_insert, "outputs/vector/stl_vector_output");
 
-	test_exec(ftc, to_insert2,"outputs/vector/ftc_vector_output");
-	system ("diff outputs/vector/ftc_vector_output outputs/vector/stl_vector_output > outputs/vector/diff_results");
+	test_exec(ft, to_insert2,"outputs/vector/ft_vector_output");
+	system ("diff outputs/vector/ft_vector_output outputs/vector/stl_vector_output > outputs/vector/diff_results");
 
 	// getchar();
 }

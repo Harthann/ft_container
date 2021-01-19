@@ -1,7 +1,7 @@
 #ifndef LIST_NODE_HPP
 #define LIST_NODE_HPP
 
-namespace ftc {
+namespace ft {
 
 template <class T> class List;
 template <class T> class List_iterator;
