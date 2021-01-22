@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2021/01/17 09:32:15 by nieyraud         ###   ########.fr        #
+#    Updated: 2021/01/22 11:12:44 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,13 +31,9 @@ orange=\033[33m
 
 NAME = a.out
 
-SRC_FILE = main.cpp list_test.cpp test_vector.cpp
+SRC_FILE = main.cpp test_vector.cpp
 
-INCLUDE	=	srcs/list/List.hpp srcs/list/List_node.hpp srcs/list/List_iterator.hpp \
-			srcs/stack/Stack.hpp \
-			srcs/queue/Queue.hpp \
-			srcs/vector/Vector.hpp srcs/vector/Vector_iterator.hpp \
-			srcs/map/Map.hpp \
+INCLUDE	=	srcs/vector/Vector.hpp srcs/vector/Vector_iterator.hpp \
 			srcs/iterators/base_iterator.hpp
 
 #############################
@@ -68,7 +64,6 @@ INCLUDE_FLAGS = -I srcs/list \
 				-I srcs/map \
 				-I srcs/vector \
 				-I srcs/stack \
-				-I srcs/allocator \
 				-I srcs/iterators
 
 #########################

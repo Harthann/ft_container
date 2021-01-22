@@ -2,31 +2,30 @@
 #define VECTOR_HPP
 
 #include <iostream>
-#include <initializer_list>
 #include <string>
-#include "Vector_iterator.hpp"
-#include "Vector_reverse_iterator.hpp"
+#include "vector_iterator.hpp"
+#include "vector_reverse_iterator.hpp"
 #include "base_iterator.hpp"
 
 
 namespace ft {
 
-// template <class T> class Vector_iterator;
-template <class T> class Vector_reverse_iterator;
+// template <class T> class vector_iterator;
+template <class T> class vector_reverse_iterator;
 template <class T> class __base_iterator;
 
 template <class T, class A = std::allocator<T> >
-class Vector {
+class vector {
 
 	public:
-		typedef ft::Vector_iterator<T>						iterator;
-		typedef ft::Vector_reverse_iterator<T>				reverse_iterator;
-		typedef ft::Vector_iterator<const T>				const_iterator;
-		typedef ft::Vector_reverse_iterator<const T>		const_reverse_iterator;
+		typedef ft::vector_iterator<T>						iterator;
+		typedef ft::vector_reverse_iterator<T>				reverse_iterator;
+		typedef ft::vector_iterator<const T>				const_iterator;
+		typedef ft::vector_reverse_iterator<const T>		const_reverse_iterator;
 		typedef ft::__base_iterator<T>						__input_it;
-		typedef std::allocator_traits<A>					__alloc_traits;
-		typedef typename __alloc_traits::size_type			size_type;
-		typedef typename __alloc_traits::difference_type	difference_type;
+		// typedef std::allocator_traits<A>					__alloc_traits;
+		typedef size_t			size_type;
+		// typedef typename __alloc_traits::difference_type	difference_type;
 
 		typedef A	allocator_type;
 		typedef typename allocator_type::reference	reference;
@@ -34,13 +33,18 @@ class Vector {
 		typedef typename allocator_type::pointer	pointer;
 		typedef typename allocator_type::const_pointer	const_pointer;
 		
-		Vector(size_t size = 0);
-		Vector(const Vector&);
-		~Vector() {
+		vector(size_t size = 0);
+		vector(const vector&);
+		~vector() {
 			A alloc;
 			if (size_value)
 				alloc.deallocate(array, allocated_size);
 		};
+
+		ft::vector<T> & operator=(const ft::vector<int>& x);
+		//###########################
+		//#			ITERATORS		#
+		//###########################
 
 		allocator_type get_allocator() const;
 		iterator begin() { return (array); };
@@ -56,27 +60,40 @@ class Vector {
 		const_reverse_iterator rend() const { return (array - 1); };
 		// const_reverse_iterator crend() { return (array - 1); };
 
-		size_t size() { return (size_value); };
+		//###########################
+		//#			CAPACITY		#
+		//###########################
 
-		// Capacity block
-
-		bool empty() const { return (size_value == 0); } ;
+		size_t	size() { return (size_value); };
 		// size_t max_size() const { return (std::numeric_limits<difference_type>::max()) ; };
-		size_t capacity() const { return (allocated_size); };
-		void reserve(size_t new_cap);
-		void shrink_to_fit();
+		// void	resize(size_type count);
+		// void	resize(size_type count, T value = T());
+		size_t	capacity() const { return (allocated_size); };
+		bool	empty() const { return (size_value == 0); } ;
+		void	reserve(size_t new_cap);
+		void	shrink_to_fit();
 
-		// Modifiers block
+		//###########################
+		//#			ELEMENT ACCESS	#
+		//###########################
+
+		//###########################
+		//#			MODIFIERS		#
+		//###########################
+		
+		// assign
 		void push_back(T value);
-		void clear();
-
+		// pop_back
+		iterator	insert(iterator pos, const T& value);
+		void		insert(iterator pos, size_t count,const T& value );
+		void		insert(iterator pos, __input_it its, __input_it ite);
 		iterator erase(iterator start);
 		iterator erase(iterator start, iterator end);
+		// swap
+		void clear();
+		// emplace
+		// emplace_back
 
-		iterator insert(iterator pos, const T& value);
-		// template <class InputIT>
-		iterator insert(iterator pos, __input_it its, __input_it ite);
-		iterator insert(iterator pos, size_t count,const T& value );
 
 	private:
 		T *array;
@@ -89,7 +106,7 @@ class Vector {
 //###############################
 
 template <class T, class A>
-Vector<T, A>::Vector(size_t value)
+vector<T, A>::vector(size_t value)
 {
 	A alloc;
 	if (value)
@@ -100,13 +117,13 @@ Vector<T, A>::Vector(size_t value)
 		this->size_value = value;
 	}
 	else
-		array = nullptr;
+		array = 0;
 	allocated_size = value;
 	this->size_value = value;
 }
 
 template <class T, class A>
-Vector<T, A>::Vector(const Vector& base)
+vector<T, A>::vector(const vector& base)
 {
 	A alloc;
 	this->size_value = base.size_value;
@@ -121,7 +138,7 @@ Vector<T, A>::Vector(const Vector& base)
 //###########################
 
 template <class T, class A>
-void Vector<T, A>::push_back(T value)
+void vector<T, A>::push_back(T value)
 {
 	A alloc;
 	T *tmp;
@@ -144,8 +161,22 @@ void Vector<T, A>::push_back(T value)
 	array = tmp;
 }
 
+// template <class T, class A>
+// void	vector<T, A>::resize(size_type count)
+// {
+// 	(void)count;
+// }
+
+// template <class T, class A>
+// void	vector<T, A>::resize(size_type count, T value)
+// {
+// 	(void)count;
+// 	(void)value;
+
+// }
+
 template <class T, class A>
-void Vector<T,A>::reserve(size_t new_cap)
+void vector<T,A>::reserve(size_t new_cap)
 {
 	A alloc;
 	T* tmp;
@@ -164,7 +195,7 @@ void Vector<T,A>::reserve(size_t new_cap)
 }
 
 template <class T, class A>
-void Vector<T,A>::shrink_to_fit()
+void vector<T,A>::shrink_to_fit()
 {
 	A alloc;
 	T* tmp;
@@ -192,7 +223,7 @@ void Vector<T,A>::shrink_to_fit()
 //################################################
 
 template <class T, class A>
-void Vector<T,A>::clear()
+void vector<T,A>::clear()
 {
 	for (size_t i = 0; i < size_value; i++)
 		array[i] = 0;
@@ -200,9 +231,9 @@ void Vector<T,A>::clear()
 }
 
 template <class T, class A>
-ft::Vector_iterator<T> Vector<T,A>::erase(ft::Vector_iterator<T> start)
+ft::vector_iterator<T> vector<T,A>::erase(ft::vector_iterator<T> start)
 {
-	ft::Vector_iterator<T> tmp;
+	ft::vector_iterator<T> tmp;
 	int i = 0;
 
 	tmp = this->end();
@@ -219,9 +250,9 @@ ft::Vector_iterator<T> Vector<T,A>::erase(ft::Vector_iterator<T> start)
 }
 
 template <class T, class A>
-ft::Vector_iterator<T> Vector<T,A>::erase(ft::Vector_iterator<T> start, ft::Vector_iterator<T>end)
+ft::vector_iterator<T> vector<T,A>::erase(ft::vector_iterator<T> start, ft::vector_iterator<T>end)
 {
-	ft::Vector_iterator<T> mem = start;
+	ft::vector_iterator<T> mem = start;
 	while (start != end)
 	{
 		this->erase(start);
@@ -238,9 +269,9 @@ ft::Vector_iterator<T> Vector<T,A>::erase(ft::Vector_iterator<T> start, ft::Vect
 
 
 template <class T, class A>
-ft::Vector_iterator<T> Vector<T,A>::insert(ft::Vector_iterator<T> pos, const T& value)
+ft::vector_iterator<T> vector<T,A>::insert(ft::vector_iterator<T> pos, const T& value)
 {
-	ft::Vector_iterator<T> it;
+	ft::vector_iterator<T> it;
 	size_t delta = pos - this->begin();
 
 	if (allocated_size < size_value + 1) {
@@ -259,24 +290,23 @@ ft::Vector_iterator<T> Vector<T,A>::insert(ft::Vector_iterator<T> pos, const T& 
 }
 
 template <class T, class A>
-ft::Vector_iterator<T> Vector<T,A>::insert(ft::Vector_iterator<T> pos, __input_it its, __input_it ite)
+void	vector<T,A>::insert(ft::vector_iterator<T> pos, __input_it its, __input_it ite)
 {
 	size_t delta = its.distance(its, ite);
 
 	if (this->capacity() <= delta + this->size())
 		this->reserve(delta + this->size());
-	for (ft::Vector_iterator<T> it = this->end(); it != pos; it--)
+	for (ft::vector_iterator<T> it = this->end(); it != pos; it--)
 		*(this->end() + delta - 1) = *it;
 	for (size_t i = 0; i < delta; i++)
 		*(pos + i) = *(its + i);
 	this->size_value = delta + this->size();
-	return (pos);
 }
 
 template <class T, class A>
-ft::Vector_iterator<T>  ft::Vector<T,A>::insert(ft::Vector_iterator<T>  pos, size_t count, const T& value )
+void	ft::vector<T,A>::insert(ft::vector_iterator<T>  pos, size_t count, const T& value )
 {
-	ft::Vector_iterator<T> it;
+	ft::vector_iterator<T> it;
 	size_t delta = pos - this->begin();
 
 	if (allocated_size < size_value + count)
@@ -296,7 +326,6 @@ ft::Vector_iterator<T>  ft::Vector<T,A>::insert(ft::Vector_iterator<T>  pos, siz
 	for (size_t i = 0; i < count; i++)
 		*(it + i) = value;
 	size_value += count;
-	return (count != 0 ? pos : this->begin());
 }
 
 } // namespace decalaration end

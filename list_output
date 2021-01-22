@@ -1,8 +1,0 @@
-STL : 45 --> 50 --> 2 --> 445 --> 56 --> 4 --> 2 --> 999 --> 453456
-ft : 45 --> 50 --> 2 --> 445 --> 56 --> 4 --> 2 --> 999 --> 453456
-STL : 
-	Value of *it : 45
-	Modified value of *it : 0
-ft : 
-	Value of *it : 45
-	Modified value of *it : 0

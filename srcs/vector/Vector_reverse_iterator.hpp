@@ -9,63 +9,63 @@ namespace ft {
 template <class T> class __base_iterator;
 
 template <class T>
-class Vector_reverse_iterator : public ft::__base_iterator<T>
+class vector_reverse_iterator : public ft::__base_iterator<T>
 {
 
 	public:
 		typedef T& reference;
-		Vector_reverse_iterator() : __base_iterator<T>(nullptr) { };
-		Vector_reverse_iterator(T* ptr) : __base_iterator<T>(ptr) {} ;
-		Vector_reverse_iterator(const Vector_reverse_iterator&);
+		vector_reverse_iterator() : __base_iterator<T>(0) { };
+		vector_reverse_iterator(T* ptr) : __base_iterator<T>(ptr) {} ;
+		vector_reverse_iterator(const vector_reverse_iterator&);
 
-		bool operator==(const Vector_reverse_iterator<T>& base) {
+		bool operator==(const vector_reverse_iterator<T>& base) {
 			return (*base == **this) ;
 		}
 
-		Vector_reverse_iterator<T> operator+(size_t i) {
-			Vector_reverse_iterator<T> tmp(this->ptr - i);
+		vector_reverse_iterator<T> operator+(size_t i) {
+			vector_reverse_iterator<T> tmp(this->ptr - i);
 			return (tmp);
 		}
 
-		Vector_reverse_iterator<T> operator-(size_t i) {
-			Vector_reverse_iterator<T> tmp(this->ptr + i);
+		vector_reverse_iterator<T> operator-(size_t i) {
+			vector_reverse_iterator<T> tmp(this->ptr + i);
 			return (tmp);
 		}
 
-		size_t operator-(Vector_reverse_iterator<T> i) {
+		size_t operator-(vector_reverse_iterator<T> i) {
 			return (**this + *i);
 		}
 
-		size_t operator+(Vector_reverse_iterator<T> i) {
+		size_t operator+(vector_reverse_iterator<T> i) {
 			return (**this - *i);
 		}
 
-		void operator=(const Vector_reverse_iterator& base) {
+		void operator=(const vector_reverse_iterator& base) {
 			this->ptr = base.ptr;
 		}
 
-		bool operator!=(const Vector_reverse_iterator<T>& x) {
+		bool operator!=(const vector_reverse_iterator<T>& x) {
 			return (**this != *x);
 		}
 		
-		Vector_reverse_iterator<T>& operator++() {
+		vector_reverse_iterator<T>& operator++() {
 			this->ptr--;
 			return (*this);
 		}
 		
-		Vector_reverse_iterator<T>& operator--() {
+		vector_reverse_iterator<T>& operator--() {
 			this->ptr++;
 			return (*this);
 		}
 
-		Vector_reverse_iterator<T> operator++(int) {
-			Vector_reverse_iterator<T> tmp(*this);
+		vector_reverse_iterator<T> operator++(int) {
+			vector_reverse_iterator<T> tmp(*this);
 			operator++();
 			return (tmp);
 		}
 
-		Vector_reverse_iterator<T> operator--(int) {
-			Vector_reverse_iterator<T> tmp(*this);
+		vector_reverse_iterator<T> operator--(int) {
+			vector_reverse_iterator<T> tmp(*this);
 			operator--();
 			return (tmp);
 		}
@@ -80,7 +80,7 @@ class Vector_reverse_iterator : public ft::__base_iterator<T>
 //###################################
 
 template <class T>
-Vector_reverse_iterator<T>::Vector_reverse_iterator(const Vector_reverse_iterator<T>& base)
+vector_reverse_iterator<T>::vector_reverse_iterator(const vector_reverse_iterator<T>& base)
 {
 	this->ptr = base.ptr;
 }

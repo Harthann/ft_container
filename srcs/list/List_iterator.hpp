@@ -12,7 +12,7 @@ class List_iterator
 	typedef T& reference;
 
 	public:
-		List_iterator() : ptr(nullptr) { };
+		List_iterator() : ptr(0) { };
 		List_iterator(List_node<T>* ptr) : ptr(ptr) {} ;
 		List_iterator(const List_iterator&);
 
@@ -74,7 +74,7 @@ class List_const_iterator : ft::List_iterator<T> {
 	typedef const T& const_reference;
 
 	public:
-		List_const_iterator() : ptr(nullptr) { };
+		List_const_iterator() : ptr(0) { };
 		List_const_iterator(ft::List_node<T>* ptr) : ptr(ptr) {} ;
 		List_const_iterator(const List_const_iterator&);
 

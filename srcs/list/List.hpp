@@ -19,7 +19,7 @@ class List
 		typedef ft::List_iterator<T> iterator;
 		typedef ft::List_const_iterator<T> const_iterator;
 
-		List() : head(nullptr), tail(nullptr) {}
+		List() : head(0), tail(0) {}
 		// List(const List<T>& tmp);
 		~List() { delete head; }
 		
@@ -61,7 +61,7 @@ void List<T>::push_front(T tmp)
 template <class T>
 void List<T>::push_back(T tmp)
 {
-	ft::List_node<T> *new_node = new ft::List_node<T>(tmp, nullptr);
+	ft::List_node<T> *new_node = new ft::List_node<T>(tmp, 0);
 
 	new_node->previous = head;
 	if (!head)

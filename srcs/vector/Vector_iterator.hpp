@@ -9,48 +9,52 @@ namespace ft {
 template <class T> class __base_iterator;
 
 template <class T>
-class Vector_iterator : public ft::__base_iterator<T>
+class vector_iterator : public ft::__base_iterator<T>
 {
 
 	public:
 		typedef T& reference;
-		Vector_iterator() : __base_iterator<T>(nullptr) { };
-		Vector_iterator(T* ptr) : __base_iterator<T>(ptr) {} ;
-		Vector_iterator(const Vector_iterator&);
+		vector_iterator() : __base_iterator<T>(0) { };
+		vector_iterator(T* ptr) : __base_iterator<T>(ptr) {} ;
+		vector_iterator(const vector_iterator&);
 
-		bool operator==(const Vector_iterator<T>& base) {
+		bool operator==(const vector_iterator<T>& base) {
 			return (base.ptr == this->ptr) ;
 		}
 
-		Vector_iterator<T> operator+(size_t i) {
-			Vector_iterator<T> tmp(this->ptr + i);
+		vector_iterator<T> operator+(size_t i) {
+			vector_iterator<T> tmp(this->ptr + i);
 			return (tmp);
 		}
 
-		Vector_iterator<T> operator-(size_t i) {
-			Vector_iterator<T> tmp(this->ptr - i);
+		vector_iterator<T> operator-(size_t i) {
+			vector_iterator<T> tmp(this->ptr - i);
 			return (tmp);
 		}
 
-		size_t operator-(Vector_iterator<T> i) {
+		size_t operator-(vector_iterator<T> i) {
 			return (**this - *i);
 		}
 
-		size_t operator+(Vector_iterator<T> i) {
+		size_t operator+(vector_iterator<T> i) {
 			return (**this + *i);
 		}
 
-		void operator=(const Vector_iterator& base) {
+		void operator=(const vector_iterator& base) {
 			this->ptr = base.ptr;
 		}
 
-		bool operator!=(const Vector_iterator<T>& x) {
+		bool operator!=(const vector_iterator<T>& x) {
 			return (this->ptr != x.ptr);
 		}
 		
+		reference operator*() const {
+			return (*this->ptr);
+		}
+
 		// using __base_iterator<T>::operator*;
-		// using __base_iterator<T>::operator--;
-		// using __base_iterator<T>::operator++;
+		using __base_iterator<T>::operator--;
+		using __base_iterator<T>::operator++;
 };
 
 //###################################
@@ -58,7 +62,7 @@ class Vector_iterator : public ft::__base_iterator<T>
 //###################################
 
 template <class T>
-Vector_iterator<T>::Vector_iterator(const Vector_iterator<T>& base)
+vector_iterator<T>::vector_iterator(const vector_iterator<T>& base)
 {
 	this->ptr = base.ptr;
 }

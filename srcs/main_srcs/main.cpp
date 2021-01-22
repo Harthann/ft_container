@@ -1,4 +1,4 @@
-#include "List.hpp"
+// #include "List.hpp"
 // #include "Map.hpp"
 // #include "Queue.hpp"
 // #include "Stack.hpp"
@@ -14,7 +14,6 @@ void test_vector(void);
 
 int main(void)
 {
-	test_lists();
 	test_vector();
 	std::cout << "\n\n\033[31mTest programm ended\033[0m\n\n";
 	return (0);

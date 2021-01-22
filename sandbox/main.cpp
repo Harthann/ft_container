@@ -30,10 +30,15 @@ class C
 int main(void)
 {
 	std::vector<int> vec;
-	
-	vec.resize(5);
+	std::vector<int>::size_type i = -1;
+
+	try {
+	vec.resize(i);
+	}
+	catch (const std::length_error& e){
+		std::cout << e.what();
+	}
 	for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
 		std::cout << *it << std::endl;
-	std::cout << std::vector<int>::value_type();
 	return (0);
 }

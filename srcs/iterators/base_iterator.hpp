@@ -9,7 +9,7 @@ class __base_iterator
 
 	public:
 		typedef T& reference;
-		__base_iterator() : ptr(nullptr) { };
+		__base_iterator() : ptr(0) { };
 		__base_iterator(T* ptr) : ptr(ptr) {} ;
 		__base_iterator(const __base_iterator&);
 		size_t distance(__base_iterator<T> start, __base_iterator<T> end);

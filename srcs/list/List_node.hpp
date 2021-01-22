@@ -11,7 +11,7 @@ class List_node
 {
 
 	public:
-		List_node(T data, List_node *ptr) :next(ptr), previous(nullptr),  data(data) {}
+		List_node(T data, List_node *ptr) :next(ptr), previous(0),  data(data) {}
 		~List_node() { delete next; }
 
 		friend class List<T>;
