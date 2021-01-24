@@ -1,45 +1,18 @@
-Size of vector is : 10
-Container vec's capacity is : 16
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9 : 
-Vec is empty : 0
+======	CAPACITY	======
 
-======RESERVE======
-Size of vector after reserve is : 10
-Container vec's capacity after reserve is : 25
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9 : 
-
-======CLEAR======
-
-Container vec's capacity after clear is : 25
-
-======ERASE======
-Element returned by erase : 4
-0 : 1 : 2 : 4 : 5 : 6 : 7 : 8 : 9 : 
-Container vec's capacity after erase is : 25
-
-======ERASE 2======
-Element returned by erase : 6
-0 : 1 : 2 : 6 : 7 : 8 : 9 : 
-Container vec's capacity after erase is : 25
-
-======ERASE RANGE OF 0======
-Element returned by erase : 6
-0 : 1 : 2 : 6 : 7 : 8 : 9 : 
-Container vec's capacity after erase is : 25
-
-======INSERT NUMBER WITH SPECIFIC POSITION======
-0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9 : 
-Container vec's capacity after insert is : 25
-
-======INSERT WITH RANGE ELEMENTS FROM OTHER VEC======
-0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9 : 
-0 : 1 : 2 : 6 : 7 : 8 : 9 : 
-Insert output return value is : 0
-0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9 : 0 : 1 : 2 : 6 : 7 : 8 : 9 : 
-Container vec's capacity after insert is : 25
-
-======INSERT SPECIFIC VALUE AT SPECIFIC POS WITH SPECIFIC QUANTITY======
-0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9 : 0 : 1 : 2 : 6 : 7 : 8 : 9 : 
-Insert output return value is : 34
-0 : 1 : 2 : 5 : 5 : 5 : 5 : 6 : 7 : 8 : 9 : 0 : 1 : 2 : 6 : 7 : 8 : 9 : 34 : 
-Container vec's capacity after insert is : 25
+The vector class size is : 0
+And his capacity : 0
+So vec start empty : 1
+Added value from 0 to 10 using pushback
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+Size now : 10 and capacity : 16
+So vec empty : 0
+	== Reserve 20 ==
+Size now : 10 and capacity : 20
+	== Reserve 5 ==
+Size now : 10 and capacity : 20
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+	== Reserve -5 ==
+vector::reserve
+Size now : 10 and capacity : 20
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9

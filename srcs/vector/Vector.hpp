@@ -46,7 +46,6 @@ class vector {
 		//#			ITERATORS		#
 		//###########################
 
-		allocator_type get_allocator() const;
 		iterator begin() { return (array); };
 		iterator end() { return (array + size_value); };
 		const_iterator begin() const { return (array); };
@@ -178,13 +177,17 @@ void vector<T, A>::push_back(T value)
 template <class T, class A>
 void vector<T,A>::reserve(size_t new_cap)
 {
-	A alloc;
-	T* tmp;
+	A	alloc;
+	T*	tmp;
 
 	if (new_cap > allocated_size)
 	{
-
-		tmp = alloc.allocate(new_cap);
+		try {
+			tmp = alloc.allocate(new_cap);
+		}
+		catch (std::bad_alloc& error) {
+			throw (std::length_error("vector::reserve"));
+		}
 		for (size_t i = 0; i < size_value; i++)
 			tmp[i] = array[i];
 		
