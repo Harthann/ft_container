@@ -3,6 +3,19 @@
 
 namespace ft {
 
+template <class InputIT>
+size_t distance(InputIT start, InputIT end)
+{
+	size_t i = 0;
+
+	while (start != end)
+	{
+		i++;
+		start++;
+	}
+	return (i);
+}
+
 template <class T>
 class __base_iterator
 {
@@ -12,7 +25,6 @@ class __base_iterator
 		__base_iterator() : ptr(0) { };
 		__base_iterator(T* ptr) : ptr(ptr) {} ;
 		__base_iterator(const __base_iterator&);
-		size_t distance(__base_iterator<T> start, __base_iterator<T> end);
 
 		__base_iterator<T>& operator++() {
 			this->ptr++;
@@ -85,19 +97,7 @@ __base_iterator<T>::__base_iterator(const __base_iterator& base)
 //#		CONST VERSION OF ITERATOR	#
 //###################################
 
-template <class T>
-size_t __base_iterator<T>::distance(__base_iterator<T> start, __base_iterator<T> end)
-{
-	size_t i = 0;
-	__base_iterator<T> tmp = start;
 
-	while (tmp != end)
-	{
-		i++;
-		tmp++;
-	}
-	return (i);
-}
 
 } // end namespace definition
 

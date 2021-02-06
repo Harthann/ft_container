@@ -13,7 +13,12 @@ class vector_iterator : public ft::__base_iterator<T>
 {
 
 	public:
-		typedef T& reference;
+		typedef ptrdiff_t	difference_type;
+		typedef T			value_type;
+		typedef value_type*	pointer;
+		typedef value_type&	reference;
+		typedef std::input_iterator_tag iterator_category;
+
 		vector_iterator() : __base_iterator<T>(0) { };
 		vector_iterator(T* ptr) : __base_iterator<T>(ptr) {} ;
 		vector_iterator(const vector_iterator&);
@@ -39,6 +44,8 @@ class vector_iterator : public ft::__base_iterator<T>
 		size_t operator+(vector_iterator<T> i) {
 			return (**this + *i);
 		}
+
+
 
 		void operator=(const vector_iterator& base) {
 			this->ptr = base.ptr;

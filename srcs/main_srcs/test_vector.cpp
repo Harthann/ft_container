@@ -40,6 +40,15 @@ struct test_alloc_red : std::allocator<T> {
 	}
 };
 
+void	header(std::string str, std::ofstream& output)
+{
+	std::string tmp(14 + str.length(), '=');
+	output << "\t\t" << tmp << std::endl;
+	output << "\t\t====== " << str << " ======" << std::endl;
+	output << "\t\t" << tmp << std::endl;
+}
+
+
 template <class T>
 void	print_container(T start, T end, std::ofstream &output)
 {
@@ -56,7 +65,7 @@ template <class T>
 void	test_capacity(T& vec, std::ofstream& output)
 {
 
-	output << "======\tCAPACITY\t======\n";
+	header("CAPACITY", output);
 	print_container(vec.begin(), vec.end(), output);
 	output << "The vector class size is : " << vec.size() << std::endl;
 	output << "And his capacity : " << vec.capacity() << std::endl;
@@ -72,22 +81,56 @@ void	test_capacity(T& vec, std::ofstream& output)
 	//###		RESERVE TEST		###
 	//#################################
 
-	output << "\t== Reserve 20 ==\n";
+	output << "\t\t== Reserve 20 ==\n";
 	vec.reserve(20);
 	output << "Size now : " << vec.size() << " and capacity : " << vec.capacity() << std::endl;
-	output << "\t== Reserve 5 ==\n";
+	output << "\t\t== Reserve 5 ==\n";
 	vec.reserve(5);
 	output << "Size now : " << vec.size() << " and capacity : " << vec.capacity() << std::endl;
 	print_container(vec.begin(), vec.end(), output);
-	output << "\t== Reserve -5 ==\n";
+	output << "\t\t== Reserve -5 ==\n";
 	try {
 		vec.reserve(-5);
 	}
-	catch (std::length_error& error) {
+	catch (std::exception &error) {
 		output << error.what() << std::endl;
 	}
 	output << "Size now : " << vec.size() << " and capacity : " << vec.capacity() << std::endl;
 	print_container(vec.begin(), vec.end(), output);
+	output << "Max size for the container is : " << vec.max_size() << std::endl;
+}
+
+template <class T>
+void	test_modifiers(T& vec, std::ofstream& output)
+{
+	std::vector<my_type> tmp_stl;
+	ft::vector<my_type> tmp_ft;
+	T					tmp;
+
+	header("MODIFIER", output);
+	print_container(vec.begin(), vec.end(), output);
+	output << "\t\t== CREATING NEW VEC ==\n";
+	output << "New stl::vec size is : " << tmp_stl.size() << std::endl;
+	output << "New ft::vec size is : " << tmp_ft.size() << std::endl;
+	output << "\t\t== INSERTING FROM VEC TO TMP_STL ==" << std::endl;
+	tmp_stl.insert(tmp_stl.begin(), vec.begin(), vec.end());
+	output << "New stl::vec size is : " << tmp_stl.size() << std::endl;
+	print_container(tmp_stl.begin(), tmp_stl.end(), output);
+	output << "\t\t== INSERTING FROM VEC TO TMP_FT ==" << std::endl;
+	tmp_ft.insert(tmp_ft.begin(), vec.begin(), vec.end());
+	output << "New stl::vec size is : " << tmp_ft.size() << std::endl;
+	print_container(tmp_ft.begin(), tmp_ft.end(), output);
+	output << "\t\t== INSERT SINGLE VALUE IN VEC ==" << std::endl;
+	vec.insert(vec.begin(), 950);
+	print_container(vec.begin(), vec.end(), output);
+	vec.insert(vec.end(), 950);
+	print_container(vec.begin(), vec.end(), output);
+	output << "\t\t== INSERT VALUE AT BEGIN OF EMPTY VEC ==" << std::endl;
+	tmp.insert(tmp.begin(), 950);
+	print_container(tmp.begin(), tmp.end(), output);
+	output << "\t\t== INSERT MULTIPLE VALUE ==" << std::endl;
+	tmp.insert(tmp.end(), 3, 9);
+	print_container(tmp.begin(), tmp.end(), output);
 }
 
 void test_vector(void)
@@ -111,9 +154,16 @@ void test_vector(void)
 	test_capacity(stl, stl_output);
 	test_capacity(ft, ft_output);
 
+	//################################
+	//###		MODIFIERS			##
+	//################################
+	
+	test_modifiers(stl, stl_output);
+	test_modifiers(ft, ft_output);
+
 	//#####################################
 	//###		SEARCHING FOR DIFF		###
 	//#####################################
 
-	system ("diff outputs/vector/ft_vector_output outputs/vector/stl_vector_output > outputs/vector/diff_results");
+	//system ("diff outputs/vector/ft_vector_output outputs/vector/stl_vector_output > outputs/vector/diff_results");
 }
