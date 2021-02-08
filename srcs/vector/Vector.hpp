@@ -10,6 +10,20 @@
 
 namespace ft {
 
+template <bool B, class T = void>
+struct enable_if {} ;
+
+template <class T>
+struct enable_if<true, T> { 
+	typedef void void_t;
+	typedef T type; };
+
+template <typename T, typename U>
+struct is_same { static const bool value = false; } ;
+
+template <typename T>
+struct is_same<T,T> {static const bool value = true; } ;
+
 template <class T> class vector_reverse_iterator;
 template <class T> class __base_iterator;
 
@@ -83,7 +97,7 @@ class vector {
 		iterator	insert(iterator pos, const T& value);
 		void		insert(iterator pos, size_t count,const T& value );
 		template <class InputIT>
-		void		insert(iterator pos, InputIT its, InputIT ite);
+		typename ft::enable_if<ft::is_same<typename InputIT::iterator_category, std::input_iterator_tag>::value, InputIT>::void_t	insert(iterator pos,InputIT its, InputIT ite);
 		iterator erase(iterator start);
 		iterator erase(iterator start, iterator end);
 		// void	resize(size_type count);
@@ -297,7 +311,7 @@ void	ft::vector<T,A>::insert(ft::vector_iterator<T>  pos, size_t count, const T&
 
 template <class T, class A>
 template <class InputIT>
-void	vector<T,A>::insert(ft::vector_iterator<T> pos, InputIT its, InputIT ite)
+typename ft::enable_if<ft::is_same<typename InputIT::iterator_category, std::input_iterator_tag>::value, InputIT>::void_t	vector<T,A>::insert(ft::vector_iterator<T> pos, InputIT its,InputIT ite)
 {
 	size_t delta = ft::distance(its, ite);
 	size_t index = ft::distance(this->begin(), pos);

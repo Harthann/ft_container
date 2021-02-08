@@ -1,4 +1,6 @@
-======	CAPACITY	======
+		======================
+		====== CAPACITY ======
+		======================
 
 The vector class size is : 0
 And his capacity : 0
@@ -7,12 +9,13 @@ Added value from 0 to 10 using pushback
 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
 Size now : 10 and capacity : 16
 So vec empty : 0
-	== Reserve 20 ==
+		== Reserve 20 ==
 Size now : 10 and capacity : 20
-	== Reserve 5 ==
-Size now : 10 and capacity : 20
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
-	== Reserve -5 ==
-vector::reserve
+		== Reserve 5 ==
 Size now : 10 and capacity : 20
 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+		== Reserve -5 ==
+std::bad_alloc
+Size now : 10 and capacity : 20
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+Max size for the container is : 4611686018427387903

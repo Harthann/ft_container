@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2021/01/22 11:12:44 by nieyraud         ###   ########.fr        #
+#    Updated: 2021/02/08 09:42:57 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ OBJ		= ${addprefix ${OBJ_PATH}/, ${SRC_FILE:%.cpp=%.o}}
 #			FLAGS		#
 #########################
 
-FLAGS = -Wall -Wextra --std=c++98
+FLAGS = -Wall -Wextra -std=c++98
 SAN = -g3 -fsanitize=address
 OPT_FLAGS = -flto
 INCLUDE_FLAGS = -I srcs/list \

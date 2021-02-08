@@ -158,7 +158,7 @@ void test_vector(void)
 	//###		MODIFIERS			##
 	//################################
 	
-	test_modifiers(stl, stl_output);
+//	test_modifiers(stl, stl_output);
 	test_modifiers(ft, ft_output);
 
 	//#####################################

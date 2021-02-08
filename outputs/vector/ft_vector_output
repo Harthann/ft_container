@@ -1,4 +1,6 @@
-======	CAPACITY	======
+		======================
+		====== CAPACITY ======
+		======================
 
 The vector class size is : 0
 And his capacity : 0
@@ -7,12 +9,33 @@ Added value from 0 to 10 using pushback
 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
 Size now : 10 and capacity : 16
 So vec empty : 0
-	== Reserve 20 ==
+		== Reserve 20 ==
 Size now : 10 and capacity : 20
-	== Reserve 5 ==
-Size now : 10 and capacity : 20
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
-	== Reserve -5 ==
-vector::reserve
+		== Reserve 5 ==
 Size now : 10 and capacity : 20
 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+		== Reserve -5 ==
+std::bad_alloc
+Size now : 10 and capacity : 20
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+Max size for the container is : 9223372036854775807
+		======================
+		====== MODIFIER ======
+		======================
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+		== CREATING NEW VEC ==
+New stl::vec size is : 0
+New ft::vec size is : 0
+		== INSERTING FROM VEC TO TMP_STL ==
+New stl::vec size is : 10
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+		== INSERTING FROM VEC TO TMP_FT ==
+New stl::vec size is : 10
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+		== INSERT SINGLE VALUE IN VEC ==
+950 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+950 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9 : 950
+		== INSERT VALUE AT BEGIN OF EMPTY VEC ==
+950
+		== INSERT MULTIPLE VALUE ==
+950 : 9 : 9 : 9
