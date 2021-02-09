@@ -4,6 +4,7 @@
 #include <vector>
 #include <list>
 
+namespace ft {
 
 template <bool B, class T = void>
 struct enable_if {};
@@ -27,22 +28,6 @@ struct my_it {
 	typedef std::output_iterator_tag iterator_category;
 };
 
-namespace ft {
-
-template <class It>
-struct iterator_trait<It> {
-	typedef It::value_type value_type;
-	typedef It::difference_type difference_type;
-	typedef It::pointer pointer;
-	typedef It::reference reference;
-	typedef It::iterator_category iterator_category;
-};
-
-template <class It>
-struct is_iterator {static const bool value = false; };
-
-}
-
 template <class InputIT>
 void	is_input_it(InputIT its, InputIT ite)
 {
@@ -57,6 +42,7 @@ void	is_input_it(int a, int b)
 	std::cout << "Isn't input it\n";
 }
 
+}
 
 int main(void)
 {
@@ -65,9 +51,7 @@ int main(void)
 	std::vector<int>::iterator input_ite;
 //	is_input_it(input_its, input_ite);
 //	is_input_it(5, 9);
-	if (ft::iterator_trait<typename std::vector<int>::iterator>::value)
-		std::cout << "is input iterator\n";
-	if (ft::iterator_trait<typename std::vector<int>::iterator>::value)
+	if (ft::is_same<typename std::iterator_traits<std::vector<int>::iterator>::iterator_category, std::random_access_iterator_tag>::value)
 		std::cout << "is input iterator\n";
 
 	//is_input_it(input_it);

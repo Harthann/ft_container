@@ -1,4 +1,4 @@
-#include "vector.hpp"
+#include "Vector.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -135,8 +135,8 @@ void	test_modifiers(T& vec, std::ofstream& output)
 
 void test_vector(void)
 {
-	ft::vector<my_type, test_alloc_red<my_type> > ft;
-	std::vector<my_type, test_alloc_green<my_type> > stl;
+	ft::vector<my_type, test_alloc_green<my_type> > ft;
+	std::vector<my_type, test_alloc_red<my_type> > stl;
 	std::ofstream stl_output;
 	std::ofstream ft_output;
 	
@@ -158,7 +158,7 @@ void test_vector(void)
 	//###		MODIFIERS			##
 	//################################
 	
-//	test_modifiers(stl, stl_output);
+	test_modifiers(stl, stl_output);
 	test_modifiers(ft, ft_output);
 
 	//#####################################

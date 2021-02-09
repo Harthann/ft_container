@@ -13,7 +13,7 @@ class vector_iterator : public ft::__base_iterator<T>
 {
 
 	public:
-		typedef ptrdiff_t	difference_type;
+		typedef std::ptrdiff_t	difference_type;
 		typedef T			value_type;
 		typedef value_type*	pointer;
 		typedef value_type&	reference;

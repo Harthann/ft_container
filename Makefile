@@ -56,7 +56,7 @@ OBJ		= ${addprefix ${OBJ_PATH}/, ${SRC_FILE:%.cpp=%.o}}
 #			FLAGS		#
 #########################
 
-FLAGS = -Wall -Wextra -std=c++98
+FLAGS = -Wall -Wextra -std=c++98 -ferror-limit=5
 SAN = -g3 -fsanitize=address
 OPT_FLAGS = -flto
 INCLUDE_FLAGS = -I srcs/list \

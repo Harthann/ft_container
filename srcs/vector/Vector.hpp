@@ -2,9 +2,10 @@
 #define VECTOR_HPP
 
 #include <iostream>
+#include <limits>
 #include <string>
-#include "vector_iterator.hpp"
-#include "vector_reverse_iterator.hpp"
+#include "Vector_iterator.hpp"
+#include "Vector_reverse_iterator.hpp"
 #include "base_iterator.hpp"
 
 
@@ -23,6 +24,35 @@ struct is_same { static const bool value = false; } ;
 
 template <typename T>
 struct is_same<T,T> {static const bool value = true; } ;
+
+template <class T = void>
+struct is_input_iterator {
+	static const bool value	= ft::is_same<typename T::iterator_category, std::input_iterator_tag>::value ||
+				  ft::is_same<typename T::iterator_category, std::forward_iterator_tag>::value ||
+				  ft::is_same<typename T::iterator_category, std::bidirectional_iterator_tag>::value ||
+				  ft::is_same<typename T::iterator_category, std::random_access_iterator_tag>::value;
+
+
+};
+
+template <>
+struct is_input_iterator<int> {static const bool value = false; } ;
+template <>
+struct is_input_iterator<unsigned int> {static const bool value = false; } ;
+template <>
+struct is_input_iterator<char> {static const bool value = false; } ;
+template <>
+struct is_input_iterator<unsigned char> {static const bool value = false; } ;
+template <>
+struct is_input_iterator<long> {static const bool value = false; } ;
+template <>
+struct is_input_iterator<unsigned long> {static const bool value = false; } ;
+template <>
+struct is_input_iterator<bool> {static const bool value = false; } ;
+template <>
+struct is_input_iterator<float> {static const bool value = false; } ;
+template <>
+struct is_input_iterator<double> {static const bool value = false; } ;
 
 template <class T> class vector_reverse_iterator;
 template <class T> class __base_iterator;
@@ -97,7 +127,7 @@ class vector {
 		iterator	insert(iterator pos, const T& value);
 		void		insert(iterator pos, size_t count,const T& value );
 		template <class InputIT>
-		typename ft::enable_if<ft::is_same<typename InputIT::iterator_category, std::input_iterator_tag>::value, InputIT>::void_t	insert(iterator pos,InputIT its, InputIT ite);
+		typename ft::enable_if<ft::is_input_iterator<InputIT>::value, InputIT>::void_t	insert(iterator pos,InputIT its, InputIT ite);
 		iterator erase(iterator start);
 		iterator erase(iterator start, iterator end);
 		// void	resize(size_type count);
@@ -311,7 +341,7 @@ void	ft::vector<T,A>::insert(ft::vector_iterator<T>  pos, size_t count, const T&
 
 template <class T, class A>
 template <class InputIT>
-typename ft::enable_if<ft::is_same<typename InputIT::iterator_category, std::input_iterator_tag>::value, InputIT>::void_t	vector<T,A>::insert(ft::vector_iterator<T> pos, InputIT its,InputIT ite)
+typename ft::enable_if<ft::is_input_iterator<InputIT>::value, InputIT>::void_t	vector<T,A>::insert(ft::vector_iterator<T> pos, InputIT its,InputIT ite)
 {
 	size_t delta = ft::distance(its, ite);
 	size_t index = ft::distance(this->begin(), pos);
