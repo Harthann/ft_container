@@ -1,3 +1,5 @@
 objs
 *.o
 *.swp
+a.out
+

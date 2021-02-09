@@ -34,7 +34,7 @@ NAME = a.out
 SRC_FILE = main.cpp test_vector.cpp
 
 INCLUDE	=	srcs/vector/Vector.hpp srcs/vector/Vector_iterator.hpp \
-			srcs/iterators/base_iterator.hpp
+			srcs/iterators/base_iterator.hpp srcs/ft_utils/sfinae_template.hpp
 
 #############################
 #		DIRCTORIES PATH		#
@@ -60,11 +60,12 @@ FLAGS = -Wall -Wextra -std=c++98 -ferror-limit=5
 SAN = -g3 -fsanitize=address
 OPT_FLAGS = -flto
 INCLUDE_FLAGS = -I srcs/list \
-				-I srcs/queue \
-				-I srcs/map \
-				-I srcs/vector \
-				-I srcs/stack \
-				-I srcs/iterators
+		-I srcs/queue \
+		-I srcs/map \
+		-I srcs/vector \
+		-I srcs/stack \
+		-I srcs/iterators \
+		-I srcs/ft_utils/
 
 #########################
 #		LIBRARIES		#

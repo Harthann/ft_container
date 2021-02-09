@@ -4,55 +4,13 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include "sfinae_template.hpp"
 #include "Vector_iterator.hpp"
 #include "Vector_reverse_iterator.hpp"
 #include "base_iterator.hpp"
 
 
 namespace ft {
-
-template <bool B, class T = void>
-struct enable_if {} ;
-
-template <class T>
-struct enable_if<true, T> { 
-	typedef void void_t;
-	typedef T type; };
-
-template <typename T, typename U>
-struct is_same { static const bool value = false; } ;
-
-template <typename T>
-struct is_same<T,T> {static const bool value = true; } ;
-
-template <class T = void>
-struct is_input_iterator {
-	static const bool value	= ft::is_same<typename T::iterator_category, std::input_iterator_tag>::value ||
-				  ft::is_same<typename T::iterator_category, std::forward_iterator_tag>::value ||
-				  ft::is_same<typename T::iterator_category, std::bidirectional_iterator_tag>::value ||
-				  ft::is_same<typename T::iterator_category, std::random_access_iterator_tag>::value;
-
-
-};
-
-template <>
-struct is_input_iterator<int> {static const bool value = false; } ;
-template <>
-struct is_input_iterator<unsigned int> {static const bool value = false; } ;
-template <>
-struct is_input_iterator<char> {static const bool value = false; } ;
-template <>
-struct is_input_iterator<unsigned char> {static const bool value = false; } ;
-template <>
-struct is_input_iterator<long> {static const bool value = false; } ;
-template <>
-struct is_input_iterator<unsigned long> {static const bool value = false; } ;
-template <>
-struct is_input_iterator<bool> {static const bool value = false; } ;
-template <>
-struct is_input_iterator<float> {static const bool value = false; } ;
-template <>
-struct is_input_iterator<double> {static const bool value = false; } ;
 
 template <class T> class vector_reverse_iterator;
 template <class T> class __base_iterator;
