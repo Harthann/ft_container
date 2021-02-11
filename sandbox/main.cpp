@@ -8,6 +8,7 @@
 #include "base_iterator.hpp"
 #include "Vector_iterator.hpp"
 
+
 template <class T>
 class false_it
 {
@@ -32,7 +33,9 @@ class false_it
 };
 
 int main(void)
-ftft::vector<int> vec;
+{
+	ft::vector<int> vec;
+
 	false_it<int> false_ite;
 	false_it<int> false_its;
 	vec.insert(vec.begin(), false_its, false_ite);

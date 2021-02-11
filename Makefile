@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2021/02/08 09:42:57 by nieyraud         ###   ########.fr        #
+#    Updated: 2021/02/10 08:07:56 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,7 @@ LIBS = ${addprefix $(LIB), ${LIBFT}}
 #######################
 
 CC= /usr/bin/clang++
+DIFF = /usr/bin/diff
 MKDIR= /bin/mkdir
 ECHO=echo
 RM=/bin/rm
@@ -100,6 +101,10 @@ ${OBJ_PATH}/%.o: %.cpp ${INCLUDE}
 	@$(ECHO) "${cyanfonce}Compiling ${notdir $(basename $@)}"
 	@$(CC) $(FLAGS) -c -o $@ $(INCLUDE_FLAGS) $<
 
+run: all
+	@./a.out
+	@$(DIFF) outputs/vector/stl_vector_output outputs/vector/ft_vector_output
+
 sanitize: ${LIBS} ${OBJ} ${INCLUDE} 
 	@$(ECHO) "${vertclair}Creating ${NAME}"
 	@$(CC) ${FLAGS} ${OPT_FLAGS} ${SAN} -I. ${OBJ} -o ${NAME}
@@ -109,13 +114,10 @@ clean :
 	@$(ECHO) "${rouge}Removing objects files"
 	@$(RM) -rf ${OBJ_PATH}
 
-run : all
-	@./${NAME}
-
 fclean : clean
 	@$(ECHO) "${rose}Removing ${NAME}"
 	@$(RM) -f $(NAME)
 
 re : fclean all
 
-.PHONY : all clean fclean re
+.PHONY : all clean fclean re f

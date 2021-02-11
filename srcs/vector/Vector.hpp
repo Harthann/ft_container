@@ -67,7 +67,8 @@ class vector {
 
 		bool	empty() const { return (size_value == 0); } ;
 		size_t	size() { return (size_value); };
-		size_type max_size() const { return (std::numeric_limits<difference_type>::max()) ; };
+		size_type max_size() const { return (allocator_type().max_size()) ; };
+//		size_type max_size() const { return (std::numeric_limits<difference_type>::max() >> 1) ; };
 		void	reserve(size_t new_cap);
 		size_t	capacity() const { return (allocated_size); };
 
@@ -79,7 +80,10 @@ class vector {
 		//#			MODIFIERS		#
 		//###########################
 		
-		// assign
+		template <class InputIT>
+		typename ft::enable_if<ft::is_input_iterator<InputIT>::value, InputIT>::void_t
+		assign(InputIT its, InputIT ite);
+		void		assign(size_t count, const value_type& value );
 		void push_back(T value);
 		// pop_back
 		iterator	insert(iterator pos, const T& value);
@@ -203,12 +207,65 @@ void vector<T,A>::reserve(size_t new_cap)
 //#		MODIFIERS	#
 //###################
 
+//################################################################
+//################################################################
+//##			ASSIGN MEMBERS	OVERLOAD		##
+//################################################################
+//################################################################
 
-//################################################
-//################################################
+
+template <class T, class A>
+template <class InputIT>
+typename ft::enable_if<ft::is_input_iterator<InputIT>::value, InputIT>::void_t
+ft::vector<T, A>::assign(InputIT its, InputIT ite)
+{
+	typename ft::vector<T>::iterator it;
+	size_t count = ft::distance(its, ite);
+
+	if (this->capacity() < count)
+	{
+		if (allocated_size * 2 < count)
+			this->reserve(count);
+		else
+			this->reserve(allocated_size * 2);
+	}
+	it = this->begin();
+	while (its != ite)
+	{
+		*it = *its;
+		++its;
+		++it;
+	}
+	this->size_value = count;
+}
+
+template <class T, class A>
+void	ft::vector<T,A>::assign(size_t count, const value_type& value )
+{
+	typename ft::vector<T>::iterator it;
+	if (this->capacity() < count)
+	{
+		if (allocated_size * 2 < count)
+			this->reserve(count);
+		else
+			this->reserve(allocated_size * 2);
+	}
+	this->size_value = count;
+	it = this->begin();
+	while (count != 0 )
+	{
+		*it = value;
+		++it;
+		count--;
+	}
+}
+
+
+//################################################################
+//################################################################
 //##			ERASE MEMBERS	OVERLOAD		##
-//################################################
-//################################################
+//################################################################
+//################################################################
 
 template <class T, class A>
 void vector<T,A>::clear()
@@ -228,12 +285,12 @@ ft::vector_iterator<T> vector<T,A>::erase(ft::vector_iterator<T> start)
 	while (start + i != tmp)
 	{
 		if (start + i + 1 != tmp)
-			*(start + i) = *(start + i) + 1;
+			*(start + i) = *(start + i + 1);
 		i++;
 	}
-	size_value--;
 	if (start == tmp)
 		return (this->end());
+	size_value--;
 	return (start);
 }
 
@@ -311,9 +368,14 @@ typename ft::enable_if<ft::is_input_iterator<InputIT>::value, InputIT>::void_t	v
 
 	for (ft::vector_iterator<T> it = this->end(); it != pos; it--)
 		*(this->end() + delta - 1) = *it;
-	for (size_t i = 0; i < delta; i++)
-		*(pos + i) = *(its + i);
-	this->size_value = delta + this->size();
+	this->size_value += delta;
+	while (delta > 0)
+	{
+		*pos = *its;
+		--delta;
+		++pos;
+		++its;
+	}
 }
 
 

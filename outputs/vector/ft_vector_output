@@ -18,7 +18,7 @@ Size now : 10 and capacity : 20
 std::bad_alloc
 Size now : 10 and capacity : 20
 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
-Max size for the container is : 9223372036854775807
+Max size for the container is : 18446744073709551615
 		======================
 		====== MODIFIER ======
 		======================
@@ -39,3 +39,30 @@ New stl::vec size is : 10
 950
 		== INSERT MULTIPLE VALUE ==
 950 : 9 : 9 : 9
+		== ERASE SIMPLE DATA ==
+Erase returned index : 4
+950 : 0 : 1 : 2 : 4 : 5 : 6 : 7 : 8 : 9 : 950
+		== ERASE END ELEMENT ==
+Erase returned index : 10
+950 : 0 : 1 : 2 : 4 : 5 : 6 : 7 : 8 : 9
+		== ERASE RANGE ELEMENT ==
+Erase returned index : 2
+950 : 0 : 5 : 6 : 7 : 8 : 9
+		== ERASE RANGE ELEMENT OF SIZE 0 ==
+Erase returned index : 2
+950 : 0 : 5 : 6 : 7 : 8 : 9
+		== ERASE RANGE ALL ELEMENT ==
+Erase returned index : 0
+
+		== ASSIGN MULTIPLE TIME A VALUE ==
+345 : 345 : 345 : 345 : 345
+		== TMP STL CONTENT ==
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+		== TMP FT CONTENT ==
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+		== ASSIGN RANGE VALUE FROM STL ==
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+4 : 5 : 6 : 7
+		== ASSIGN RANGE VALUE FROM FT ==
+0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+4 : 5 : 6 : 7
