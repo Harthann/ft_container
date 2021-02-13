@@ -46,22 +46,8 @@ struct is_floating<double> { static const bool value = true; };
 template <>
 struct is_floating<long double> {static const bool value = true; };
 
-
 template <typename T>
 struct is_arithmetic { static const bool value = ft::is_floating<T>::value || ft::is_integral<T>::value; };
-
-
-template <class T = void, bool B = !ft::is_arithmetic<T>::value >
-struct is_input_iterator {};
-
-template <class T>
-struct is_input_iterator<T, true> {
-	static const bool value =ft::is_same<typename T::iterator_category, std::input_iterator_tag>::value ||
-		ft::is_same<typename T::iterator_category, std::forward_iterator_tag>::value ||
-		ft::is_same<typename T::iterator_category, std::bidirectional_iterator_tag>::value ||
-		ft::is_same<typename T::iterator_category, std::random_access_iterator_tag>::value;
-};
-
 
 }
 

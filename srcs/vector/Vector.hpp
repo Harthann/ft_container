@@ -2,9 +2,11 @@
 #define VECTOR_HPP
 
 #include <iostream>
+#include <sstream>
 #include <limits>
 #include <string>
 #include "sfinae_template.hpp"
+#include "ft_iterator.hpp"
 #include "Vector_iterator.hpp"
 #include "Vector_reverse_iterator.hpp"
 #include "base_iterator.hpp"
@@ -22,8 +24,8 @@ class vector {
 
 		typedef T											value_type;
 		typedef A											allocator_type;
-		typedef std::size_t										size_type;
-		typedef	std::ptrdiff_t									difference_type;
+		typedef std::size_t									size_type;
+		typedef	std::ptrdiff_t								difference_type;
 		typedef typename allocator_type::reference			reference;
 		typedef typename allocator_type::const_reference	const_reference;
 		typedef typename allocator_type::pointer			pointer;
@@ -38,9 +40,8 @@ class vector {
 		vector(size_t size = 0);
 		vector(const vector&);
 		~vector() {
-			A alloc;
-			if (size_value)
-				alloc.deallocate(array, allocated_size);
+			if (this->size())
+				A().deallocate(array, allocated_size);
 		};
 
 		ft::vector<T> & operator=(const ft::vector<int>& x);
@@ -75,6 +76,15 @@ class vector {
 		//###########################
 		//#			ELEMENT ACCESS	#
 		//###########################
+
+		reference at(size_type pos);
+		const_reference at(size_type pos) const;
+		reference operator[](size_type pos) {return (this->array[pos]); } ;
+		const_reference operator[](size_type pos) const { return (this->array[pos]); };
+		reference front() { return (*(this->begin())); };
+		const_reference front() const { return (*(this->begin())); };
+		reference back() { return (*ft::prev(this->end())); };
+		const_reference back() const { return (*ft::prev(this->end())); };
 
 		//###########################
 		//#			MODIFIERS		#
@@ -113,18 +123,19 @@ class vector {
 template <class T, class A>
 vector<T, A>::vector(size_t value)
 {
-	A alloc;
-	if (value)
-	{
-		array = alloc.allocate(value);
-		for (size_t i = 0; i < value; i++)
-			array[i] = 0;
-		this->size_value = value;
-	}
-	else
-		array = 0;
-	allocated_size = value;
-	this->size_value = value;
+	this->assign(value, 0);
+	// A alloc;
+	// if (value)
+	// {
+	// 	array = alloc.allocate(value);
+	// 	for (size_t i = 0; i < value; i++)
+	// 		array[i] = 0;
+	// 	this->size_value = value;
+	// }
+	// else
+	// 	array = 0;
+	// allocated_size = value;
+	// this->size_value = value;
 }
 
 template <class T, class A>
@@ -135,7 +146,7 @@ vector<T, A>::vector(const vector& base)
 	this->allocated_size = base.allocated_size;
 	this->array = alloc.allocate(this->allocated_size);
 	for (size_t i = 0; i < this->size_value; i++)
-		this->array[i] = base.array[i];
+		(*this)[i] = base[i];
 }
 
 //###########################
@@ -202,6 +213,33 @@ void vector<T,A>::reserve(size_t new_cap)
 		allocated_size = new_cap;
 	}
 }
+
+//############################
+//##	ELEMENT ACCESS		##
+//############################
+
+template <class T, class A>
+typename ft::vector<T,A>::reference ft::vector<T,A>::at(size_type pos)
+{
+	std::stringstream str;
+	if (!(pos < size()))
+	{
+		str << "vector::_M_range_check: __n (which is " << pos << ") >= this->size() (which is " << this->size() << ")";
+		throw std::out_of_range(str.str());
+	}
+	else 
+		return (this->array[pos]);
+};
+
+template <class T, class A>
+typename ft::vector<T,A>::const_reference ft::vector<T,A>::at(size_type pos) const
+{
+	if (!(pos < size()))
+		throw std::out_of_range("OUI");
+	else 
+		return (this->array[pos]);
+};
+
 
 //###################
 //#		MODIFIERS	#

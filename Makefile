@@ -34,7 +34,8 @@ NAME = a.out
 SRC_FILE = main.cpp test_vector.cpp
 
 INCLUDE	=	srcs/vector/Vector.hpp srcs/vector/Vector_iterator.hpp \
-			srcs/iterators/base_iterator.hpp srcs/ft_utils/sfinae_template.hpp
+			srcs/iterators/base_iterator.hpp srcs/ft_utils/sfinae_template.hpp \
+			srcs/ft_utils/ft_iterator.hpp
 
 #############################
 #		DIRCTORIES PATH		#

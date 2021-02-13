@@ -17,8 +17,7 @@ class vector_iterator : public ft::__base_iterator<T>
 		typedef T			value_type;
 		typedef value_type*	pointer;
 		typedef value_type&	reference;
-		typedef std::input_iterator_tag iterator_category;
-
+		typedef ft::random_access_iterator_tag iterator_category;
 		vector_iterator() : __base_iterator<T>(0) { };
 		vector_iterator(T* ptr) : __base_iterator<T>(ptr) {} ;
 		vector_iterator(const vector_iterator&);
@@ -26,7 +25,22 @@ class vector_iterator : public ft::__base_iterator<T>
 		bool operator==(const vector_iterator<T>& base) {
 			return (base.ptr == this->ptr) ;
 		}
+		
+		bool operator!=(const vector_iterator<T>& base) {
+			return (this->ptr != base.ptr);
+		}
+		
+		reference operator*() {
+			return (*this->ptr);
+		}
 
+		pointer operator->() {
+			return (this->ptr);
+		}
+
+		using __base_iterator<T>::operator--;
+		using __base_iterator<T>::operator++;
+		
 		vector_iterator<T> operator+(size_t i) {
 			vector_iterator<T> tmp(this->ptr + i);
 			return (tmp);
@@ -45,23 +59,35 @@ class vector_iterator : public ft::__base_iterator<T>
 			return (**this + *i);
 		}
 
-
-
 		void operator=(const vector_iterator& base) {
 			this->ptr = base.ptr;
 		}
-
-		bool operator!=(const vector_iterator<T>& x) {
-			return (this->ptr != x.ptr);
+		
+		vector_iterator<T> &operator+=(const int &n) {
+			this->ptr += n;
+			return (*this);
 		}
 		
-		reference operator*() const {
-			return (*this->ptr);
+		vector_iterator<T> &operator-=(const int &n) {
+			this->ptr -= n;
+			return (*this);
 		}
 
-		// using __base_iterator<T>::operator*;
-		using __base_iterator<T>::operator--;
-		using __base_iterator<T>::operator++;
+		bool	operator<(const vector_iterator<T> &rhs) {
+			return (this->ptr < &(*rhs));
+		}
+
+		bool	operator>(const vector_iterator<T> &rhs) {
+			return (this->ptr > &(*rhs));
+		}
+		
+		bool	operator<=(const vector_iterator<T> &rhs) {
+			return (this->ptr <= &(*rhs));
+		}
+		
+		bool	operator>=(const vector_iterator<T> &rhs) {
+			return (this->ptr >= &(*rhs));
+		}
 };
 
 //###################################

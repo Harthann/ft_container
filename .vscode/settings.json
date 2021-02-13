@@ -67,6 +67,13 @@
 		"system_error": "cpp",
 		"tuple": "cpp",
 		"typeinfo": "cpp",
-		"__functional_03": "cpp"
+		"__functional_03": "cpp",
+		"*.tcc": "cpp",
+		"numeric": "cpp",
+		"ranges": "cpp",
+		"clocale": "cpp",
+		"compare": "cpp",
+		"concepts": "cpp",
+		"random": "cpp"
 	}
 }

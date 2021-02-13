@@ -1,68 +1,67 @@
 		======================
 		====== CAPACITY ======
 		======================
-
-The vector class size is : 0
-And his capacity : 0
-So vec start empty : 1
+0 : 0 : 0 : 0 : 0
+The vector class size is : 5
+And his capacity : 5
+So vec start empty : 0
 Added value from 0 to 10 using pushback
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
-Size now : 10 and capacity : 16
+0 : 0 : 0 : 0 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+Size now : 15 and capacity : 20
 So vec empty : 0
 		== Reserve 20 ==
-Size now : 10 and capacity : 20
+Size now : 15 and capacity : 20
 		== Reserve 5 ==
-Size now : 10 and capacity : 20
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+Size now : 15 and capacity : 20
+0 : 0 : 0 : 0 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
 		== Reserve -5 ==
-std::bad_alloc
-Size now : 10 and capacity : 20
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
-Max size for the container is : 18446744073709551615
+vector::reserve
+Size now : 15 and capacity : 20
+0 : 0 : 0 : 0 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+Max size for the container is : 2305843009213693951
 		======================
 		====== MODIFIER ======
 		======================
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
-		== CREATING NEW VEC ==
-New stl::vec size is : 0
-New ft::vec size is : 0
-		== INSERTING FROM VEC TO TMP_STL ==
-New stl::vec size is : 10
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
-		== INSERTING FROM VEC TO TMP_FT ==
-New stl::vec size is : 10
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+0 : 0 : 0 : 0 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+		== CREATED EMPTY TMP ==
+New vec size is : 0
+
+		== INSERTING FROM VEC TO TMP ==
+0 : 0 : 0 : 0 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
 		== INSERT SINGLE VALUE IN VEC ==
-950 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
-950 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9 : 950
-		== INSERT VALUE AT BEGIN OF EMPTY VEC ==
-950
+950 : 0 : 0 : 0 : 0 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
+950 : 0 : 0 : 0 : 0 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9 : 950
 		== INSERT MULTIPLE VALUE ==
-950 : 9 : 9 : 9
+0 : 0 : 0 : 0 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9 : 9 : 9 : 9
 		== ERASE SIMPLE DATA ==
 Erase returned index : 4
-950 : 0 : 1 : 2 : 4 : 5 : 6 : 7 : 8 : 9 : 950
+950 : 0 : 0 : 0 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9 : 950
 		== ERASE END ELEMENT ==
-Erase returned index : 10
-950 : 0 : 1 : 2 : 4 : 5 : 6 : 7 : 8 : 9
+Erase returned index : 15
+950 : 0 : 0 : 0 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
 		== ERASE RANGE ELEMENT ==
 Erase returned index : 2
-950 : 0 : 5 : 6 : 7 : 8 : 9
+950 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
 		== ERASE RANGE ELEMENT OF SIZE 0 ==
 Erase returned index : 2
-950 : 0 : 5 : 6 : 7 : 8 : 9
+950 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
 		== ERASE RANGE ALL ELEMENT ==
 Erase returned index : 0
 
 		== ASSIGN MULTIPLE TIME A VALUE ==
 345 : 345 : 345 : 345 : 345
-		== TMP STL CONTENT ==
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
-		== TMP FT CONTENT ==
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
-		== ASSIGN RANGE VALUE FROM STL ==
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
-4 : 5 : 6 : 7
-		== ASSIGN RANGE VALUE FROM FT ==
-0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
-4 : 5 : 6 : 7
+		== TMP CONTENT ==
+0 : 0 : 0 : 0 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9 : 9 : 9 : 9
+		== ASSIGN RANGE VALUE ==
+0 : 0 : 0 : 0 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9 : 9 : 9 : 9
+		====================
+		====== ACCESS ======
+		====================
+		== ACCESSING VEC AT INDEX 3 ==
+0
+0
+		== OUT OF BOUND ACCESS ==
+vector::_M_range_check: __n (which is 18446744073709551615) >= this->size() (which is 18)
+		== ACCESS BACK THEN FRONT ==
+Front element is : 0
+Back element is : 9
