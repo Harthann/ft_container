@@ -11,6 +11,22 @@ typedef int my_type;
 #define STL_OUTPUT "outputs/vector/stl_vector_output"
 #define FT_OUTPUT "outputs/vector/ft_vector_output"
 
+struct Counter {
+	Counter() : destroy_ft_count(0), destroy_stl_count(0), construct_ft_count(0), construct_stl_count(0) {};
+	size_t destroy_ft_count;
+	size_t destroy_stl_count;
+	size_t construct_ft_count;
+	size_t construct_stl_count;
+	void print() {
+		std::cout << "Destroy stl call count : " << destroy_stl_count << std::endl;
+		std::cout << "Construct stl call count : " << construct_stl_count << std::endl;
+		std::cout << "Destroy ft call count : " << destroy_ft_count << std::endl;
+		std::cout << "Construct ft call count : " << construct_ft_count << std::endl;
+	}
+};
+
+static Counter counter;
+
 template <class T>
 struct test_alloc_green{
 	typedef T	value_type;
@@ -41,8 +57,13 @@ struct test_alloc_green{
 	
 	pointer address(reference X) { return (&X); };
 	const_pointer address(const_reference X) const { return (&X); };
-	void	construct(pointer p, const_reference val) {new(p) value_type(val);};
-	void	destroy(pointer p) {p->~value_type(); };
+	void	construct(pointer p, const_reference val) {
+		counter.construct_ft_count += 1;
+		new(p) value_type(val);};
+	void	destroy(pointer p) {
+		// std::cout << "\033[32mDestroyer called\n\033[0m";
+	counter.destroy_ft_count += 1;
+		p->~value_type(); };
 	size_t	max_size() const {return (std::numeric_limits<size_type>::max());}; 
 };
 
@@ -76,8 +97,13 @@ struct test_alloc_red{
 	
 	pointer address(reference X) { return (&X); };
 	const_pointer address(const_reference X) const { return (&X); };
-	void	construct(pointer p, const_reference val) {new(p) value_type(val);};
-	void	destroy(pointer p) {p->~value_type(); };
+	void	construct(pointer p, const_reference val) {
+		counter.construct_stl_count += 1;
+		new(p) value_type(val);};
+	void	destroy(pointer p) {
+		// std::cout << "\033[31mDestroyer called\n\033[0m" ;
+		counter.destroy_stl_count += 1;
+		p->~value_type(); };
 	size_t	max_size() const {return (std::numeric_limits<size_type>::max());}; 
 };
 
@@ -101,7 +127,11 @@ void	print_container(T start, T end, std::ostream &output)
 	output << "\n";
 }
 
-
+void check()
+{
+	counter.print();
+	std::getchar();
+}
 template <class T>
 void	test_capacity(T& vec, std::ostream& output)
 {
@@ -111,7 +141,7 @@ void	test_capacity(T& vec, std::ostream& output)
 	output << "The vector class size is : " << vec.size() << std::endl;
 	output << "And his capacity : " << vec.capacity() << std::endl;
 	output << "So vec start empty : " << vec.empty() << std::endl;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 10; i++) // Construct 10 object
 		vec.push_back(i);
 	output << "Added value from 0 to 10 using pushback\n";
 	print_container(vec.begin(), vec.end(), output);
@@ -123,7 +153,7 @@ void	test_capacity(T& vec, std::ostream& output)
 	//#################################
 
 	output << "\t\t== Reserve 20 ==\n";
-	vec.reserve(20);
+	vec.reserve(20); //Does not call construct
 	output << "Size now : " << vec.size() << " and capacity : " << vec.capacity() << std::endl;
 	output << "\t\t== Reserve 5 ==\n";
 	vec.reserve(5);
@@ -139,12 +169,28 @@ void	test_capacity(T& vec, std::ostream& output)
 	output << "Size now : " << vec.size() << " and capacity : " << vec.capacity() << std::endl;
 	print_container(vec.begin(), vec.end(), output);
 	output << "Max size for the container is : " << vec.max_size() << std::endl;
+
+	output << "\t\t== RESIZE 5 ==" << std::endl;
+	vec.resize(5);
+	output << "Size now : " << vec.size() << " and capacity : " << vec.capacity() << std::endl;
+	print_container(vec.begin(), vec.end(), output);
+
+	output << "\t\t== RESIZE 10 WITH VALUE OF 4 ==" << std::endl;
+	vec.resize(10, 4);
+	output << "Size now : " << vec.size() << " and capacity : " << vec.capacity() << std::endl;
+	print_container(vec.begin(), vec.end(), output);
+
+	output << "\t\t== RESIZE 30 ==" << std::endl;
+	vec.resize(30);
+	output << "Size now : " << vec.size() << " and capacity : " << vec.capacity() << std::endl;
+	print_container(vec.begin(), vec.end(), output);
 }
 
 template <class T>
 void	test_modifiers(T& vec, std::ostream& output)
 {
 	T					tmp;
+	my_type	array[] = {5, 2, 123, 52435, 9};
 
 	header("MODIFIER", output);
 	print_container(vec.begin(), vec.end(), output);
@@ -185,7 +231,26 @@ void	test_modifiers(T& vec, std::ostream& output)
 	output << "\t\t== ASSIGN RANGE VALUE ==" << std::endl;
 	vec.assign(tmp.begin(), tmp.end());
 	print_container(vec.begin(), vec.end(), output);
+	output << "\t\t== POP _BACK ==" << std::endl;
+	vec.pop_back();
+	print_container(vec.begin(), vec.end(), output);
 
+	output << "\t\t== ASSIGN VEC USING POINTER ==" << std::endl;
+	vec.assign(array, array + 5);
+
+	output << "\t\t== SWAP TMP AND VEC ==" << std::endl;
+	output << "Vec : ";
+	print_container(vec.begin(), vec.end(), output);
+	output << "tmp : ";
+	print_container(tmp.begin(), tmp.end(), output);
+	vec.swap(tmp);
+	output << "Vec after swap: ";
+	print_container(vec.begin(), vec.end(), output);
+	output << "tmp after swap: ";
+	print_container(tmp.begin(), tmp.end(), output);
+	output << "\t\t CLEAR TMP ==" << std::endl;
+	tmp.clear();
+	print_container(tmp.begin(), tmp.end(), output);
 }
 template <class T>
 void	test_access(T& vec, std::ostream& output)
@@ -211,7 +276,9 @@ void	test_access(T& vec, std::ostream& output)
 void test_vector(void)
 {
 	ft::vector<my_type, test_alloc_green<my_type> > ft(5);
+	// ft::vector<my_type> ft(5);
 	std::vector<my_type, test_alloc_red<my_type> > stl(5);
+	// std::vector<my_type> stl(5);
 	std::ofstream stl_output;
 	std::ofstream ft_output;
 
@@ -221,32 +288,28 @@ void test_vector(void)
 
 	stl_output.open(STL_OUTPUT);
 	ft_output.open(FT_OUTPUT);
-	// int array[] = {5, 6, 2, 0, 31, 1};
-	// ft.assign(array, array + 3);
-	// print_container(ft_cpy.begin(), ft_cpy.end(), std::cout);
-	// print_container(stl_cpy.begin(), stl_cpy.end(), std::cout);
-
-	//#################################
-	//###		CAPACITY			###
-	//#################################
+	
+	//#########################
+	//###		STL			###
+	//#########################
 	std::cout << std::endl;
 	test_capacity(stl, stl_output);
 	test_modifiers(stl, stl_output);
 	test_access(stl, stl_output);
 	std::cout << std::endl;
 
-	//################################
-	//###		MODIFIERS			##
-	//################################
+	//########################
+	//###		FT			##
+	//########################
 	
 	test_capacity(ft, ft_output);
 	test_modifiers(ft, ft_output);
 	test_access(ft, ft_output);
 	std::cout << std::endl;
 
-	//#####################################
-	//###		SEARCHING FOR DIFF		###
-	//#####################################
+	stl.clear();
+	ft.clear();
+	check();
 
-	//system ("diff outputs/vector/ft_vector_output outputs/vector/stl_vector_output > outputs/vector/diff_results");
 }
+
