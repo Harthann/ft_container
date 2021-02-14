@@ -4,22 +4,40 @@
 
 namespace ft {
 
-
-#include "List_iterator.hpp"
-#include "List_node.hpp"
-
-// template <class T> class List_node;
-// template <class T> class List_iterator;
-
 template <class T>
+struct	__list_node {
+	typedef T						value_type;
+	typedef T*						pointer;
+	typedef T&						reference;
+	typedef __list_node<value_type>	__node;
+	typedef __node*					__node_pointer;
+	typedef __node&					__node_reference;
+
+	value_type		data;
+	__node_pointer	next;
+	__node_pointer	previous;
+};
+
+template <class T, class Alloc = std::allocator<T> >
 class List
 {
 	public:
 
-		typedef ft::List_iterator<T> iterator;
-		typedef ft::List_const_iterator<T> const_iterator;
+		typedef T												value_type;
+		typedef Alloc											allocator_type;
+		typedef allocator_type::reference						reference;
+		typedef allocator_type::const_reference					const_reference;
+		typedef allocator_type::pointer							pointer;
+		typedef allocator_type::const_pointer					const_pointer;
+		typedef ft::list_iterator<T>							iterator;
+		typedef ft::list_iterator<const T>						const_iterator;
+		typedef ft::reverse_iterator<iterator>					reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>			const_reverse_iterator;
+		typedef ft::iterator_traits<iterator>::difference_type	difference_type;
+		typedef size_t											size_type;
 
-		List() : head(0), tail(0) {}
+
+		List() : head(0), __alloc() {};
 		// List(const List<T>& tmp);
 		~List() { delete head; }
 		
@@ -30,11 +48,13 @@ class List
 		ft::List_const_iterator<T> begin() const;
 		ft::List_const_iterator<T> end() const;
 
-		void print(); // testing function, will be delete
 	private:
-		ft::List_node<T> *head;
-		ft::List_node<T> *tail;
-
+		typedef __list_node<value_type>						__node;
+		typedef __list_node<value_type>::__node_pointer		__node_pointer;
+		typedef __list_node<value_type>::__node_reference	__node_reference;
+		
+		__node_pointer	head;
+		allocator_type	__alloc;
 };
 
 
@@ -47,76 +67,14 @@ class List
 //##							#
 //###############################
 
-template <class T>
-void List<T>::push_front(T tmp)
-{
-	ft::List_node<T> *new_node = new ft::List_node<T>(tmp, head);
-	if (!tail)
-		tail = head;
-	head = new_node;
-	if (head->next)
-		head->next->previous = head;
-}
-
-template <class T>
-void List<T>::push_back(T tmp)
-{
-	ft::List_node<T> *new_node = new ft::List_node<T>(tmp, 0);
-
-	new_node->previous = head;
-	if (!head)
-		head = new_node;
-	else if (tail)
-		tail->next = new_node;
-	tail = new_node;
-}
-
 //###################
 //#		ITERATOR	#
 //###################
-
-template <class T>
-ft::List_iterator<T> List<T>::begin(void)
-{
-	return (ft::List_iterator<T>(head));
-}
-
-template <class T>
-ft::List_iterator<T> List<T>::end(void)
-{
-	return (ft::List_iterator<T>(tail->next));
-}
-
-template <class T>
-ft::List_const_iterator<T> List<T>::begin(void) const
-{
-	return (ft::List_const_iterator<T>(head));
-}
-
-template <class T>
-ft::List_const_iterator<T> List<T>::end(void) const
-{
-	return (ft::List_const_iterator<T>(tail->next));
-}
 
 //###################
 //#		OTHER		#
 //###################
 
-template <class T>
-void List<T>::print()
-{
-	ft::List_node<T> *tmp = head;
-
-	while (tmp)
-	{
-		std::cout << tmp->data;
-		tmp = tmp->next;
-		if (tmp) 
-			std::cout << " --> ";
-	}
-	std::cout << "\n";
-}
 
 }
 #endif

@@ -74,6 +74,7 @@
 		"clocale": "cpp",
 		"compare": "cpp",
 		"concepts": "cpp",
-		"random": "cpp"
+		"random": "cpp",
+		"__memory": "cpp"
 	}
 }
