@@ -1,32 +1,30 @@
 #ifndef VECTOR_ITERATOR_HPP
 #define VECTOR_ITERATOR_HPP
 
-#include "base_iterator.hpp"
-
 namespace ft {
 
-// template <class T, class A> class Vector;
-template <class T> class __base_iterator;
-
 template <class T>
-class vector_iterator : public ft::__base_iterator<T>
+class vector_iterator
 {
 
 	public:
-		typedef std::ptrdiff_t	difference_type;
-		typedef T			value_type;
-		typedef value_type*	pointer;
-		typedef value_type&	reference;
-		typedef ft::random_access_iterator_tag iterator_category;
-		vector_iterator() : __base_iterator<T>(0) { };
-		vector_iterator(T* ptr) : __base_iterator<T>(ptr) {} ;
+		typedef std::ptrdiff_t					difference_type;
+		typedef T								value_type;
+		typedef value_type*						pointer;
+		typedef const value_type*				const_pointer;
+		typedef value_type&						reference;
+		typedef const value_type&				const_reference;
+		typedef ft::random_access_iterator_tag	iterator_category;
+
+		vector_iterator() : ptr(0) { };
+		vector_iterator(T* ptr) : ptr(ptr) {} ;
 		vector_iterator(const vector_iterator&);
 
-		bool operator==(const vector_iterator<T>& base) {
+		bool operator==(const vector_iterator<T>& base) const {
 			return (base.ptr == this->ptr) ;
 		}
 		
-		bool operator!=(const vector_iterator<T>& base) {
+		bool operator!=(const vector_iterator<T>& base) const {
 			return (this->ptr != base.ptr);
 		}
 		
@@ -34,12 +32,39 @@ class vector_iterator : public ft::__base_iterator<T>
 			return (*this->ptr);
 		}
 
+		const_reference operator*() const {
+			return (*this->ptr);
+		}
+
 		pointer operator->() {
 			return (this->ptr);
 		}
 
-		using __base_iterator<T>::operator--;
-		using __base_iterator<T>::operator++;
+		const_pointer operator->() const {
+			return (this->ptr);
+		}
+
+		vector_iterator<T>& operator++() {
+			this->ptr++;
+			return (*this);
+		}
+
+		vector_iterator<T> operator++(int) {
+			vector_iterator<T> tmp(*this);
+			operator++();
+			return (tmp);
+		}
+
+		vector_iterator<T>& operator--() {
+			ptr--;
+			return (*this);
+		}
+
+		vector_iterator<T> operator--(int) {
+			vector_iterator<T> tmp(*this);
+			operator--();
+			return (tmp);
+		}
 		
 		vector_iterator<T> operator+(size_t i) {
 			vector_iterator<T> tmp(this->ptr + i);
@@ -73,21 +98,24 @@ class vector_iterator : public ft::__base_iterator<T>
 			return (*this);
 		}
 
-		bool	operator<(const vector_iterator<T> &rhs) {
+		bool	operator<(const vector_iterator<T> &rhs) const {
 			return (this->ptr < &(*rhs));
 		}
 
-		bool	operator>(const vector_iterator<T> &rhs) {
+		bool	operator>(const vector_iterator<T> &rhs) const {
 			return (this->ptr > &(*rhs));
 		}
 		
-		bool	operator<=(const vector_iterator<T> &rhs) {
+		bool	operator<=(const vector_iterator<T> &rhs) const {
 			return (this->ptr <= &(*rhs));
 		}
 		
-		bool	operator>=(const vector_iterator<T> &rhs) {
+		bool	operator>=(const vector_iterator<T> &rhs) const {
 			return (this->ptr >= &(*rhs));
 		}
+
+	private:
+		T *ptr;
 };
 
 //###################################

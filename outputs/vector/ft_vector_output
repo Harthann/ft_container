@@ -84,3 +84,5 @@ vector::_M_range_check: __n (which is 18446744073709551615) >= this->size() (whi
 		== ACCESS BACK THEN FRONT ==
 Front element is : 0
 Back element is : 9
+		== PRINT VEC USING REVERSE ITERATOR ==
+9 : 9 : 9 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 4 : 4 : 4 : 4 : 4 : 0 : 0 : 0 : 0 : 0

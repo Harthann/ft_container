@@ -88,13 +88,18 @@ template <class BidirIt>
 BidirIt prev(BidirIt it, typename ft::iterator_traits<BidirIt>::difference_type n = 1)
 {
     ft::advance(it, -n);
-    // while (n > 0)
-    // {
-    //     --n;
-    //     --it;
-    // }
-
     return (it);
+}
+
+template <class InputIT>
+size_t  distance(InputIT its, InputIT ite)
+{
+    size_t i = 0;
+    while (ite != its) {
+        ++i;
+        ++its;
+    }
+    return (i);
 }
 
 }

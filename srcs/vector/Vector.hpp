@@ -8,33 +8,29 @@
 #include "sfinae_template.hpp"
 #include "ft_iterator.hpp"
 #include "Vector_iterator.hpp"
-#include "Vector_reverse_iterator.hpp"
-#include "base_iterator.hpp"
+#include "reverse_iterator.hpp"
 
 
 namespace ft {
-
-template <class T> class vector_reverse_iterator;
-template <class T> class __base_iterator;
 
 template <class T, class A = std::allocator<T> >
 class vector {
 
 	public:
 
-		typedef T											value_type;
-		typedef A											allocator_type;
-		typedef std::size_t									size_type;
-		typedef	std::ptrdiff_t								difference_type;
-		typedef typename allocator_type::reference			reference;
-		typedef typename allocator_type::const_reference	const_reference;
-		typedef typename allocator_type::pointer			pointer;
-		typedef typename allocator_type::const_pointer		const_pointer;
+		typedef T												value_type;
+		typedef A												allocator_type;
+		typedef std::size_t										size_type;
+		typedef	std::ptrdiff_t									difference_type;
+		typedef typename allocator_type::reference				reference;
+		typedef typename allocator_type::const_reference		const_reference;
+		typedef typename allocator_type::pointer				pointer;
+		typedef typename allocator_type::const_pointer			const_pointer;
 		
-		typedef ft::vector_iterator<T>						iterator;
-		typedef ft::vector_iterator<const T>				const_iterator;
-		typedef ft::vector_reverse_iterator<T>				reverse_iterator;
-		typedef ft::vector_reverse_iterator<const T>		const_reverse_iterator;
+		typedef ft::vector_iterator<T>							iterator;
+		typedef ft::vector_iterator<const T>					const_iterator;
+		typedef ft::reverse_iterator<iterator>			reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 		
 		vector(size_t size = 0);
 		vector(const vector&);
@@ -53,15 +49,25 @@ class vector {
 		iterator begin() { return (array); };
 		iterator end() { return (array + size_value); };
 		const_iterator begin() const { return (array); };
-		// const_iterator cbegin() { return (array); };
 		const_iterator end() const { return (array + size_value); };
-		// const_iterator cend() { return (array + size_value); };
-		reverse_iterator rbegin() { return (array + size_value - 1); };
-		// const_reverse_iterator crbegin() { return (array + size_value - 1); };
-		const_reverse_iterator rbegin() const { return (array + size_value - 1); };
-		reverse_iterator rend() { return (array - 1); };
-		const_reverse_iterator rend() const { return (array - 1); };
-		// const_reverse_iterator crend() { return (array - 1); };
+
+		// reverse_iterator rbegin() { return (array + size_value - 1); };
+		reverse_iterator rbegin() {
+			return (ft::prev(end()));
+		};
+		const_reverse_iterator rbegin() const {
+			return (ft::prev(end()));
+		};
+		// const_reverse_iterator rbegin() const { return (array + size_value - 1); };
+		// reverse_iterator rend() { return (array - 1); };
+		reverse_iterator rend() {
+			return (ft::prev(begin()));
+		};
+
+		const_reverse_iterator rend() const {
+			return (ft::prev(begin()));
+		};
+		// const_reverse_iterator rend() const { return (array - 1); };
 
 		//###########################
 		//#			CAPACITY		#
@@ -153,30 +159,10 @@ vector<T, A>::vector(const vector& base)
 template <class T, class A>
 void vector<T, A>::push_back(T value)
 {
-	// A alloc;
-	// T *tmp;
-
 	if (allocated_size < size_value + 1)
 		reserve(allocated_size * 2 + (allocated_size == 0));
 	A().construct(&(*end()), value);
-	// *end() = value;
 	size_value += 1;
-	// if (allocated_size < size_value + 1) {
-	// 	tmp = alloc.allocate(allocated_size * 2 + (allocated_size == 0));
-	// }
-	// else
-	// 	tmp = array;
-	// for (size_t i = 0; i < size_value; i++)
-	// 	tmp[i] = array[i];
-	// tmp[size_value] = value;
-
-	// if (allocated_size < size_value + 1) {
-	// 	if (allocated_size)
-	// 		alloc.deallocate(array, allocated_size);
-	// 	allocated_size = allocated_size * 2  + (allocated_size == 0);
-	// }
-	// size_value += 1;
-	// array = tmp;
 }
 
 template <class T, class A>

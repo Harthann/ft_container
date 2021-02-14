@@ -120,7 +120,7 @@ void	print_container(T start, T end, std::ostream &output)
 {
 	while (start != end) {
 		output << *start;
-		start++;
+		++start;
 		if (start != end)
 			output << " : ";
 	}
@@ -252,6 +252,7 @@ void	test_modifiers(T& vec, std::ostream& output)
 	tmp.clear();
 	print_container(tmp.begin(), tmp.end(), output);
 }
+
 template <class T>
 void	test_access(T& vec, std::ostream& output)
 {
@@ -270,6 +271,8 @@ void	test_access(T& vec, std::ostream& output)
 	output << "Front element is : " << vec.front() << std::endl;
 	output << "Back element is : " << vec.back()  << std::endl;
 
+	output << "\t\t== PRINT VEC USING REVERSE ITERATOR ==" << std::endl;
+	print_container(vec.rbegin(), vec.rend(), output);
 }
 
 
@@ -288,7 +291,6 @@ void test_vector(void)
 
 	stl_output.open(STL_OUTPUT);
 	ft_output.open(FT_OUTPUT);
-	
 	//#########################
 	//###		STL			###
 	//#########################
