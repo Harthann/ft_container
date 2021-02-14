@@ -5,127 +5,10 @@
 #include <vector>
 #include <list>
 #include <stdlib.h>
-
+#include "utils.hpp"
 typedef int my_type;
 
-#define STL_OUTPUT "outputs/vector/stl_vector_output"
-#define FT_OUTPUT "outputs/vector/ft_vector_output"
-
-struct Counter {
-	Counter() : destroy_ft_count(0), destroy_stl_count(0), construct_ft_count(0), construct_stl_count(0) {};
-	size_t destroy_ft_count;
-	size_t destroy_stl_count;
-	size_t construct_ft_count;
-	size_t construct_stl_count;
-	void print() {
-		std::cout << "Destroy stl call count : " << destroy_stl_count << std::endl;
-		std::cout << "Construct stl call count : " << construct_stl_count << std::endl;
-		std::cout << "Destroy ft call count : " << destroy_ft_count << std::endl;
-		std::cout << "Construct ft call count : " << construct_ft_count << std::endl;
-	}
-};
-
 static Counter counter;
-
-template <class T>
-struct test_alloc_green{
-	typedef T	value_type;
-	typedef T*	pointer;
-	typedef T&	reference;
-	typedef const T*	const_pointer;
-	typedef const T&	const_reference;
-	typedef size_t		size_type;
-	typedef std::ptrdiff_t	difference_type;
-	template <class Type> struct rebind {
-		typedef test_alloc_green<Type> other;
-	};	
-
-	test_alloc_green() {};
-	test_alloc_green(test_alloc_green const &) {};
-	~test_alloc_green() {};
-
-	T *allocate(size_t size) {
-		std::cout << "\033[32mAllocate request of size : " << size << std::endl;
-		std::cout << "\033[0m";
-		return (new T[size]);
-	}
-	void deallocate(T *ptr, size_t size) {
-		std::cout << "\033[32mDeallocation request of size : " << size << std::endl;
-		std::cout << "\033[0m";
-		delete [] ptr;
-	}
-	
-	pointer address(reference X) { return (&X); };
-	const_pointer address(const_reference X) const { return (&X); };
-	void	construct(pointer p, const_reference val) {
-		counter.construct_ft_count += 1;
-		new(p) value_type(val);};
-	void	destroy(pointer p) {
-		// std::cout << "\033[32mDestroyer called\n\033[0m";
-	counter.destroy_ft_count += 1;
-		p->~value_type(); };
-	size_t	max_size() const {return (std::numeric_limits<size_type>::max());}; 
-};
-
-template <class T>
-struct test_alloc_red{
-	typedef T	value_type;
-	typedef T*	pointer;
-	typedef T&	reference;
-	typedef const T*	const_pointer;
-	typedef const T&	const_reference;
-	typedef size_t		size_type;
-	typedef std::ptrdiff_t	difference_type;
-	template <class Type> struct rebind {
-		typedef test_alloc_red<Type> other;
-	};	
-
-	test_alloc_red() {};
-	test_alloc_red(test_alloc_red const &) {};
-	~test_alloc_red() {};
-
-	T *allocate(size_t size) {
-		std::cout << "\033[31mAllocate request of size : " << size << std::endl;
-		std::cout << "\033[0m";
-		return (new T[size]);
-	}
-	void deallocate(T *ptr, size_t size) {
-		std::cout << "\033[31mDeallocation request of size : " << size << std::endl;
-		std::cout << "\033[0m";
-		delete [] ptr;
-	}
-	
-	pointer address(reference X) { return (&X); };
-	const_pointer address(const_reference X) const { return (&X); };
-	void	construct(pointer p, const_reference val) {
-		counter.construct_stl_count += 1;
-		new(p) value_type(val);};
-	void	destroy(pointer p) {
-		// std::cout << "\033[31mDestroyer called\n\033[0m" ;
-		counter.destroy_stl_count += 1;
-		p->~value_type(); };
-	size_t	max_size() const {return (std::numeric_limits<size_type>::max());}; 
-};
-
-void	header(std::string str, std::ostream& output)
-{
-	std::string tmp(14 + str.length(), '=');
-	output << "\t\t" << tmp << std::endl;
-	output << "\t\t====== " << str << " ======" << std::endl;
-	output << "\t\t" << tmp << std::endl;
-}
-
-template <class T>
-void	print_container(T start, T end, std::ostream &output)
-{
-	while (start != end) {
-		output << *start;
-		++start;
-		if (start != end)
-			output << " : ";
-	}
-	output << "\n";
-}
 
 void check()
 {
@@ -135,7 +18,6 @@ void check()
 template <class T>
 void	test_capacity(T& vec, std::ostream& output)
 {
-
 	header("CAPACITY", output);
 	print_container(vec.begin(), vec.end(), output);
 	output << "The vector class size is : " << vec.size() << std::endl;
@@ -278,9 +160,9 @@ void	test_access(T& vec, std::ostream& output)
 
 void test_vector(void)
 {
-	ft::vector<my_type, test_alloc_green<my_type> > ft(5);
+	ft::vector<my_type, alloc_ft<my_type> > ft(5);
 	// ft::vector<my_type> ft(5);
-	std::vector<my_type, test_alloc_red<my_type> > stl(5);
+	std::vector<my_type, alloc_std<my_type> > stl(5);
 	// std::vector<my_type> stl(5);
 	std::ofstream stl_output;
 	std::ofstream ft_output;
@@ -289,14 +171,16 @@ void test_vector(void)
 	//###		OPENING OUTPUT		###
 	//#################################
 
-	stl_output.open(STL_OUTPUT);
-	ft_output.open(FT_OUTPUT);
+	stl_output.open(VEC_STL_OUTPUT);
+	ft_output.open(VEC_FT_OUTPUT);
 	//#########################
 	//###		STL			###
 	//#########################
 	std::cout << std::endl;
 	test_capacity(stl, stl_output);
+	std::cout << std::endl;
 	test_modifiers(stl, stl_output);
+	std::cout << std::endl;
 	test_access(stl, stl_output);
 	std::cout << std::endl;
 
@@ -311,7 +195,6 @@ void test_vector(void)
 
 	stl.clear();
 	ft.clear();
-	check();
 
 }
 

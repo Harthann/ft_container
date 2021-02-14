@@ -34,12 +34,11 @@ class reverse_iterator
 			return (*ptr);
 		}
 
-		// reverse_iterator<Iter> operator+(size_t i) {
 		reverse_iterator<Iter> operator+(difference_type n ) const {
 			reverse_iterator<Iter> tmp(*(ptr - n));
 			return (tmp);
 		}
-		// reverse_iterator<Iter> operator-(size_t i) {
+
 		reverse_iterator<Iter> operator-( difference_type n ) const {
 			reverse_iterator<Iter> tmp(*(ptr + n));
 			return (tmp);

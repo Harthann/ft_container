@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2021/02/14 13:06:56 by nieyraud         ###   ########.fr        #
+#    Updated: 2021/02/14 14:34:44 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ orange=\033[33m
 
 NAME = a.out
 
-SRC_FILE = main.cpp test_vector.cpp
+SRC_FILE = main.cpp test_vector.cpp test_list.cpp
 
 INCLUDE	=	srcs/vector/Vector.hpp srcs/iterators/Vector_iterator.hpp \
 			srcs/iterators/reverse_iterator.hpp srcs/ft_utils/sfinae_template.hpp \
