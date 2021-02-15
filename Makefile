@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2021/02/14 14:34:44 by nieyraud         ###   ########.fr        #
+#    Updated: 2021/02/15 14:48:25 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,13 @@ NAME = a.out
 
 SRC_FILE = main.cpp test_vector.cpp test_list.cpp
 
-INCLUDE	=	srcs/vector/Vector.hpp srcs/iterators/Vector_iterator.hpp \
-			srcs/iterators/reverse_iterator.hpp srcs/ft_utils/sfinae_template.hpp \
-			srcs/ft_utils/ft_iterator.hpp
+CONTAINERS = Vector.hpp List.hpp
+CONTAINER_DIRECTORY = srcs/containers
+CONTAINERS_INCLUDE = $(addprefix $(CONTAINER_DIRECTORY)/, $(CONTAINERS))
+ITERATORS = list_iterator.hpp reverse_iterator.hpp Vector_iterator.hpp
+ITERATORS_DIRECTORY = srcs/iterators
+ITERATORS_INCLUDE = $(addprefix $(ITERATORS_DIRECTORY)/, $(ITERATORS))
+INCLUDE	= $(ITERATORS_INCLUDE) $(CONTAINERS_INCLUDE)
 
 #############################
 #		DIRCTORIES PATH		#
@@ -60,13 +64,7 @@ OBJ		= ${addprefix ${OBJ_PATH}/, ${SRC_FILE:%.cpp=%.o}}
 FLAGS = -Wall -Wextra -std=c++98 -ferror-limit=5
 SAN = -g3 -fsanitize=address
 OPT_FLAGS = -flto
-INCLUDE_FLAGS = -I srcs/list \
-		-I srcs/queue \
-		-I srcs/map \
-		-I srcs/vector \
-		-I srcs/stack \
-		-I srcs/iterators \
-		-I srcs/ft_utils/
+INCLUDE_FLAGS = -I $(CONTAINER_DIRECTORY) -I $(ITERATORS_DIRECTORY) -I srcs/ft_utils
 
 #########################
 #		LIBRARIES		#

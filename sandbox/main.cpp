@@ -8,7 +8,6 @@
 //#include "Vector.hpp"
 #include "sfinae_template.hpp"
 #include "ft_iterator.hpp"
-#include "base_iterator.hpp"
 #include "Vector_iterator.hpp"
 
 // template <class T>
@@ -37,10 +36,11 @@
 
 int main(void)
 {
-	std::vector<int> vec;
+	std::list<int> lst;
 	int array[] = {1, 2, 3, 4, 5, 6, 7};
-	std::vector<int>::iterator it;
-	it->m;
+	std::list<int>::iterator it = lst.begin();
+	
+
 	//is_input_it(input_it);
 	return (0);
 }
