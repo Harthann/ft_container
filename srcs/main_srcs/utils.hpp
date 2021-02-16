@@ -113,17 +113,17 @@ struct alloc_std{
 		// std::cout << "\033[31mDestroyer called\n\033[0m" ;
 		Counter::get().destroy_stl_count += 1;
 		p->~value_type(); };
-	size_t	max_size() const {return (std::numeric_limits<size_type>::max());}; 
+	size_t	max_size() const {return (std::numeric_limits<size_type>::max());};
 };
 
 template <class T>
-void	print_container(T start, T end, std::ostream &output)
+void	print_container(T start, T end, std::ostream &output, std::string const sep = " : ")
 {
 	while (start != end) {
 		output << *start;
 		++start;
 		if (start != end)
-			output << " : ";
+			output << sep;
 	}
 	output << "\n";
 }

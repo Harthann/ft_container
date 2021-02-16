@@ -21,41 +21,41 @@ class   list_iterator
 		typedef ft::bidirectional_iterator_tag  iterator_category;
 	
 		list_iterator() : node(0) {};
-		list_iterator(ft::__list_node<T> node) : node(node) {} ;
+		list_iterator(ft::__list_node<T>* node) : node(node) {} ;
 		list_iterator(const list_iterator& base) : node(base.node) {} ;
 		list_iterator &operator=(const list_iterator& base) {node = base.node; return *this; };
 
 		reference operator*() { return node->data; };
 		const_reference operator*() const { return node->data; };
 
-		pointer operator->() { return (&node->data);	};
-		const_pointer operator->() const { return (&node->data);	};
+		pointer operator->() { return (&node->data); };
+		const_pointer operator->() const { return (&node->data); };
 
 		bool operator!=(const list_iterator<value_type>& base) const {
-			return (node != base->node);
+			return (node != base.node);
 		}
 
 		bool operator==(const list_iterator<value_type>& base) const {
-			return (node == base->node);
+			return (node == base.node);
 		}
 
-		list_iterator<value_type> &operator++() {
+		list_iterator<value_type> operator++() {
 			node = node->next;
 			return (*this);
 		};
 		
-		list_iterator<value_type> &operator++(int) {
+		list_iterator<value_type> operator++(int) {
 			list_iterator<value_type> tmp(*this);
 			node = node->next;
 			return (tmp);
 		};
 
-		list_iterator<value_type> &operator--() {
+		list_iterator<value_type> operator--() {
 			node = node->previous;
 			return (*this);
 		};
 		
-		list_iterator<value_type> &operator--(int) {
+		list_iterator<value_type> operator--(int) {
 			list_iterator<value_type> tmp(*this);
 			node = node->previous;
 			return (tmp);

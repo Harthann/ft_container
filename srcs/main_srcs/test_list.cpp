@@ -9,6 +9,23 @@
 typedef int my_type;
 static Counter counter;
 
+template <class T>
+void	basic_tests(T &lst, std::ostream &output)
+{
+	lst.push_back(3);
+	lst.push_front(5);
+	lst.push_back(9);
+	lst.push_front(10);
+	lst.push_back(12);
+	lst.push_front(15);
+	lst.push_back(6);
+	lst.push_front(20);
+	header("BASICS TESTS", output);
+	output << "\t\t== ITERATING THROUGH LIST USING ITERATOR AND REVERSE ==" << std::endl;
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	print_container(lst.rbegin(), lst.rend(), output, " -> ");
+}
+
 void test_lists(void)
 {
     ft::list<my_type> ft;
@@ -20,8 +37,7 @@ void test_lists(void)
 	stl_output.open(LIST_STL_OUTPUT);
 	ft_output.open(LIST_FT_OUTPUT);
 
-	ft.push_front(5);
-	ft::list<my_type>::iterator it = ft.begin();
-	std::cout << *it << std::endl;
-
+	basic_tests(stl, stl_output);
+	// std::cout << *stl.rbegin() << std::endl;
+	basic_tests(ft, ft_output);
 }
