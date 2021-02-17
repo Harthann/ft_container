@@ -21,7 +21,8 @@ class   list_iterator
 		typedef ft::bidirectional_iterator_tag  iterator_category;
 	
 		list_iterator() : node(0) {};
-		list_iterator(ft::__list_node<T>* node) : node(node) {} ;
+		// list_iterator(ft::__list_node<T>* node) : node(node) {} ;
+		list_iterator(ft::__list_node<T>* const node) : node(node) {} ;
 		list_iterator(const list_iterator& base) : node(base.node) {} ;
 		list_iterator &operator=(const list_iterator& base) {node = base.node; return *this; };
 

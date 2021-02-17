@@ -1,3 +1,3 @@
-make re
 ./a.out
-diff outputs/vector/ft_vector_output outputs/vector/stl_vector_output
+
+diff outputs/$1/ft_$1_output outputs/$1/stl_$1_output

@@ -11,7 +11,7 @@ struct	__list_node {
 	typedef T						value_type;
 	typedef T*						pointer;
 	typedef T&						reference;
-	typedef std::ptrdiff_t			difference_type;
+	typedef std::ptrdiff_t		difference_type;
 	typedef __list_node<value_type>	__node;
 	typedef __node*					__node_pointer;
 	typedef __node&					__node_reference;
@@ -51,13 +51,17 @@ class list
 		typedef size_t													size_type;
 
 
-		list(const allocator_type &alloc = allocator_type()) : head(), __alloc(alloc), __node_alloc() { ghost = __node_alloc.allocate(1);};
+		list(const allocator_type &alloc = allocator_type()) : __alloc(alloc), __node_alloc() { ghost = __node_alloc.allocate(1); head = ghost;};
 		// list(size_type n, const value_type &val = value_type(), const allocaotr_type &alloc = allocator_type());
 		// template <class InputIT>
 		// list(InputIT its, InputIT ite, const allocaotr_type &alloc = allocator_type());
 		// list(const list<T>& tmp);
 		//list const& operator=(list const &base);
-		~list() { delete head; }
+		~list() {
+			while (!empty())
+				pop_front();
+			delete ghost;
+		};
 		
 		//		ITERATORS
 
@@ -65,31 +69,40 @@ class list
 		iterator end() { return (ghost); };
 		reverse_iterator rbegin() { return (ft::prev(iterator(ghost))); };
 		reverse_iterator rend() { return (ft::prev(iterator(head))); };
-		const_iterator begin() const { return (head); };
-		const_iterator end() const { return (ghost); };
+		const_iterator begin() const {
+			typedef __list_node<const value_type>* __const_node;
+			__const_node const_head = reinterpret_cast<__const_node>(head);
+			return (const_head);
+		};
+		const_iterator end() const {
+			typedef __list_node<const value_type>* __const_node;
+			__const_node const_ghost = reinterpret_cast<__const_node>(ghost);
+			return (const_ghost);
+		};
 		const_reverse_iterator rbegin() const { return (ft::prev(iterator(ghost))); };
 		const_reverse_iterator rend() const { return (ft::prev(iterator(begin))); };
 
 		//		CAPACITY
 
-		// bool empty() const {return (std::static_cast<bool>(head)); };
-		// size_type	size() const {return (length); };
+		bool empty() const {return (head == ghost); };
+		size_type	size() const {
+			return (ft::distance(begin(), end())); };
 		size_type	max_size() const { return (__node_allocator().max_size()); };
 
 		//		ELEMENT ACCESS
 
-		// reference front() {};
-		// const_reference front() const {};
-		// reference back() {};
-		// const_reference back() const {};
+		reference front() { return head->data;};
+		const_reference front() const {return head->data;};
+		reference back() {return *ft::prev(end());};
+		const_reference back() const {return ft::prev(end());};
 
 		//		MODIFIERS
 
 		//	assign
 		void push_front(const value_type& tmp);
-		//	pop front
+		void	pop_front() ;
 		void push_back(const value_type& tmp);
-		//	pop back
+		void	pop_back();
 		//	insert
 		//	erase
 		//	swap
@@ -123,6 +136,12 @@ class list
 //##	CONSTRUCTOR/DESTRUCTOR		#
 //###################################
 
+
+//####################################
+//###		PUSH/POP FRONT/BACK		##
+//####################################
+
+
 template <class T, class A>
 void list<T,A>::push_front(const value_type& value)
 {
@@ -144,15 +163,42 @@ void list<T,A>::push_back(const value_type& value)
 	__node_pointer tmp = __node_alloc.allocate(1);
 	tmp->data = value;
 	tmp->next = ghost;
-	if (!head) {
+	if (head == ghost) {
 		tmp->previous = ghost;
 		head = tmp;
+		ghost->next = tmp;
 	}
 	else {
 		tmp->previous = ghost->previous;
 		ghost->previous->next = tmp;
 	}
 	ghost->previous = tmp;
+}
+
+template <class T, class A>
+void	list<T,A>::pop_front()
+{
+	__node_pointer tmp = head->next;
+	__node_alloc.destroy(head);
+	delete head;
+	head = tmp;
+}
+
+template <class T, class A>
+void	list<T,A>::pop_back()
+{
+	__node_pointer tmp = ghost->previous;
+	if (tmp == head) {
+		head = ghost;
+		ghost->next = 0;
+		ghost->previous = 0;
+	}
+	else {
+		tmp->previous->next = ghost;
+		ghost->previous = tmp->previous;
+	}
+	__node_alloc.destroy(tmp);
+	delete tmp;
 }
 
 //###############################

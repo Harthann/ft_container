@@ -1,6 +1,21 @@
 		==========================
 		====== BASICS TESTS ======
 		==========================
+List size before push is = 0
+		== SIZE TESTS ==
+List max size = 768614336404564650
+List actual size is = 4
 		== ITERATING THROUGH LIST USING ITERATOR AND REVERSE ==
 20 -> 15 -> 10 -> 5 -> 3 -> 9 -> 12 -> 6
 6 -> 12 -> 9 -> 3 -> 5 -> 10 -> 15 -> 20
+		== PRINT FRONT AND END ELEM ==
+Front : 20
+Back : 6
+		== MODIFYIONG FRONT AND BACK THROUGH REFERENCE ==
+Front after modifying : 999
+Back after modifying : 123
+		== POP FRONT AND BACK ==
+999 -> 15 -> 10 -> 5 -> 3 -> 9 -> 12 -> 123
+15 -> 10 -> 5 -> 3 -> 9 -> 12
+		== POP FRONT WHILE NOT EMPTY ==
+15 -> 10 -> 5 -> 3 -> 9 -> 12
