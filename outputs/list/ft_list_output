@@ -3,7 +3,7 @@
 		==========================
 List size before push is = 0
 		== SIZE TESTS ==
-List max size = 768614336404564650
+List max size = 384307168202282325
 List actual size is = 4
 		== ITERATING THROUGH LIST USING ITERATOR AND REVERSE ==
 20 -> 15 -> 10 -> 5 -> 3 -> 9 -> 12 -> 6
@@ -18,4 +18,4 @@ Back after modifying : 123
 999 -> 15 -> 10 -> 5 -> 3 -> 9 -> 12 -> 123
 15 -> 10 -> 5 -> 3 -> 9 -> 12
 		== POP FRONT WHILE NOT EMPTY ==
-15 -> 10 -> 5 -> 3 -> 9 -> 12
+

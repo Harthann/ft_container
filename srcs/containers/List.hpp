@@ -98,7 +98,10 @@ class list
 
 		//		MODIFIERS
 
-		//	assign
+		template <class InputIT>
+		typename ft::enable_if<ft::is_input_iterator<InputIT>::value, bool>::
+		void_t	assign(InputIT its, InputIT ite);
+		void	assign(size_type n, value_type const &val);
 		void push_front(const value_type& tmp);
 		void	pop_front() ;
 		void push_back(const value_type& tmp);
@@ -202,8 +205,31 @@ void	list<T,A>::pop_back()
 }
 
 //###############################
-//##							#
+//##		INSERTION	#
 //###############################
+
+template <class T, class A>
+template <class InputIT>
+typename ft::enable_if<ft::is_input_iterator<InputIT>::value, bool>::
+void_t	list<T,A>::assign(InputIT its, InputIT ite)
+{
+	while (!empty())
+		pop_front();
+	for (; its != ite; ++its)
+		push_back(*its);
+}
+
+
+template < class T, class A>
+void	list<T,A>::assign(size_type n, value_type const &val)
+{
+	while (!empty())
+		pop_front();
+	for (; n > 0; --n)
+		push_front(val);
+	
+}
+
 
 //###################
 //#		ITERATOR	#

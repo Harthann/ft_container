@@ -47,6 +47,27 @@ void	basic_tests(T &lst, std::ostream &output)
 	print_container(lst.begin(), lst.end(), output, " -> ");
 }
 
+template < class T>
+void	insertion_tests(T &lst, std::ostream& output)
+{
+	T lst_tmp;
+	header("INSERTION", output);
+	output << "Is lst empty ? " << lst.empty() << std::endl;
+	lst.assign(5, 5);
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "\t\t== CREATING NEW LIST ==\n";
+	for (int i = 10; i > 0; i--)
+		lst_tmp.push_back(i * 4 + 2 % 9 - 4);
+	print_container(lst_tmp.begin(), lst_tmp.end(), output, " -> ");
+	output << "\t\t== ASSIGN LST_TMP TO LST ==\n";
+	lst.assign(lst_tmp.begin(), lst_tmp.end());
+	print_container(lst.begin(), lst.end(), output, " -> ");
+
+
+
+
+}
+
 void test_lists(void)
 {
     ft::list<my_type> ft;
@@ -61,6 +82,10 @@ void test_lists(void)
 
 	basic_tests(stl, stl_output);
 	basic_tests(ft, ft_output);
+
+	insertion_tests(stl, std::cout);
+	insertion_tests(ft, std::cout);
+
 
 	// getchar();
 	// basic_tests(stl, std::cout);

@@ -12,7 +12,8 @@ struct random_access_iterator_tag : bidirectional_iterator_tag {};
 
 
 template <class T = void, bool B = !ft::is_arithmetic<T>::value >
-struct is_input_iterator {};
+struct is_input_iterator {
+	static const bool value = false;};
 
 template <class T>
 struct is_input_iterator<T, true> {
