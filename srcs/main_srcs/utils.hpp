@@ -15,6 +15,7 @@
 #define LIST_STL_OUTPUT "outputs/list/stl_list_output"
 #define LIST_FT_OUTPUT "outputs/list/ft_list_output"
 
+
 struct Counter {
 	Counter() : destroy_ft_count(0), destroy_stl_count(0), construct_ft_count(0), construct_stl_count(0) {};
 	size_t destroy_ft_count;

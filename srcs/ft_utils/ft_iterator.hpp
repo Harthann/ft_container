@@ -77,11 +77,42 @@ void do_advance(It& it, typename ft::iterator_traits<It>::difference_type n,
 {
     it += n;
 }
+
+template<class It>
+void do_advance(It& it, typename ft::iterator_traits<It>::difference_type n,
+                std::input_iterator_tag)
+{
+    while (n > 0) {
+        --n;
+        ++it;
+    }
+}
+ 
+template<class It>
+void do_advance(It& it, typename ft::iterator_traits<It>::difference_type n,
+                std::bidirectional_iterator_tag)
+{
+    while (n > 0) {
+        --n;
+        ++it;
+    }
+    while (n < 0) {
+        ++n;
+        --it;
+    }
+}
+ 
+template<class It>
+void do_advance(It& it, typename ft::iterator_traits<It>::difference_type n,
+                std::random_access_iterator_tag)
+{
+    it += n;
+}
  
 template<class It, class Distance>
-void advance(It& it, Distance n)
+void advance(It &it, Distance n)
 {
-    ft::do_advance(it, typename ft::iterator_traits<It>::difference_type(n),
+    ft::do_advance(it, typename ft::iterator_traits<It>::difference_type(n), 
                        typename ft::iterator_traits<It>::iterator_category());
 }
 
@@ -89,6 +120,13 @@ template <class BidirIt>
 BidirIt prev(BidirIt it, typename ft::iterator_traits<BidirIt>::difference_type n = 1)
 {
     ft::advance(it, -n);
+    return (it);
+}
+
+template <class BidirIt>
+BidirIt next(BidirIt it, typename ft::iterator_traits<BidirIt>::difference_type n = 1)
+{
+    ft::advance(it, n);
     return (it);
 }
 

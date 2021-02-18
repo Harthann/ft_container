@@ -7,6 +7,7 @@
 namespace ft {
 
 template <class T> struct __list_node;
+template <class T, class A> class list;
 
 template <class T>
 class   list_iterator
@@ -19,6 +20,7 @@ class   list_iterator
 		typedef const T&						const_reference;
 		typedef std::ptrdiff_t					difference_type;
 		typedef ft::bidirectional_iterator_tag  iterator_category;
+		template<class, class> friend class list;
 	
 		list_iterator() : node(0) {};
 		// list_iterator(ft::__list_node<T>* node) : node(node) {} ;

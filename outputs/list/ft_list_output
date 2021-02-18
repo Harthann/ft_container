@@ -3,7 +3,7 @@
 		==========================
 List size before push is = 0
 		== SIZE TESTS ==
-List max size = 384307168202282325
+List max size = 768614336404564650
 List actual size is = 4
 		== ITERATING THROUGH LIST USING ITERATOR AND REVERSE ==
 20 -> 15 -> 10 -> 5 -> 3 -> 9 -> 12 -> 6
@@ -18,4 +18,43 @@ Back after modifying : 123
 999 -> 15 -> 10 -> 5 -> 3 -> 9 -> 12 -> 123
 15 -> 10 -> 5 -> 3 -> 9 -> 12
 		== POP FRONT WHILE NOT EMPTY ==
+
+		=======================
+		====== INSERTION ======
+		=======================
+Is lst empty ? 1
+5 -> 5 -> 5 -> 5 -> 5
+		== CREATING NEW LIST ==
+38 -> 34 -> 30 -> 26 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2
+		== ASSIGN LST_TMP TO LST ==
+38 -> 34 -> 30 -> 26 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2
+		=========================
+		====== CONSTRUCTOR ======
+		=========================
+lst construct from copy :
+38 -> 34 -> 30 -> 26 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2
+		== ASSIGANTION CONTRUCTOR ==
+38 -> 34 -> 30 -> 26 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2
+		== CONTRUCTOR WITH CERTAIN NUMBER OF BASE VALUE ==
+0 -> 0 -> 0 -> 0 -> 0 -> 0
+		== ASSIGNATION CONTRUCTOR FROM LST ==
+26 -> 22 -> 18 -> 14 -> 10
+		===================
+		====== ERASE ======
+		===================
+		== STARTING CONTAINER IS ==
+38 -> 34 -> 30 -> 26 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2
+		== ERASE FRONT ELEMENT ==
+Erase return 34
+34 -> 30 -> 26 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2
+Erase return 14
+34 -> 30 -> 26 -> 22 -> 14 -> 10 -> 6 -> 2
+		== ERASE FROM 3 to 6 ELEMENTS ==
+Erase returned 6
+34 -> 30 -> 26 -> 6 -> 2
+		== ERASE BACK ELEMENT ELEMENT ==
+Erase returned end iterator
+34 -> 30 -> 26 -> 6
+List empty ? 1
+List size : 0
 

@@ -51,12 +51,13 @@ class list
 		typedef size_t													size_type;
 
 
-		list(const allocator_type &alloc = allocator_type()) : __alloc(alloc), __node_alloc() { ghost = __node_alloc.allocate(1); head = ghost;};
-		// list(size_type n, const value_type &val = value_type(), const allocaotr_type &alloc = allocator_type());
-		// template <class InputIT>
-		// list(InputIT its, InputIT ite, const allocaotr_type &alloc = allocator_type());
-		// list(const list<T>& tmp);
-		//list const& operator=(list const &base);
+		list(const allocator_type &alloc = allocator_type())
+			: __alloc(alloc), __node_alloc() { ghost = __node_alloc.allocate(1); ghost->next = ghost; ghost->previous = ghost; head = ghost;};
+		list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type());
+		template <class InputIT>
+		list(InputIT its, typename ft::enable_if<is_input_iterator<InputIT>::value, InputIT>::type ite, const allocator_type &alloc = allocator_type());
+		list(const list<T,Alloc>& tmp);
+		list<T,Alloc> & operator=(list<T,Alloc> const &base);
 		~list() {
 			while (!empty())
 				pop_front();
@@ -100,17 +101,22 @@ class list
 
 		template <class InputIT>
 		typename ft::enable_if<ft::is_input_iterator<InputIT>::value, bool>::
-		void_t	assign(InputIT its, InputIT ite);
-		void	assign(size_type n, value_type const &val);
-		void push_front(const value_type& tmp);
-		void	pop_front() ;
-		void push_back(const value_type& tmp);
-		void	pop_back();
-		//	insert
-		//	erase
+		void_t		assign(InputIT its, InputIT ite);
+		void		assign(size_type n, value_type const &val);
+		void		push_front(const value_type& tmp);
+		void		pop_front() ;
+		void		push_back(const value_type& tmp);
+		void		pop_back();
+		iterator	insert(iterator pos, const value_type &val);
+		void		insert(iterator pos, size_type n, const value_type &val);
+		template <class InputIT>
+		typename ft::enable_if<ft::is_input_iterator<InputIT>::value, bool>::
+		void_t		insert(iterator pos, InputIT its, InputIT ite);
+		iterator	erase(iterator pos);
+		iterator	erase(iterator first, iterator last);
 		//	swap
 		//	resize
-		//	clear
+		void	clear() { while (!empty()) erase(begin(), end()); };
 
 		//		OPERATIONS
 
@@ -126,10 +132,10 @@ class list
 		typedef typename allocator_type::template rebind<__node>::other	__node_allocator;
 		typedef ft::__list_node<value_type>*								__node_pointer;
 		
-		__node_pointer	head;
-		__node_pointer	ghost;
-		allocator_type	__alloc;
-		__node_allocator __node_alloc;
+		__node_pointer		head;
+		__node_pointer		ghost;
+		allocator_type		__alloc;
+		__node_allocator	__node_alloc;
 
 };
 
@@ -139,6 +145,56 @@ class list
 //##	CONSTRUCTOR/DESTRUCTOR		#
 //###################################
 
+template <class T, class A>
+template <class InputIT>
+list<T,A>::list(InputIT its, typename ft::enable_if<is_input_iterator<InputIT>::value, InputIT>::type ite,  const allocator_type &alloc)
+{
+	__alloc = alloc;
+	__node_alloc = __node_allocator();
+	ghost = __node_alloc.allocate(1);
+	ghost->next = ghost;
+	ghost->previous = ghost;
+	head = ghost;
+	while (its != ite)
+	{
+		push_back(*its);
+		++its;
+	}
+}
+
+template <class T, class A>
+list<T,A>::list(const list<T,A>& base)
+{
+	__alloc = base.__alloc;
+	__node_alloc = base.__node_alloc;
+	ghost = __node_alloc.allocate(1);
+	ghost->next = ghost;
+	ghost->previous = ghost;
+	head = ghost;
+	for (const_iterator cit = base.begin(); cit != base.end(); ++cit)
+		push_back(*cit);
+}
+
+template <class T, class A>
+list<T,A>::list(size_type n, const value_type &val, const allocator_type &alloc)
+{
+	__alloc = alloc;
+	__node_alloc = __node_allocator();
+	ghost = __node_alloc.allocate(1);
+	ghost->next = ghost;
+	ghost->previous = ghost;
+	head = ghost;
+	for (; n > 0; --n)
+		push_front(val);
+}
+
+template <class T, class A>
+list<T,A> &list<T,A>::operator=(const list<T,A>& base)
+{
+	for (const_iterator cit = base.begin(); cit != base.end(); ++cit)
+		push_back(*cit);
+	return (*this);
+}
 
 //####################################
 //###		PUSH/POP FRONT/BACK		##
@@ -150,13 +206,10 @@ void list<T,A>::push_front(const value_type& value)
 {
 	__node_pointer tmp = __node_alloc.allocate(1);
 	tmp->data = value;
-	tmp->next = head ? head : ghost;
+	tmp->next = (head != ghost) ? head : ghost;
 	tmp->previous = ghost;
 	ghost->next = tmp;
-	if (!ghost->previous)
-		ghost->previous = tmp;
-	if (head)
-		head->previous = tmp;
+	head->previous = tmp;
 	head = tmp;
 }
 
@@ -230,6 +283,80 @@ void	list<T,A>::assign(size_type n, value_type const &val)
 	
 }
 
+//############################
+//##		ERASE			##
+//############################
+
+template <class T, class A>
+typename list<T,A>::iterator	list<T,A>::erase(list<T,A>::iterator pos)
+{
+	list<T,A>::iterator ret = ft::next(pos);
+	pos.node->previous->next = pos.node->next;
+	pos.node->next->previous = pos.node->previous;
+	if (pos == begin())
+		head = pos.node->next;
+	__node_alloc.destroy(pos.node);
+	delete pos.node;
+	return ret;
+}
+
+template <class T, class A>
+typename list<T,A>::iterator	list<T,A>::erase(list<T,A>::iterator first, list<T,A>::iterator last)
+{
+	while (first != last) {
+		first = erase(first);
+	}
+	return last;
+}
+
+
+//###################
+//#		INSERT		#
+//###################
+
+template <class T, class A>
+typename list<T,A>::iterator	list<T,A>::insert(iterator pos, const value_type &val)
+{
+	insert(pos, 1, val);
+	return (ft::prev(pos));
+}
+
+template <class T, class A>
+void	list<T,A>::insert(iterator pos, size_type n, const value_type &val)
+{
+	__node_pointer new_node;
+
+	while (n > 0)
+	{
+		new_node = __node_alloc.allocate(1);
+		new_node->data = val;
+		new_node->next = pos.node;
+		new_node->previous = pos.node->previous;
+		if (pos == begin())
+		{
+			head = new_node;
+			ghost->next = head;
+		}
+		else
+		{
+			pos.node->previous->next = new_node;
+			pos.node->previous = new_node;
+		}
+		--n;
+	}
+}
+
+template <class T, class A>
+template <class InputIT>
+typename ft::enable_if<ft::is_input_iterator<InputIT>::value, bool>::
+void_t	list<T,A>::insert(iterator pos, InputIT first, InputIT last)
+{
+	while (last != first)
+	{
+		pos = insert(pos, *first);
+		++first;
+	}
+}
 
 //###################
 //#		ITERATOR	#

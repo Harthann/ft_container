@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include "utils.hpp"
+#include "to_string.hpp"
 
 typedef int my_type;
 static Counter counter;
@@ -14,8 +15,8 @@ void	basic_tests(T &lst, std::ostream &output)
 {
 	header("BASICS TESTS", output);
 	output << "List size before push is = " << lst.size() << std::endl;
-	lst.push_back(3);
 	lst.push_front(5);
+	lst.push_back(3);
 	lst.push_back(9);
 	lst.push_front(10);
 	output << "\t\t== SIZE TESTS ==\n";
@@ -62,8 +63,87 @@ void	insertion_tests(T &lst, std::ostream& output)
 	output << "\t\t== ASSIGN LST_TMP TO LST ==\n";
 	lst.assign(lst_tmp.begin(), lst_tmp.end());
 	print_container(lst.begin(), lst.end(), output, " -> ");
+}
 
+template <class T>
+void	constructor_tests(T lst, std::ostream &output)
+{
+	header("CONSTRUCTOR", output);
+	output << "lst construct from copy :\n";
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "\t\t== ASSIGANTION CONTRUCTOR ==\n";
+	T lst_tmp = lst;
+	print_container(lst_tmp.begin(), lst_tmp.end(), output, " -> ");
+	output << "\t\t== CONTRUCTOR WITH CERTAIN NUMBER OF BASE VALUE ==\n";
+	T lst_tmp2(6);
+	print_container(lst_tmp2.begin(), lst_tmp2.end(), output, " -> ");
+	output << "\t\t== ASSIGNATION CONTRUCTOR FROM LST ==\n";
+	T lst_tmp4(ft::next(lst.begin(), 3), ft::prev(lst.end(), 2));
+	print_container(lst_tmp4.begin(), lst_tmp4.end(), output, " -> ");
+}
 
+template <class T>
+void	erase_tests(T lst, std::ostream& output)
+{
+	typename T::iterator it;
+	std::string str_tmp;
+	header("ERASE", output);
+	output << "\t\t== STARTING CONTAINER IS ==\n";
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "\t\t== ERASE FRONT ELEMENT ==\n";
+	output << "Erase return " << *lst.erase(lst.begin()) << std::endl;
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "Erase return " << *lst.erase(ft::next(lst.begin(), 4)) << std::endl;
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "\t\t== ERASE FROM 3 to 6 ELEMENTS ==\n";
+	it = lst.erase(ft::next(lst.begin(), 3), ft::next(lst.begin(), 6));
+	str_tmp = ((it == lst.end()) ? "end iterator": utils::to_string(*it));
+	output << "Erase returned " << str_tmp << std::endl;
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "\t\t== ERASE BACK ELEMENT ELEMENT ==\n";
+	it = lst.erase(ft::prev(lst.end()));
+	str_tmp = ((it == lst.end()) ? "end iterator": utils::to_string(*it));
+	output << "Erase returned " << str_tmp << std::endl;
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	lst.clear();
+	output << "List empty ? " << lst.empty() << std::endl;
+	output << "List size : " << lst.size() << std::endl;
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	// output << "\t\t== ERASE ALL ELEMENTS ==\n";
+	// it = lst.erase(lst.begin(), lst.end());
+	// str_tmp = ((it == lst.end()) ? "end iterator": utils::to_string(*it));
+	// output << "Erase return " << str_tmp << std::endl;
+	// print_container(lst.begin(), lst.end(), output, " -> ");
+
+}
+
+template <class T>
+void	insert_tests(T &lst, std::ostream &output)
+{
+	typename T::iterator it;
+	std::string str_tmp;
+	T	lst_tmp;
+
+	header("INSERT", output);
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	lst.insert(ft::next(lst.begin(), 4), 3, 999);
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "\t\t== INSERT ELEM AT BACK ==\n";
+	lst.insert(lst.end(), 1, 66);
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "\t\t== INSERT ONE ELEM  WITH RETURN ITERATOR ==\n";
+	it = lst.insert(ft::next(lst.begin(), 3), 32);
+	str_tmp = ((it == lst.end()) ? "end iterator": utils::to_string(*it));
+	output << "Insert returned : " << str_tmp << std::endl;
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "\t\t== INSERT ONE ELEM WITH RETURN ITERATOR AT BACK ==\n";
+	it = lst.insert(lst.end(), 32);
+	str_tmp = ((it == lst.end()) ? "end iterator": utils::to_string(*it));
+	output << "Insert returned : " << str_tmp << std::endl;
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "\t\t== INSERT WITH ITERATOR RANGE ==\n";
+	lst_tmp.insert(lst_tmp.begin(), ft::next(lst.begin(), 4), ft::next(lst.begin(), 7));
+	print_container(lst_tmp.begin(), lst_tmp.end(), output, " -> ");
 
 
 }
@@ -79,15 +159,18 @@ void test_lists(void)
 	stl_output.open(LIST_STL_OUTPUT);
 	ft_output.open(LIST_FT_OUTPUT);
 
-
 	basic_tests(stl, stl_output);
 	basic_tests(ft, ft_output);
 
-	insertion_tests(stl, std::cout);
-	insertion_tests(ft, std::cout);
+	insertion_tests(stl, stl_output);
+	insertion_tests(ft, ft_output);
 
+	constructor_tests(stl, stl_output);
+	constructor_tests(ft, ft_output);
 
-	// getchar();
-	// basic_tests(stl, std::cout);
-	// basic_tests(ft, std::cout);
+	erase_tests(stl, stl_output);
+	erase_tests(ft, ft_output);
+
+	insert_tests(stl, std::cout);
+	insert_tests(ft, std::cout);
 }

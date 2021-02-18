@@ -15,6 +15,7 @@ void check()
 	counter.print();
 	std::getchar();
 }
+
 template <class T>
 void	test_capacity(T& vec, std::ostream& output)
 {
@@ -156,7 +157,6 @@ void	test_access(T& vec, std::ostream& output)
 	output << "\t\t== PRINT VEC USING REVERSE ITERATOR ==" << std::endl;
 	print_container(vec.rbegin(), vec.rend(), output);
 }
-
 
 void test_vector(void)
 {
