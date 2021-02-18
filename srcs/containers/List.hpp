@@ -342,6 +342,8 @@ void	list<T,A>::insert(iterator pos, size_type n, const value_type &val)
 			pos.node->previous->next = new_node;
 			pos.node->previous = new_node;
 		}
+		if (pos == end())
+			ghost->previous = new_node;
 		--n;
 	}
 }
@@ -353,7 +355,7 @@ void_t	list<T,A>::insert(iterator pos, InputIT first, InputIT last)
 {
 	while (last != first)
 	{
-		pos = insert(pos, *first);
+		insert(pos, *first);
 		++first;
 	}
 }
