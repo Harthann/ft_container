@@ -3,7 +3,7 @@
 		==========================
 List size before push is = 0
 		== SIZE TESTS ==
-List max size = 384307168202282325
+List max size = 768614336404564650
 List actual size is = 4
 		== ITERATING THROUGH LIST USING ITERATOR AND REVERSE ==
 20 -> 15 -> 10 -> 5 -> 3 -> 9 -> 12 -> 6
@@ -58,3 +58,55 @@ Erase returned end iterator
 List empty ? 1
 List size : 0
 
+		== ERASE ALL ELEMENTS ==
+Erase return end iterator
+
+		====================
+		====== INSERT ======
+		====================
+38 -> 34 -> 30 -> 26 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2
+38 -> 34 -> 30 -> 26 -> 999 -> 999 -> 999 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2
+		== INSERT ELEM AT BACK ==
+38 -> 34 -> 30 -> 26 -> 999 -> 999 -> 999 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2 -> 66
+		== INSERT ONE ELEM  WITH RETURN ITERATOR ==
+Insert returned : 32
+38 -> 34 -> 30 -> 32 -> 26 -> 999 -> 999 -> 999 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2 -> 66
+		== INSERT ONE ELEM WITH RETURN ITERATOR AT BACK ==
+Insert returned : 32
+38 -> 34 -> 30 -> 32 -> 26 -> 999 -> 999 -> 999 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2 -> 66 -> 32
+		== INSERT WITH ITERATOR RANGE ==
+26 -> 999 -> 999
+		== CLEAR LST_TMP =
+Lst_tmp size : 0
+Lst_tmp empty ? 1
+
+		==========================
+		====== MANIPULATION ======
+		==========================
+38 -> 34 -> 30 -> 32 -> 26 -> 999 -> 999 -> 999 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2 -> 66 -> 32
+List size : 16
+		== RESIZE TO SIZE 5 ==
+38 -> 34 -> 30 -> 32 -> 26
+List size : 5
+		== RESIZE TO SIZE 15 AGAIN ==
+38 -> 34 -> 30 -> 32 -> 26 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0
+List size : 15
+		== SWAP LST AND LST_CPY ==
+Lst contains :
+38 -> 34 -> 30 -> 32 -> 26 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0
+Lst_cpy contains :
+38 -> 34 -> 30 -> 32 -> 26 -> 999 -> 999 -> 999 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2 -> 66 -> 32
+Lst after swap contains :
+38 -> 34 -> 30 -> 32 -> 26 -> 999 -> 999 -> 999 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2 -> 66 -> 32
+Lst_cpy after swap contains :
+38 -> 34 -> 30 -> 32 -> 26 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0
+		== SWAP BACK USING NON MEMBER FUNCTION ==
+Lst after swap contains :
+38 -> 34 -> 30 -> 32 -> 26 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0
+Lst_cpy after swap contains :
+38 -> 34 -> 30 -> 32 -> 26 -> 999 -> 999 -> 999 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2 -> 66 -> 32
+		== SPLICE ELEM FROM LST TO LST_CPY ==
+Lst after splice contains :
+38 -> 34 -> 30 -> 999 -> 32 -> 26 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0
+Lst_cpy after splice contains :
+38 -> 34 -> 30 -> 32 -> 26 -> 999 -> 999 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2 -> 66 -> 32

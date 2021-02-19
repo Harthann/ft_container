@@ -114,13 +114,13 @@ class list
 		void_t		insert(iterator pos, InputIT its, InputIT ite);
 		iterator	erase(iterator pos);
 		iterator	erase(iterator first, iterator last);
-		//	swap
-		//	resize
-		void	clear() { while (!empty()) erase(begin(), end()); };
+		void		resize (size_type n, value_type val = value_type());
+		void		clear() { while (!empty()) erase(begin(), end()); };
+		void		swap(list& x);
 
 		//		OPERATIONS
 
-		//	splice
+		void		splice(iterator pos, list& x, iterator i);
 		//	remove
 		//	remove_if
 		//	unique
@@ -360,14 +360,61 @@ void_t	list<T,A>::insert(iterator pos, InputIT first, InputIT last)
 	}
 }
 
+template <class T, class A>
+void	list<T,A>::resize(size_type n, value_type val)
+{
+	while (n > size())
+		push_back(val);
+	while (size() > n)
+		pop_back();
+}
+
+template <class T, class A>
+void	list<T,A>::swap(list& x)
+{
+	__node_pointer tmp;
+
+	tmp = x.head;
+	x.head = this->head;
+	this->head = tmp;
+	tmp = x.ghost;
+	x.ghost = this->ghost;
+	this->ghost = tmp;
+}
+
 //###################
-//#		ITERATOR	#
+//#		SPLCIE		#
 //###################
+
+template <class T, class A>
+void		list<T,A>::splice(iterator pos, list& x, iterator i)
+{
+	i.node->previous->next = i.node->next;
+	i.node->next->previous = i.node->previous;
+	if (pos == begin())
+	{
+		pos.node->previous = i.node;
+		ghost->next = i.node;
+		i.node->previous = ghost;
+		i.node->next = pos.node;
+		head = i.node;
+	}
+	else
+	{
+		i.node->next = pos.node->next;
+		i.node->previous = pos.node;
+		pos.node->previous->next = i.node;
+		pos.node->next->previous = i.node;
+	}
+}
 
 //###################
 //#		OTHER		#
 //###################
 
+template <class T, class Alloc>
+void swap (list<T,Alloc>& x, list<T,Alloc>& y) { x.swap(y); }
 
 }
+
 #endif

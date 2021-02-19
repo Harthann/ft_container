@@ -109,11 +109,11 @@ void	erase_tests(T lst, std::ostream& output)
 	output << "List empty ? " << lst.empty() << std::endl;
 	output << "List size : " << lst.size() << std::endl;
 	print_container(lst.begin(), lst.end(), output, " -> ");
-	// output << "\t\t== ERASE ALL ELEMENTS ==\n";
-	// it = lst.erase(lst.begin(), lst.end());
-	// str_tmp = ((it == lst.end()) ? "end iterator": utils::to_string(*it));
-	// output << "Erase return " << str_tmp << std::endl;
-	// print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "\t\t== ERASE ALL ELEMENTS ==\n";
+	it = lst.erase(lst.begin(), lst.end());
+	str_tmp = ((it == lst.end()) ? "end iterator": utils::to_string(*it));
+	output << "Erase return " << str_tmp << std::endl;
+	print_container(lst.begin(), lst.end(), output, " -> ");
 
 }
 
@@ -136,6 +136,7 @@ void	insert_tests(T &lst, std::ostream &output)
 	str_tmp = ((it == lst.end()) ? "end iterator": utils::to_string(*it));
 	output << "Insert returned : " << str_tmp << std::endl;
 	print_container(lst.begin(), lst.end(), output, " -> ");
+	
 	output << "\t\t== INSERT ONE ELEM WITH RETURN ITERATOR AT BACK ==\n";
 	it = lst.insert(lst.end(), 32);
 	str_tmp = ((it == lst.end()) ? "end iterator": utils::to_string(*it));
@@ -144,6 +145,56 @@ void	insert_tests(T &lst, std::ostream &output)
 	output << "\t\t== INSERT WITH ITERATOR RANGE ==\n";
 	lst_tmp.insert(lst_tmp.begin(), ft::next(lst.begin(), 4), ft::next(lst.begin(), 7));
 	print_container(lst_tmp.begin(), lst_tmp.end(), output, " -> ");
+	output << "\t\t== CLEAR LST_TMP =\n";
+	lst_tmp.clear();
+	output << "Lst_tmp size : " << lst_tmp.size() << std::endl;
+	output << "Lst_tmp empty ? " << lst_tmp.empty() << std::endl;
+	print_container(lst_tmp.begin(), lst_tmp.end(), output, " -> ");
+
+
+}
+
+template <class T>
+void	manipulation_tests(T &lst, std::ostream& output, std::string nspace)
+{
+	T lst_cpy(lst);
+	header("MANIPULATION", output);
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "List size : " << lst.size() << std::endl;
+	output << "\t\t== RESIZE TO SIZE 5 ==\n";
+	lst.resize(5);
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "List size : " << lst.size() << std::endl;
+	output << "\t\t== RESIZE TO SIZE 15 AGAIN ==\n";
+	lst.resize(15);
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "List size : " << lst.size() << std::endl;
+	output << "\t\t== SWAP LST AND LST_CPY ==\n";
+	output << "Lst contains :\n";
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "Lst_cpy contains :\n";
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+	lst.swap(lst_cpy);
+	output << "Lst after swap contains :\n";
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "Lst_cpy after swap contains :\n";
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+	output << "\t\t== SWAP BACK USING NON MEMBER FUNCTION ==\n";
+	if (!nspace.compare("std"))
+		using namespace std;
+	else
+		using namespace ft;
+	swap(lst_cpy, lst);
+	output << "Lst after swap contains :\n";
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "Lst_cpy after swap contains :\n";
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+	output << "\t\t== SPLICE ELEM FROM LST TO LST_CPY ==\n";
+	lst.splice(ft::next(lst.begin(), 3), lst_cpy, ft::next(lst_cpy.begin(), 5));
+	output << "Lst after splice contains :\n";
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "Lst_cpy after splice contains :\n";
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
 
 
 }
@@ -171,6 +222,9 @@ void test_lists(void)
 	erase_tests(stl, stl_output);
 	erase_tests(ft, ft_output);
 
-	insert_tests(stl, std::cout);
-	insert_tests(ft, std::cout);
+	insert_tests(stl, stl_output);
+	insert_tests(ft, ft_output);
+
+	manipulation_tests(stl, stl_output, "std");
+	manipulation_tests(ft, ft_output, "ft");
 }
