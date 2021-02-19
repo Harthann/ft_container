@@ -195,6 +195,18 @@ void	manipulation_tests(T &lst, std::ostream& output, std::string nspace)
 	print_container(lst.begin(), lst.end(), output, " -> ");
 	output << "Lst_cpy after splice contains :\n";
 	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+	output << "\t\t== SPLICE ELEM FROM LST TO LST_CPY WITH RANGE ITERATOR ==\n";
+	lst.splice(ft::next(lst.begin(), 3), lst_cpy, ft::next(lst_cpy.begin(), 2), ft::next(lst_cpy.begin(), 5));
+	output << "Lst after splice contains :\n";
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "Lst_cpy after splice contains :\n";
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+	output << "\t\t== SPLICE ALL ELEM FROM LST TO LST_CPY ==\n";
+	lst.splice(ft::next(lst.begin(), 7), lst_cpy);
+	output << "Lst after splice contains :\n";
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "Lst_cpy after splice contains :\n";
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
 
 
 }

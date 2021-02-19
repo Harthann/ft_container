@@ -120,7 +120,9 @@ class list
 
 		//		OPERATIONS
 
+		void		splice(iterator pos, list& x);
 		void		splice(iterator pos, list& x, iterator i);
+		void		splice(iterator position, list& x, iterator first, iterator last);
 		//	remove
 		//	remove_if
 		//	unique
@@ -384,28 +386,48 @@ void	list<T,A>::swap(list& x)
 
 //###################
 //#		SPLCIE		#
-//###################
+//###################s
 
 template <class T, class A>
 void		list<T,A>::splice(iterator pos, list& x, iterator i)
 {
-	i.node->previous->next = i.node->next;
-	i.node->next->previous = i.node->previous;
-	if (pos == begin())
+	if (i.node == x.head)
 	{
-		pos.node->previous = i.node;
-		ghost->next = i.node;
-		i.node->previous = ghost;
-		i.node->next = pos.node;
-		head = i.node;
+		x.head = x.head->next;
+		x.head->previous = x.ghost;
+		x.ghost = x.head;
 	}
 	else
 	{
-		i.node->next = pos.node->next;
-		i.node->previous = pos.node;
-		pos.node->previous->next = i.node;
-		pos.node->next->previous = i.node;
+		i.node->previous->next = i.node->next;
+		i.node->next->previous = i.node->previous;
 	}
+	i.node->next = pos.node;
+	i.node->previous = pos.node->previous;
+	i.node->previous->next = i.node;
+	pos.node->previous = i.node;
+}
+
+template <class T, class A>
+void	list<T,A>::splice(iterator pos, list&x)
+{
+	splice(pos, x, x.begin(), x.end());
+}
+
+
+template <class T, class A>
+void	list<T,A>::splice(iterator pos, list&x, iterator first, iterator last)
+{
+	__node_pointer tmp = last.node->previous;
+
+	first.node->previous->next = last.node;
+	last.node->previous = first.node->previous;
+	if (first.node == x.head)
+		x.head = last.node;
+	first.node->previous = pos.node->previous;
+	first.node->previous->next = first.node;
+	pos.node->previous = tmp;
+	tmp->next = pos.node;
 }
 
 //###################

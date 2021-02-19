@@ -107,6 +107,16 @@ Lst_cpy after swap contains :
 38 -> 34 -> 30 -> 32 -> 26 -> 999 -> 999 -> 999 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2 -> 66 -> 32
 		== SPLICE ELEM FROM LST TO LST_CPY ==
 Lst after splice contains :
-38 -> 34 -> 30 -> 999 -> 26 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0
+38 -> 34 -> 30 -> 999 -> 32 -> 26 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0
 Lst_cpy after splice contains :
 38 -> 34 -> 30 -> 32 -> 26 -> 999 -> 999 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2 -> 66 -> 32
+		== SPLICE ELEM FROM LST TO LST_CPY WITH RANGE ITERATOR ==
+Lst after splice contains :
+38 -> 34 -> 30 -> 30 -> 32 -> 26 -> 999 -> 32 -> 26 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0
+Lst_cpy after splice contains :
+38 -> 34 -> 999 -> 999 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2 -> 66 -> 32
+		== SPLICE ALL ELEM FROM LST TO LST_CPY ==
+Lst after splice contains :
+38 -> 34 -> 30 -> 30 -> 32 -> 26 -> 999 -> 38 -> 34 -> 999 -> 999 -> 22 -> 18 -> 14 -> 10 -> 6 -> 2 -> 66 -> 32 -> 32 -> 26 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0 -> 0
+Lst_cpy after splice contains :
+
