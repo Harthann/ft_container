@@ -7,7 +7,7 @@
 #include "utils.hpp"
 #include "to_string.hpp"
 
-typedef int my_type;
+typedef double my_type;
 static Counter counter;
 
 template <class T>
@@ -15,17 +15,17 @@ void	basic_tests(T &lst, std::ostream &output)
 {
 	header("BASICS TESTS", output);
 	output << "List size before push is = " << lst.size() << std::endl;
-	lst.push_front(5);
-	lst.push_back(3);
-	lst.push_back(9);
-	lst.push_front(10);
+	lst.push_front(5.67);
+	lst.push_back(3.12);
+	lst.push_back(9.56);
+	lst.push_front(10.4);
 	output << "\t\t== SIZE TESTS ==\n";
 	output << "List max size = " << lst.max_size() << std::endl;
 	output << "List actual size is = " << lst.size() << std::endl;
-	lst.push_back(12);
-	lst.push_front(15);
-	lst.push_back(6);
-	lst.push_front(20);
+	lst.push_back(12.4232);
+	lst.push_front(15.876);
+	lst.push_back(6.9);
+	lst.push_front(20.12);
 	output << "\t\t== ITERATING THROUGH LIST USING ITERATOR AND REVERSE ==" << std::endl;
 	print_container(lst.begin(), lst.end(), output, " -> ");
 	print_container(lst.rbegin(), lst.rend(), output, " -> ");
@@ -33,8 +33,8 @@ void	basic_tests(T &lst, std::ostream &output)
 	output << "Front : " << lst.front() << std::endl;
 	output << "Back : " << lst.back() << std::endl;
 	output << "\t\t== MODIFYIONG FRONT AND BACK THROUGH REFERENCE ==\n";
-	lst.front() = 999;
-	lst.back() = 123;
+	lst.front() = 999.2312;
+	lst.back() = 123.8964;
 	output << "Front after modifying : " << lst.front() << std::endl;
 	output << "Back after modifying : " << lst.back() << std::endl;	
 	output << "\t\t== POP FRONT AND BACK ==\n";
@@ -57,8 +57,8 @@ void	insertion_tests(T &lst, std::ostream& output)
 	lst.assign(5, 5);
 	print_container(lst.begin(), lst.end(), output, " -> ");
 	output << "\t\t== CREATING NEW LIST ==\n";
-	for (int i = 10; i > 0; i--)
-		lst_tmp.push_back(i * 4 + 2 % 9 - 4);
+	for (double i = 10.0; i > 0; i--)
+		lst_tmp.push_back(i * 4.34 + 2.67  - 4.1);
 	print_container(lst_tmp.begin(), lst_tmp.end(), output, " -> ");
 	output << "\t\t== ASSIGN LST_TMP TO LST ==\n";
 	lst.assign(lst_tmp.begin(), lst_tmp.end());
@@ -126,19 +126,19 @@ void	insert_tests(T &lst, std::ostream &output)
 
 	header("INSERT", output);
 	print_container(lst.begin(), lst.end(), output, " -> ");
-	lst.insert(ft::next(lst.begin(), 4), 3, 999);
+	lst.insert(ft::next(lst.begin(), 4), 3, 999.123);
 	print_container(lst.begin(), lst.end(), output, " -> ");
 	output << "\t\t== INSERT ELEM AT BACK ==\n";
-	lst.insert(lst.end(), 1, 66);
+	lst.insert(lst.end(), 1, 66.32);
 	print_container(lst.begin(), lst.end(), output, " -> ");
 	output << "\t\t== INSERT ONE ELEM  WITH RETURN ITERATOR ==\n";
-	it = lst.insert(ft::next(lst.begin(), 3), 32);
+	it = lst.insert(ft::next(lst.begin(), 3), 32.3);
 	str_tmp = ((it == lst.end()) ? "end iterator": utils::to_string(*it));
 	output << "Insert returned : " << str_tmp << std::endl;
 	print_container(lst.begin(), lst.end(), output, " -> ");
 	
 	output << "\t\t== INSERT ONE ELEM WITH RETURN ITERATOR AT BACK ==\n";
-	it = lst.insert(lst.end(), 32);
+	it = lst.insert(lst.end(), 32.3);
 	str_tmp = ((it == lst.end()) ? "end iterator": utils::to_string(*it));
 	output << "Insert returned : " << str_tmp << std::endl;
 	print_container(lst.begin(), lst.end(), output, " -> ");
@@ -207,8 +207,79 @@ void	manipulation_tests(T &lst, std::ostream& output, std::string nspace)
 	print_container(lst.begin(), lst.end(), output, " -> ");
 	output << "Lst_cpy after splice contains :\n";
 	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+	lst_cpy = lst;
+	output << "\t\t== SORT LIST_CPY ASCENDING ORDER ==\n";
+	output << "lst_cpy size : " << lst_cpy.size() << std::endl;
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+	lst_cpy.sort();
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+	output << "\t\t== MAKING VALUE IN LST_CPY UNIQUE ==\n";
+	lst_cpy.unique();
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+	output << "\t\t== REVERSE LIST_CPY ==\n";
+	lst_cpy.reverse();
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+	output << "\t\t== MERGING LST AND LST_CPY ==\n";
+	lst.sort();
+	lst_cpy.reverse();
+	output << "Lst before merge : \n\t";
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "Lst_cpy before merge : \n\t";
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+	lst.merge(lst_cpy);
+	output << "Lst after merge : \n\t";
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "Lst_cpy after merge : \n\t";
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+	output << "\t\t== REMOVE ELEMENTS WITH VALUE 32 ==\n";
+	lst.remove(32);
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "\t\t== REMOVE ELEMENTS WITH VALUE 0 ==\n";
+	lst.remove(0);
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "\t\t== REMOVE ODD ELEMENTS ==\n";
+	lst.remove_if(is_odd());
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "\t\t== CLEAR LST AND LST_CPY AND CREATE NEW ONES ==\n";
+	lst.clear();
+	lst_cpy.clear();
+	lst.push_back (3.1);
+	lst.push_back (2.2);
+	lst.push_back (2.9);
+	lst_cpy.push_back (3.7);
+	lst_cpy.push_back (7.1);
+	lst_cpy.push_back (1.4);
+	lst.sort();
+	lst_cpy.sort();
+	output << "Lst is now like this : \n\t";
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "Lst_cpy is now like this : \n\t";
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+	output << "\t\t== SORTING BOTH LIST THEN MERGING WITH COMP PREDICATE ==\n";
+	lst.merge(lst_cpy, mycomparison);
+	output << "Lst is now like this : \n\t";
+	print_container(lst.begin(), lst.end(), output, " -> ");
+	output << "Lst_cpy is now like this : \n\t";
+	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
+}
 
+template <class T>
+void	comparison_tests(T &lst, std::ostream& output)
+{
+	T a = lst;
+	T b(a);
+	lst.reverse();
+	T c = lst;
+	T d(ft::next(lst.begin()), lst.end());
 
+	if (a==b) output << "a and b are equal\n";
+	if (b!=c) output << "b and c are not equal\n";
+	if (b<c) output << "b is less than c\n";
+	if (c>b) output << "c is greater than b\n";
+	if (a<=b) output << "a is less than or equal to b\n";
+	if (a>=b) output << "a is greater than or equal to b\n";
+	if (d < a) output << "d is less than a\n";
+	if (b < d) output << "b is geater than d\n";
 }
 
 void test_lists(void)
@@ -239,4 +310,11 @@ void test_lists(void)
 
 	manipulation_tests(stl, stl_output, "std");
 	manipulation_tests(ft, ft_output, "ft");
+
+	stl.clear();
+	ft.clear();
+	stl.push_back(10); stl.push_back(20); stl.push_back(30);
+	ft.push_back(10); ft.push_back(20); ft.push_back(30);
+	comparison_tests(stl, stl_output);
+	comparison_tests(ft, ft_output);
 }

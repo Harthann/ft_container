@@ -131,4 +131,19 @@ void	print_container(T start, T end, std::ostream &output, std::string const sep
 
 void	header(std::string str, std::ostream& output);
 
+//####################
+//##	PREDICATOR	##
+//####################
+
+
+// a predicate implemented as a function:
+bool single_digit (const int& value);
+
+// a predicate implemented as a class:
+struct is_odd {
+  bool operator() (const int& value) { return (value%2)==1; }
+};
+
+bool mycomparison (double first, double second);
+
 #endif

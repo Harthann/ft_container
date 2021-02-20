@@ -1,5 +1,6 @@
 #ifndef LIST_HPP
 #define LIST_HPP
+
 #include <iostream>
 #include "list_iterator.hpp"
 #include "reverse_iterator.hpp"
@@ -123,16 +124,29 @@ class list
 		void		splice(iterator pos, list& x);
 		void		splice(iterator pos, list& x, iterator i);
 		void		splice(iterator position, list& x, iterator first, iterator last);
-		//	remove
-		//	remove_if
-		//	unique
-		//	merge
-		//	sort
-		//	reverse
+		void		remove(const value_type& val);
+		template <class Predicate>
+		void		remove_if(Predicate pred);
+		void		unique();
+		template <class BinaryPredicate>
+  		void	unique(BinaryPredicate binary_pred);
+		void	merge(list<T>& x);
+		template <class Compare>
+		void	merge(list<T>& x, Compare comp);
+		void		sort();
+		template <class Compare>
+		void		sort(Compare comp);
+		void		reverse();
 	private:
 		typedef ft::__list_node<value_type>									__node;
 		typedef typename allocator_type::template rebind<__node>::other	__node_allocator;
 		typedef ft::__list_node<value_type>*								__node_pointer;
+
+		void		__exchange__(iterator first, iterator second);
+		iterator	__unlink__(iterator it);
+		iterator	__link__(iterator pos, iterator it);
+		template <class Compare>
+		iterator	__find_sorted_pos__(value_type &val, Compare comp);
 		
 		__node_pointer		head;
 		__node_pointer		ghost;
@@ -391,21 +405,8 @@ void	list<T,A>::swap(list& x)
 template <class T, class A>
 void		list<T,A>::splice(iterator pos, list& x, iterator i)
 {
-	if (i.node == x.head)
-	{
-		x.head = x.head->next;
-		x.head->previous = x.ghost;
-		x.ghost = x.head;
-	}
-	else
-	{
-		i.node->previous->next = i.node->next;
-		i.node->next->previous = i.node->previous;
-	}
-	i.node->next = pos.node;
-	i.node->previous = pos.node->previous;
-	i.node->previous->next = i.node;
-	pos.node->previous = i.node;
+	x.__unlink__(i);
+	__link__(pos, i);
 }
 
 template <class T, class A>
@@ -430,12 +431,258 @@ void	list<T,A>::splice(iterator pos, list&x, iterator first, iterator last)
 	tmp->next = pos.node;
 }
 
-//###################
-//#		OTHER		#
-//###################
+
+//########################
+//##		REMOVE		##
+//########################
+
+template <class T, class A>
+void list<T,A>::remove(const value_type& val)
+{
+	iterator it = begin();
+	while (it != end())
+	{
+		if (*it == val)
+		{
+			++it;
+			erase(ft::prev(it));
+		}
+		else
+			++it;
+	}
+}
+
+template <class T, class A>
+template <class Predicate>
+void list<T,A>::remove_if(Predicate pred)
+{
+	iterator it = begin();
+	while (it != end())
+	{
+		if (pred(*it))
+		{
+			++it;
+			erase(ft::prev(it));
+		}
+		else
+			++it;
+	}
+}
+
+//################################//
+//###		SORT/MERGE/UNIQUE	##//
+//################################//
+
+template <class T, class A>
+void	list<T,A>::sort()
+{
+	iterator tmp;
+	for (size_type i = 0; i < size() - 1; ++i)
+	{
+		tmp = ft::next(begin(), i);
+		for (iterator it = tmp; it != end(); ++it)
+		{
+			if (*it < *tmp)
+				tmp = it;
+		}
+		__unlink__(tmp);
+		__link__(ft::next(begin(), i), tmp);
+	}
+}
+
+
+template <class T, class A>
+template <class Compare>
+void	list<T,A>::sort(Compare comp)
+{
+	iterator tmp;
+	for (size_type i = 0; i < size() - 1; ++i)
+	{
+		tmp = ft::next(begin(), i);
+		for (iterator it = tmp; it != end(); ++it)
+		{
+			if (comp(*it, *tmp))
+				tmp = it;
+		}
+		__unlink__(tmp);
+		__link__(ft::next(begin(), i), tmp);
+	}
+}
+
+template <class T, class A>
+void	list<T,A>::unique()
+{
+	for (iterator it = ft::next(begin()); it != end(); ++it)
+	{
+		if (*it == *ft::prev(it))
+		{
+			--it;
+			erase(ft::next(it));
+		}
+	}
+}
+
+template <class T,class A>
+template <class BinaryPredicate>
+void	list<T,A>::unique(BinaryPredicate binary_pred)
+{
+	for (iterator it = ft::next(begin()); it != end(); ++it)
+	{
+		if (binary_pred(*it, *ft::prev(it)))
+		{
+			--it;
+			erase(ft::next(it));
+		}
+	}
+}
+
+template <class T, class A>
+void	list<T,A>::reverse()
+{
+	std::swap(ghost->previous, ghost->next);
+	head = ghost->next;
+	for (iterator it = begin(); it != end(); ++it)
+		std::swap(it.node->previous, it.node->next);
+}
+
+template <class T, class A>
+void	list<T,A>::merge(list<T>& x)
+{
+	iterator pos = begin();
+	iterator tmp;
+	while (!x.empty() && &x != this)
+	{
+		tmp = x.begin();
+		x.__unlink__(tmp);
+		for (iterator it = begin(); it != end(); ++it)
+		{
+			if ( *tmp < *it)
+				break;
+			pos = it;
+		}
+		__link__(pos, tmp);
+	}
+}
+
+template <class T, class A>
+template <class Compare>
+typename list<T,A>::iterator	list<T,A>::__find_sorted_pos__(value_type &val, Compare comp)
+{
+	iterator it = begin();
+
+	while (it != end())
+	{
+		if (comp(val, *it))
+			break ;
+		++it;
+	}
+	return (it);
+}
+
+template <class T, class A>
+template <class Compare>
+void	list<T,A>::merge(list<T>& x, Compare comp)
+{
+	iterator pos;
+	iterator tmp;
+	while (!x.empty() && &x != this)
+	{
+		tmp = x.begin();
+		pos = begin();
+		x.__unlink__(tmp);
+		pos = __find_sorted_pos__(*tmp, comp);
+		__link__(pos, tmp);
+	}
+}
+
+//#############################//
+//###	PRIVATE MEMBER		 ##//
+//#############################//
+
+template <class T, class A>
+typename list<T,A>::iterator	list<T,A>::__unlink__(iterator it)
+{
+	iterator ret = ft::next(it);
+	__node_pointer prev = it.node->previous;
+	__node_pointer next = it.node->next;
+	prev->next = next;
+	next->previous = prev;
+	it.node->previous = 0;
+	it.node->next = 0;
+	if (it == begin())
+		head = ret.node;
+	return ret;
+}
+
+template <class T, class A>
+typename list<T,A>::iterator	list<T,A>::__link__(iterator pos, iterator it)
+{
+	it.node->next = pos.node;
+	it.node->previous = pos.node->previous;
+	pos.node->previous = it.node;
+	it.node->previous->next = it.node;
+	if (pos == begin())
+		head = it.node;
+	return it;
+}
+
+template <class T, class A>
+void	list<T,A>::__exchange__(iterator first, iterator second)
+{
+	iterator pos_first;
+	iterator pos_second;
+	pos_second = __unlink__(second);
+	pos_first = __unlink__(first);
+	__link__(pos_first, second);
+	__link__(pos_second, first);
+}
+
+//################################//
+//#		NON MEMEBR OVERLOAD		##//
+//################################//
 
 template <class T, class Alloc>
 void swap (list<T,Alloc>& x, list<T,Alloc>& y) { x.swap(y); }
+
+//####################//
+//##	COMPARISON	##//
+//####################//
+
+template <class T, class Alloc>
+bool operator==(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+{
+	return (std::equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+
+template <class T, class Alloc>
+bool operator!=(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+{
+	return (!(lhs == rhs));
+}
+
+template <class T, class Alloc>
+bool operator<(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+{
+	return (std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+}
+
+template <class T, class Alloc>
+bool operator<=(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+{
+	return (!(rhs < lhs));
+}
+
+template <class T, class Alloc>
+bool operator>(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+{
+	return (rhs < lhs);
+}
+
+template <class T, class Alloc>
+bool operator>=(const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+{
+	return (!(lhs < rhs));
+}
 
 }
 

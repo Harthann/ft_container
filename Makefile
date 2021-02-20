@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2021/02/15 14:48:25 by nieyraud         ###   ########.fr        #
+#    Updated: 2021/02/20 09:36:38 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,8 +64,7 @@ OBJ		= ${addprefix ${OBJ_PATH}/, ${SRC_FILE:%.cpp=%.o}}
 FLAGS = -Wall -Wextra -std=c++98 -ferror-limit=5
 SAN = -g3 -fsanitize=address
 OPT_FLAGS = -flto
-INCLUDE_FLAGS = -I $(CONTAINER_DIRECTORY) -I $(ITERATORS_DIRECTORY) -I srcs/ft_utils
-
+INCLUDE_FLAGS = -I $(CONTAINER_DIRECTORY) -I $(ITERATORS_DIRECTORY) -I srcs/ft_utils -I srcs/main_srcs
 #########################
 #		LIBRARIES		#
 #########################

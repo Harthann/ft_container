@@ -16,6 +16,26 @@ std::string to_string(int n)
 	return (str);
 }
 
+std::string to_string(double n)
+{
+	char buffer [12];
+	std::string str;
+
+	sprintf(buffer, "%f", n);
+	str = buffer;
+	return (str);
+}
+
+std::string to_string(float n)
+{
+	char buffer [12];
+	std::string str;
+
+	sprintf(buffer, "%f", n);
+	str = buffer;
+	return (str);
+}
+
 }
 
 #endif

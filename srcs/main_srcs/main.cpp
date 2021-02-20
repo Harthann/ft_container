@@ -20,6 +20,10 @@ void	header(std::string str, std::ostream& output)
 	output << "\t\t" << tmp << std::endl;
 }
 
+bool single_digit (const int& value) { return (value<10); }
+bool mycomparison (double first, double second)
+{ return ( int(first)<int(second) ); }
+
 int main(void)
 {
 	// test_vector();
