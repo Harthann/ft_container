@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2021/02/20 09:36:38 by nieyraud         ###   ########.fr        #
+#    Updated: 2021/02/22 15:31:52 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,9 +31,9 @@ orange=\033[33m
 
 NAME = a.out
 
-SRC_FILE = main.cpp test_vector.cpp test_list.cpp
+SRC_FILE = main.cpp test_vector.cpp test_list.cpp test_map.cpp
 
-CONTAINERS = Vector.hpp List.hpp
+CONTAINERS = Vector.hpp List.hpp Map.hpp
 CONTAINER_DIRECTORY = srcs/containers
 CONTAINERS_INCLUDE = $(addprefix $(CONTAINER_DIRECTORY)/, $(CONTAINERS))
 ITERATORS = list_iterator.hpp reverse_iterator.hpp Vector_iterator.hpp
@@ -103,7 +103,7 @@ run: all
 	@./a.out
 	@$(DIFF) outputs/vector/stl_vector_output outputs/vector/ft_vector_output
 
-sanitize: ${LIBS} ${OBJ} ${INCLUDE} 
+sanitize: ${OBJ} ${INCLUDE} 
 	@$(ECHO) "${vertclair}Creating ${NAME}"
 	@$(CC) ${FLAGS} ${OPT_FLAGS} ${SAN} -I. ${OBJ} -o ${NAME}
 	@$(ECHO) "${vertclair}[$(NAME) ready to use]"

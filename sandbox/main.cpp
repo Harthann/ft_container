@@ -1,15 +1,16 @@
 // #include "base_iterator.hpp"
-#include <iostream>
-#include <string>
-#include <vector>
-#include <list>
-#include <iterator>
+// #include <iostream>
+// #include <string>
+// #include <vector>
+// #include <list>
+// #include <iterator>
+// //#include "Vector.hpp"
+// #include "sfinae_template.hpp"
+// #include "ft_iterator.hpp"
+// #include "Vector_iterator.hpp"
 
-//#include "Vector.hpp"
-#include "sfinae_template.hpp"
-#include "ft_iterator.hpp"
-#include "Vector_iterator.hpp"
-
+#include <stdlib.h>
+#include <stdio.h>
 // template <class T>
 // class false_it
 // {
@@ -36,11 +37,11 @@
 
 int main(void)
 {
-	std::list<int> lst;
-	int array[] = {1, 2, 3, 4, 5, 6, 7};
-	std::list<int>::iterator it = lst.begin();
+	// std::list<int> lst;
+	// int array[] = {1, 2, 3, 4, 5, 6, 7};
+	// std::list<int>::iterator it = lst.begin();
 	
-
+	printf("");
 	//is_input_it(input_it);
 	return (0);
 }

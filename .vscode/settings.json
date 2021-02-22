@@ -75,6 +75,8 @@
 		"compare": "cpp",
 		"concepts": "cpp",
 		"random": "cpp",
-		"__memory": "cpp"
+		"__memory": "cpp",
+		"map": "cpp",
+		"__tree": "cpp"
 	}
 }
