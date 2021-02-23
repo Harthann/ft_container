@@ -263,24 +263,25 @@ void	manipulation_tests(T &lst, std::ostream& output, std::string nspace)
 	print_container(lst_cpy.begin(), lst_cpy.end(), output, " -> ");
 }
 
-template <class T>
-void	comparison_tests(T &lst, std::ostream& output)
-{
-	T a = lst;
-	T b(a);
-	lst.reverse();
-	T c = lst;
-	T d(ft::next(lst.begin()), lst.end());
+// template <class T>
+// void	comparison_tests(T &lst, std::ostream& output)
+// {
+// 	T a = lst;
+// 	T b(a);
+// 	lst.reverse();
+// 	T c = lst;
+// 	T d(ft::next(lst.begin()), lst.end());
 
-	if (a==b) output << "a and b are equal\n";
-	if (b!=c) output << "b and c are not equal\n";
-	if (b<c) output << "b is less than c\n";
-	if (c>b) output << "c is greater than b\n";
-	if (a<=b) output << "a is less than or equal to b\n";
-	if (a>=b) output << "a is greater than or equal to b\n";
-	if (d < a) output << "d is less than a\n";
-	if (b < d) output << "b is geater than d\n";
-}
+	// typename std::iterator_traits<ft::list_iterator<const double> >::value_type test = 0.0;
+	// if (a==b) output << "a and b are equal\n";
+// 	if (b!=c) output << "b and c are not equal\n";
+// 	if (b<c) output << "b is less than c\n";
+// 	if (c>b) output << "c is greater than b\n";
+// 	if (a<=b) output << "a is less than or equal to b\n";
+// 	if (a>=b) output << "a is greater than or equal to b\n";
+// 	if (d < a) output << "d is less than a\n";
+// 	if (b < d) output << "b is geater than d\n";
+// }
 
 void test_lists(void)
 {
@@ -315,6 +316,6 @@ void test_lists(void)
 	ft.clear();
 	stl.push_back(10); stl.push_back(20); stl.push_back(30);
 	ft.push_back(10); ft.push_back(20); ft.push_back(30);
-	comparison_tests(stl, stl_output);
-	comparison_tests(ft, ft_output);
+	// comparison_tests(stl, stl_output);
+	// comparison_tests(ft, ft_output);
 }
