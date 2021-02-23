@@ -96,18 +96,22 @@ class map
 		\#######################*/
 
 		std::pair<iterator ,bool>	insert(const value_type& val);
-		void						erase(iterator position);
+		size_type					erase(const key_type& k);
+		// void						erase(iterator position);
 
 	private:
 		typedef typename allocator_type::template rebind<__node>::other	__node_allocator;
+		typedef typename allocator_type::template rebind<value_type>::other	__pair_alloc;
 
 		__node_pointer	__insert_(const value_type& val, __node_pointer node, std::pair<iterator ,bool>&,__node_pointer);
 		int							__weight__(__node_pointer node);
 		void						__print__(__node_pointer) const;
 		__node_pointer				__leftRotate__(__node_pointer node);
 		__node_pointer				__rightRotate__(__node_pointer node);
-		void						__updateGhost__();
-		void						__erase__(__node_pointer);
+		void						__update__(__node_pointer , bool = false);
+		__node_pointer				__erase__(__node_pointer, const key_type&);
+		__node_pointer				__destroyNode__(__node_pointer node, __node_pointer ret = NULL);
+		value_type					__findMin__(__node_pointer node);
 
 		__node_pointer		head;
 		__node_pointer		ghost;
@@ -180,16 +184,24 @@ std::pair<typename map<T, Key, Compare, Alloc>::iterator, bool> map<T, Key, Comp
 	std::pair<iterator, bool> ret;
 
 	head = __insert_(val, head, ret, NULL);
-	__updateGhost__();
+	__update__(head);
 	return (ret);
 }
 
-template <class T, class Key, class Compare, class Alloc>
-void	 map<T, Key, Compare, Alloc>::erase(iterator pos)
-{
-	__erase__(pos.node);
-}
+// template <class T, class Key, class Compare, class Alloc>
+// void	 map<T, Key, Compare, Alloc>::erase(iterator pos)
+// {
+// 	__erase__(pos.node);
+// }
 
+template <class T, class Key, class Compare, class Alloc>
+typename map<T, Key, Compare, Alloc>::size_type
+map<T, Key, Compare, Alloc>::erase(const key_type& k)
+{
+	__erase__(head, k);
+	__update__(head);
+	return (1);
+}
 
 /*###################################################################################################\
 **	 _____  _____  _______      __  _______ ______   __  __ ______ __  __ ____  ______ _____  		##	
@@ -244,7 +256,8 @@ std::pair<typename map<T, Key, Compare, Alloc>::iterator, bool> &ret, __node_poi
 }
 
 template <class T, class Key, class Compare, class Alloc>
-typename map<T, Key, Compare, Alloc>::__node_pointer map<T, Key, Compare, Alloc>::__leftRotate__(__node_pointer node)
+typename map<T, Key, Compare, Alloc>::__node_pointer
+map<T, Key, Compare, Alloc>::__leftRotate__(__node_pointer node)
 {
 	__node_pointer	tmp_right = node->right;
 	__node_pointer	tmp_parent = node->parent;
@@ -262,7 +275,8 @@ typename map<T, Key, Compare, Alloc>::__node_pointer map<T, Key, Compare, Alloc>
 }
 
 template <class T, class Key, class Compare, class Alloc>
-typename map<T, Key, Compare, Alloc>::__node_pointer map<T, Key, Compare, Alloc>::__rightRotate__(__node_pointer node)
+typename map<T, Key, Compare, Alloc>::__node_pointer
+map<T, Key, Compare, Alloc>::__rightRotate__(__node_pointer node)
 {
 	__node_pointer tmp_left = node->left;
 	__node_pointer	tmp_parent = node->parent;
@@ -284,38 +298,70 @@ int		map<T, Key, Compare, Alloc>::__weight__(__node_pointer node)
 {	return (node ? node->__node_weight : 0 );	}
 
 template <class T, class Key, class Compare, class Alloc>
-void	map<T, Key, Compare, Alloc>::__updateGhost__()
+void	map<T, Key, Compare, Alloc>::__update__(__node_pointer node, bool ghosted)
 {
-	__node_pointer tmp = head;
-
-	while (tmp->right && tmp->__pair.first < tmp->right->__pair.first)
-		tmp = tmp->right;
-	tmp->right = ghost;
-	ghost->right = tmp;
-	ghost->left = tmp;
-	ghost->parent = tmp;
+	// __node_pointer tmp = head;
+	if (!node)
+		return ;
+	// while (tmp->right && tmp->__pair.first < tmp->right->__pair.first)
+	// 	tmp = tmp->right;
+	// tmp->right = ghost;
+	if (!node->right && !ghosted) {
+		ghost->right = node;
+		ghost->left = node;
+		ghost->parent = node;
+		node->right = ghost;
+		ghosted = true;
+	}
+	if (node->right)
+		node->right->parent = node;
+	if (node->left)
+		node->left->parent = node;
+	__update__(node->right, ghosted);
+	__update__(node->left, ghosted);
 }
 
 template <class T, class Key, class Compare, class Alloc>
-void	map<T, Key, Compare, Alloc>::__erase__(__node_pointer node)
+typename map<T, Key, Compare, Alloc>::__node_pointer
+map<T, Key, Compare, Alloc>::__erase__(__node_pointer node, const key_type& val)
 {
-	int	balance;
-	balance = __weight__(node->left) - __weight__(node->right);
-	if (balance > 0) {
-		//	up left node
-		if (node->left)
-			node->left->parent = node->parent;
-		if (node->parent && node->parent->right == node)
-			node->parent->right = node->left;
-		if (node->parent && node->parent->left == node)
-			node->parent->left = node->left;
-
-	}
+	if (!node)
+		return (NULL);
+	if (node->__pair.first > val)
+		node->left = __erase__(node->left, val);
+	else if (node->__pair.first < val)
+		node->right = __erase__(node->right, val);
 	else {
-		// up right node
+		if (!node->left && (!node->right || node->right == ghost))
+			return (__destroyNode__(node));
+		else if (!node->left || !node->right || node->right == ghost) {
+			return (__destroyNode__(node, !node->left ? node->right : node->left));
+		}
+		else {
+			__pair_alloc().destroy(&node->__pair);
+			__pair_alloc().construct(&node->__pair, __findMin__(node->right));
+			node->right = __erase__(node->right, node->__pair.first);
+		}
 	}
+	return (node);
 }
 
+template <class T, class Key, class Compare, class Alloc>
+typename map<T, Key, Compare, Alloc>::value_type
+map<T, Key, Compare, Alloc>::__findMin__(__node_pointer node)
+{
+	while (node->left)
+		node = node->left;
+	return node->__pair;
+}
+
+template <class T, class Key, class Compare, class Alloc>
+typename map<T, Key, Compare, Alloc>::__node_pointer	map<T, Key, Compare, Alloc>::__destroyNode__(__node_pointer node, __node_pointer ret)
+{
+	__node_alloc.destroy(node);
+	__node_alloc.deallocate(node, 1);
+	return (ret);
+}
 
 }
 
