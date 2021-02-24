@@ -13,6 +13,20 @@ void	insertion_tests(T &map, std::ostream& output)
 	map.insert(std::pair<char, int> ('i', 700));
 	map.insert(std::pair<char, int> ('c', 300));
 	map.insert(std::pair<char, int> ('e', 300));
+	map.insert(std::pair<char, int> ('e', 300));
+	map.insert(std::pair<char, int> ('q', 300));
+	map.insert(std::pair<char, int> ('h', 300));
+	map.insert(std::pair<char, int> ('j', 300));
+	map.insert(std::pair<char, int> ('r', 300));
+
+	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
+	output << "\t\t== ERASE ELEMENT E ==\n";
+	map.erase('e');
+	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
+	output << "\t\t== ERASE ELEMENT J BASE ON POS ==\n";
+	map.erase(map.find('j'));
 	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
 		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
 	// typename T::iterator it = map.find('c');
@@ -41,7 +55,7 @@ void	test_map()
 	// show content:
 	insertion_tests(stl, std::cout);
 	insertion_tests(ft, std::cout);
-	std::cout << ft::map<char,int>::value_compare()(*ft.begin(), *(ft::prev(ft.end())));
+	// std::cout << ft::map<char,int>::value_compare()(*ft.begin(), *(ft::prev(ft.end())));
 	// const ft::map<char, int> ft2(ft);
 	// ft::map<char, int>::const_iterator it = ft2.begin();
 }

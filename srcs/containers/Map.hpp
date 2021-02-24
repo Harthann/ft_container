@@ -261,7 +261,7 @@ template <class T, class Key, class Compare, class Alloc>
 void	 map<T, Key, Compare, Alloc>::erase(iterator pos)
 {
 	__disableGhost__();
-	__erase__(pos.node);
+	__erase__(head, pos.node->__pair.first);
 	__update__(head);
 }
 
