@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2021/02/22 15:31:52 by nieyraud         ###   ########.fr        #
+#    Updated: 2021/02/24 09:16:30 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ OBJ		= ${addprefix ${OBJ_PATH}/, ${SRC_FILE:%.cpp=%.o}}
 #########################
 
 FLAGS = -Wall -Wextra -std=c++98 -ferror-limit=5
-SAN = -g3 -fsanitize=address
+SAN = -g
 OPT_FLAGS = -flto
 INCLUDE_FLAGS = -I $(CONTAINER_DIRECTORY) -I $(ITERATORS_DIRECTORY) -I srcs/ft_utils -I srcs/main_srcs
 #########################
@@ -99,14 +99,14 @@ ${OBJ_PATH}/%.o: %.cpp ${INCLUDE}
 	@$(ECHO) "${cyanfonce}Compiling ${notdir $(basename $@)}"
 	@$(CC) $(FLAGS) -c -o $@ $(INCLUDE_FLAGS) $<
 
-run: all
-	@./a.out
-	@$(DIFF) outputs/vector/stl_vector_output outputs/vector/ft_vector_output
+# sanitize: ${OBJ} ${INCLUDE} 
+# 	@$(ECHO) "${vertclair}Creating ${NAME}"
+# 	@$(CC) ${FLAGS} ${OPT_FLAGS} ${SAN} -I. ${OBJ} -o ${NAME}
+# 	@$(ECHO) "${vertclair}[$(NAME) ready to use]"
+debug: extend_flags re
 
-sanitize: ${OBJ} ${INCLUDE} 
-	@$(ECHO) "${vertclair}Creating ${NAME}"
-	@$(CC) ${FLAGS} ${OPT_FLAGS} ${SAN} -I. ${OBJ} -o ${NAME}
-	@$(ECHO) "${vertclair}[$(NAME) ready to use]"
+extend_flags:
+	$(eval FLAGS += $(SAN))
 
 clean :
 	@$(ECHO) "${rouge}Removing objects files"

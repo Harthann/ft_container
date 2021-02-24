@@ -10,14 +10,13 @@ struct forward_iterator_tag : input_iterator_tag {};
 struct bidirectional_iterator_tag : forward_iterator_tag {};
 struct random_access_iterator_tag : bidirectional_iterator_tag {};
 
-
 template <class T = void, bool B = !ft::is_arithmetic<T>::value >
 struct is_input_iterator {
 	static const bool value = false;};
 
 template <class T>
 struct is_input_iterator<T, true> {
-	static const bool value =ft::is_same<typename T::iterator_category, ft::input_iterator_tag>::value ||
+	static const bool value = ft::is_same<typename T::iterator_category, ft::input_iterator_tag>::value ||
 		ft::is_same<typename T::iterator_category, ft::forward_iterator_tag>::value ||
 		ft::is_same<typename T::iterator_category, ft::bidirectional_iterator_tag>::value ||
 		ft::is_same<typename T::iterator_category, ft::random_access_iterator_tag>::value;
