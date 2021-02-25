@@ -12,12 +12,12 @@ void	insertion_tests(T &map, std::ostream& output)
 	map.insert(std::pair<char, int> ('a', 100));
 	map.insert(std::pair<char, int> ('i', 700));
 	map.insert(std::pair<char, int> ('c', 300));
-	map.insert(std::pair<char, int> ('e', 300));
-	map.insert(std::pair<char, int> ('e', 300));
-	map.insert(std::pair<char, int> ('q', 300));
-	map.insert(std::pair<char, int> ('h', 300));
-	map.insert(std::pair<char, int> ('j', 300));
-	map.insert(std::pair<char, int> ('r', 300));
+	map.insert(std::pair<char, int> ('e', 600));
+	map.insert(std::pair<char, int> ('e', 0));
+	map.insert(std::pair<char, int> ('q', 3346));
+	map.insert(std::pair<char, int> ('h', 3674));
+	map.insert(std::pair<char, int> ('j', 396));
+	map.insert(std::pair<char, int> ('r', 42));
 
 	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
 		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
@@ -29,9 +29,26 @@ void	insertion_tests(T &map, std::ostream& output)
 	map.erase(map.find('j'));
 	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
 		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
-	// typename T::iterator it = map.find('c');
-	// output << it->first << " => " << it->second << "\n";
-	// output << std::endl;
+	output << "\t\t== ACCESS C THROUGH ITERATOR GAIN VIA FIND ==\n";
+	typename T::iterator it = map.find('c');
+	output << it->first << " => " << it->second << "\n";
+	output << std::endl;
+	output << "\t\t== INSERTING AND MODIFYING VALUE THROUG OPERATOR[] ==\n";
+	map['l'] = 564378;
+	map['s'] = 4378;
+	map['u'] = 568;
+	map['e'] = -4;
+	map['r'] = 21;
+	map['f'] = 67;
+	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
+	output << "\t\t== CAPACITY CHECK ==\n";
+	output << "Is container empty ? " << map.empty() << std::endl;
+	output << "Map has " << map.size() << " keys\n";
+	output << "Map max capacity is : " << map.max_size() << std::endl;
+	map.clear();
+	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
 	
 }
 
@@ -41,21 +58,8 @@ void	test_map()
 	std::map<char,int> stl;
 	ft::map<char, int> ft;
 
-	// stl['f'] = 200;
-	// stl['a'] = 100;
-	// stl['i'] = 700;
-	// stl['c'] = 300;
-	// stl['e'] = 300;
-	// stl['w'] = 400;
-	// stl['q'] = 400;
-	// stl['g'] = 400;
-	// stl['u'] = 400;
-	// stl['l'] = 400;
-
 	// show content:
 	insertion_tests(stl, std::cout);
 	insertion_tests(ft, std::cout);
-	// std::cout << ft::map<char,int>::value_compare()(*ft.begin(), *(ft::prev(ft.end())));
-	// const ft::map<char, int> ft2(ft);
-	// ft::map<char, int>::const_iterator it = ft2.begin();
+
 }

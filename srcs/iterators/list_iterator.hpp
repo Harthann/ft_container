@@ -69,6 +69,7 @@ class   list_iterator
 		__node*	node;
 };
 
+
 }
 
 #endif
