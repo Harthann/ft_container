@@ -6,6 +6,7 @@
 template <class T>
 void	insertion_tests(T &map, std::ostream& output)
 {
+	T map_cpy;
 	header("INSERTION", output);
 	output << "\n\t\t== INSERTION USING INSERT METHOD ==\n";
 	map.insert(std::pair<char, int> ('f', 200));
@@ -46,10 +47,47 @@ void	insertion_tests(T &map, std::ostream& output)
 	output << "Is container empty ? " << map.empty() << std::endl;
 	output << "Map has " << map.size() << " keys\n";
 	output << "Map max capacity is : " << map.max_size() << std::endl;
-	map.clear();
+	output << "\t\t== ASSIGN MAP INTO MAP_CPY ==\n";
+	map_cpy = map;
+	output << "Map contains :\n\t";
 	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
 		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
-	
+	output << "Map_cpy contains :\n\t";
+	for (typename T::iterator it(map_cpy.begin()); it!=map_cpy.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map_cpy.end())) ? " | " : "\n");
+	output << "\t\t== CLEARING MAP ==\n";
+	map.clear();
+	output << "Map contains :\n\t";
+	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
+	output << "Map_cpy contains :\n\t";
+	for (typename T::iterator it(map_cpy.begin()); it!=map_cpy.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map_cpy.end())) ? " | " : "\n");
+	output << "\t\t== ERASE HEAD ELEMENT IN MAP_CPY ==\n";
+	map_cpy.erase('f');
+	output << "\t\t== INSERTING ELEMENT FROM MAP_CPY TO MAP USING RANGE INSERT ==\n";
+	map.insert(ft::next(map_cpy.begin(), 4), ft::prev(map_cpy.end(), 3));
+	output << "Map contains :\n\t";
+	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
+	output << "Map_cpy contains :\n\t";
+	for (typename T::iterator it(map_cpy.begin()); it!=map_cpy.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map_cpy.end())) ? " | " : "\n");
+	output << "\t\t== LOOKING FOR LOWER_BOUND OF D ==\n";
+	output << "Lower bound is : " << map.lower_bound('d')->first << std::endl;
+	output << "\t\t== ERASING ELEMENT FROM 4 to END - 3 IN MAP_CPY ==\n";
+	map_cpy.erase(ft::next(map_cpy.begin()), ft::prev(map_cpy.end(), 3));
+	output << "Map_cpy contains :\n\t";
+	for (typename T::iterator it(map_cpy.begin()); it!=map_cpy.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map_cpy.end())) ? " | " : "\n");
+	output << "\t\t== SWAP MAP AND MAP_CPY ==\n";
+	map.swap(map_cpy);
+	output << "Map contains :\n\t";
+	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
+	output << "Map_cpy contains :\n\t";
+	for (typename T::iterator it(map_cpy.begin()); it!=map_cpy.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map_cpy.end())) ? " | " : "\n");
 }
 
 
@@ -58,8 +96,33 @@ void	test_map()
 	std::map<char,int> stl;
 	ft::map<char, int> ft;
 
+
+	std::ofstream stl_output;
+	std::ofstream ft_output;
+
+	stl_output.open(MAP_STL_OUTPUT);
+	ft_output.open(MAP_FT_OUTPUT);
+	// std::vector<std::pair<char,int> > vc_stl;
+	// ft::vector<std::pair<char,int> > vc_ft;
+	// vc_ft.push_back(std::pair<char,int>('r', 0));
+	// vc_ft.push_back(std::pair<char,int>('t', 0));
+	// vc_ft.push_back(std::pair<char,int>('i', 0));
+	// vc_ft.push_back(std::pair<char,int>('y', 0));
+	// vc_ft.push_back(std::pair<char,int>('w', 0));
+	// vc_ft.push_back(std::pair<char,int>('u', 0));
+	// vc_ft.push_back(std::pair<char,int>('a', 0));
+	// vc_stl.push_back(std::pair<char,int>('r', 0));
+	// vc_stl.push_back(std::pair<char,int>('t', 0));
+	// vc_stl.push_back(std::pair<char,int>('i', 0));
+	// vc_stl.push_back(std::pair<char,int>('y', 0));
+	// vc_stl.push_back(std::pair<char,int>('w', 0));
+	// vc_stl.push_back(std::pair<char,int>('u', 0));
+	// vc_stl.push_back(std::pair<char,int>('a', 0));
+	// ft.insert(vc_ft.begin(), vc_ft.end());
+	// for (ft::map<char,int>::iterator it(ft.begin()); it!=ft.end(); ++it)
+	// 	std::cout << it->first << " => " << it->second << ((it != ft::prev(ft.end())) ? " | " : "\n");	
 	// show content:
-	insertion_tests(stl, std::cout);
-	insertion_tests(ft, std::cout);
+	insertion_tests(stl, stl_output);
+	insertion_tests(ft, ft_output);
 
 }

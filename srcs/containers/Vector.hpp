@@ -132,7 +132,7 @@ vector<T, A>::vector(size_t value) : __alloc()
 	{
 		array = __alloc.allocate(value);
 		for (size_t i = 0; i < value; i++)
-			__alloc.construct(&array[i],0);
+			__alloc.construct(&array[i],value_type());
 		this->size_value = value;
 	}
 	else

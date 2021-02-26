@@ -15,6 +15,8 @@
 #define LIST_STL_OUTPUT "outputs/list/stl_list_output"
 #define LIST_FT_OUTPUT "outputs/list/ft_list_output"
 
+#define MAP_STL_OUTPUT "outputs/map/stl_map_output"
+#define MAP_FT_OUTPUT "outputs/map/ft_map_output"
 
 struct Counter {
 	Counter() : destroy_ft_count(0), destroy_stl_count(0), construct_ft_count(0), construct_stl_count(0) {};
