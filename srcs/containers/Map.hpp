@@ -151,12 +151,13 @@ class map
 		##		OPERATIONS		##
 		\#######################*/
 
-		iterator		find(const key_type& k);
-		const_iterator	find(const key_type& k) const;
-		iterator		lower_bound(const key_type& k);
+		iterator						find(const key_type& k);
+		const_iterator					find(const key_type& k) const;
+		iterator						lower_bound(const key_type& k);
 		// const_iterator	lower_bound(const key_type& k) const;
-		iterator		upper_bound(const key_type& k);
+		iterator						upper_bound(const key_type& k);
 		// const_iterator	lower_bound(const key_type& k) const;
+		std::pair<iterator,iterator>	equal_range(const key_type& k);
 
 	private:
 		typedef typename allocator_type::template rebind<__node>::other		__node_allocator;
@@ -447,6 +448,15 @@ typename map<T, Key, Compare, Alloc>::iterator	map<T, Key, Compare, Alloc>::uppe
 		if (!__key_comp__(k, it->first))
 			return (it);
 	return end();
+}
+
+template <class T, class Key, class Compare, class Alloc>
+std::pair<iterator,iterator>             map<T, Key, Compare, Alloc>::equal_range (const key_type& k)
+{
+	iterator it;
+
+	it = find(k);
+	return (std::pair<iterator,iterator>(it, it));
 }
 
 /*###########################################################################################################\

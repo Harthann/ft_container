@@ -123,5 +123,8 @@ void	test_map()
 	// show content:
 	insertion_tests(stl, stl_output);
 	insertion_tests(ft, ft_output);
+	char *str;
+
+	str = reinterpret_cast<char*>(alloca(4));
 
 }
