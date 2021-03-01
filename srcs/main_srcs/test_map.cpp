@@ -90,7 +90,6 @@ void	insertion_tests(T &map, std::ostream& output)
 		output << it->first << " => " << it->second << ((it != ft::prev(map_cpy.end())) ? " | " : "\n");
 }
 
-
 void	test_map()
 {
 	std::map<char,int> stl;

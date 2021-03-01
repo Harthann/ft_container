@@ -127,8 +127,8 @@ class map
 		##		OBSERVERS		##
 		\#######################*/
 
-		key_compare key_comp() const;
-		value_compare value_comp() const { return value_compare();};
+		key_compare		key_comp() const;
+		value_compare	value_comp() const { return value_compare();};
 
 
 		/*#######################\
@@ -151,9 +151,12 @@ class map
 		##		OPERATIONS		##
 		\#######################*/
 
-		iterator	find(const key_type& k);
-		// const_iterator find (const key_type& k) const;
-		iterator	lower_bound(const key_type& k);
+		iterator		find(const key_type& k);
+		const_iterator	find(const key_type& k) const;
+		iterator		lower_bound(const key_type& k);
+		// const_iterator	lower_bound(const key_type& k) const;
+		iterator		upper_bound(const key_type& k);
+		// const_iterator	lower_bound(const key_type& k) const;
 
 	private:
 		typedef typename allocator_type::template rebind<__node>::other		__node_allocator;
@@ -161,7 +164,7 @@ class map
 		// template <class T, class Comp> friend class map_iterator;
 
 
-		__node_pointer	__insert_(const value_type& val, __node_pointer node, std::pair<iterator ,bool>&,__node_pointer);
+		__node_pointer	__insert__(const value_type& val, __node_pointer node, std::pair<iterator ,bool>&,__node_pointer);
 		int				__weight__(__node_pointer node);
 		void			__print__(__node_pointer) const;
 		__node_pointer	__leftRotate__(__node_pointer node);
@@ -344,7 +347,7 @@ std::pair<typename map<T, Key, Compare, Alloc>::iterator, bool> map<T, Key, Comp
 	std::pair<iterator, bool> ret;
 
 	__disableGhost__();
-	head = __insert_(val, head, ret, NULL);
+	head = __insert__(val, head, ret, NULL);
 	__update__(head);
 	return (ret);
 }
@@ -431,27 +434,20 @@ typename map<T, Key, Compare, Alloc>::iterator	map<T, Key, Compare, Alloc>::find
 template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::iterator	map<T, Key, Compare, Alloc>::lower_bound(const key_type& k)
 {
-	__node_pointer node = head;
-	while (node && node != ghost) {
-		if (__key_comp__(k, node->__pair.first) && !node->left)
-			return node;
-		else if (__key_comp__(node->__pair.first, k) && (!node->right || node->right == ghost))
-			return node;
-		else if (__key_comp__(k, node->__pair.first) && __key_comp__(k, node->left->__pair.first))
-			node = node->left;
-		else if (__key_comp__(node->__pair.first, k) && __key_comp__(node->right->__pair.first, k))
-			node = node->right;
-		else if (__key_comp__(node->__pair.first, k) && __key_comp__(k, node->right->__pair.first))
-			return node->right;
-		else if (__key_comp__(k, node->__pair.first) && __key_comp__(node->left->__pair.first, k))
-			return node;
-	}
-	return NULL;
+	for (iterator it = begin(); it !=end(); ++it)
+		if (!__key_comp__(it->first, k))
+			return (it);
+	return end();
 }
 
-
-
-
+template <class T, class Key, class Compare, class Alloc>
+typename map<T, Key, Compare, Alloc>::iterator	map<T, Key, Compare, Alloc>::upper_bound(const key_type& k)
+{
+	for (iterator it = begin(); it !=end(); ++it)
+		if (!__key_comp__(k, it->first))
+			return (it);
+	return end();
+}
 
 /*###########################################################################################################\
 **	 _____  _____  _______      __  _______ ______  	 __  __ ______ _______ _    _  ____  _____   _____ 	##
@@ -465,7 +461,7 @@ typename map<T, Key, Compare, Alloc>::iterator	map<T, Key, Compare, Alloc>::lowe
 
 template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::__node_pointer
-map<T, Key, Compare, Alloc>::__insert_(const value_type& val, __node_pointer node,
+map<T, Key, Compare, Alloc>::__insert__(const value_type& val, __node_pointer node,
 std::pair<typename map<T, Key, Compare, Alloc>::iterator, bool> &ret, __node_pointer parent)
 {
 	int		balance;
@@ -483,10 +479,10 @@ std::pair<typename map<T, Key, Compare, Alloc>::iterator, bool> &ret, __node_poi
 		return (node);
 	}
 	else if (val.first < node->__pair.first) {
-		node->left = __insert_(val, node->left, ret, node);
+		node->left = __insert__(val, node->left, ret, node);
 	}
 	else if (val.first > node->__pair.first) {
-		node->right = __insert_(val, node->right, ret, node);
+		node->right = __insert__(val, node->right, ret, node);
 	}
 
 	node->__node_weight = 1 + std::max(__weight__(node->left), __weight__(node->right));
