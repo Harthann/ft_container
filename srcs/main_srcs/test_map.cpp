@@ -7,6 +7,8 @@ template <class T>
 void	insertion_tests(T &map, std::ostream& output)
 {
 	T map_cpy;
+	typename T::iterator start;
+	typename T::iterator end;
 	header("INSERTION", output);
 	output << "\n\t\t== INSERTION USING INSERT METHOD ==\n";
 	map.insert(std::pair<char, int> ('f', 200));
@@ -22,6 +24,9 @@ void	insertion_tests(T &map, std::ostream& output)
 
 	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
 		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
+	// for (typename T::reverse_iterator it(map.rbegin()); it!=map.rend(); ++it) {
+	// 	output << it->first << " => " << it->second << std::endl;
+	// }
 	output << "\t\t== ERASE ELEMENT E ==\n";
 	map.erase('e');
 	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
@@ -44,18 +49,21 @@ void	insertion_tests(T &map, std::ostream& output)
 	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
 		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
 	output << "\t\t== CAPACITY CHECK ==\n";
-	output << "Is container empty ? " << map.empty() << std::endl;
-	output << "Map has " << map.size() << " keys\n";
-	output << "Map max capacity is : " << map.max_size() << std::endl;
-	output << "\t\t== ASSIGN MAP INTO MAP_CPY ==\n";
-	map_cpy = map;
+	// output << "Is container empty ? " << map.empty() << std::endl;
+	// output << "Map has " << map.size() << " keys\n";
+	// output << "Map max capacity is : " << map.max_size() << std::endl;
+	// output << "\t\t== ASSIGN MAP INTO MAP_CPY ==\n";
+	// map_cpy = map;
+	// output << "Map contains :\n\t";
+	// for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
+	// 	output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
+	// output << "Map_cpy contains :\n\t";
+	// for (typename T::iterator it(map_cpy.begin()); it!=map_cpy.end(); ++it)
+	// 	output << it->first << " => " << it->second << ((it != ft::prev(map_cpy.end())) ? " | " : "\n");
+	output << "\t\t== CLEARING MAP ==\n";
 	output << "Map contains :\n\t";
 	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
 		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
-	output << "Map_cpy contains :\n\t";
-	for (typename T::iterator it(map_cpy.begin()); it!=map_cpy.end(); ++it)
-		output << it->first << " => " << it->second << ((it != ft::prev(map_cpy.end())) ? " | " : "\n");
-	output << "\t\t== CLEARING MAP ==\n";
 	map.clear();
 	output << "Map contains :\n\t";
 	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
@@ -73,10 +81,13 @@ void	insertion_tests(T &map, std::ostream& output)
 	output << "Map_cpy contains :\n\t";
 	for (typename T::iterator it(map_cpy.begin()); it!=map_cpy.end(); ++it)
 		output << it->first << " => " << it->second << ((it != ft::prev(map_cpy.end())) ? " | " : "\n");
-	output << "\t\t== LOOKING FOR LOWER_BOUND OF D ==\n";
-	output << "Lower bound is : " << map.lower_bound('d')->first << std::endl;
-	output << "\t\t== ERASING ELEMENT FROM 4 to END - 3 IN MAP_CPY ==\n";
-	map_cpy.erase(ft::next(map_cpy.begin()), ft::prev(map_cpy.end(), 3));
+	output << "\t\t== LOOKING FOR BOUND OF D ==\n";
+	start = map_cpy.lower_bound('d');
+	end = map_cpy.upper_bound('q');
+	output << "Lower bound is : " << start->first << std::endl;
+	output << "Upper bound is : " << end->first << std::endl;
+	output << "\t\t== ERASING ELEMENT FROM LOWER_BOUND TO UPPER_BOUND IN MAP_CPY ==\n";
+	map_cpy.erase(start, end);
 	output << "Map_cpy contains :\n\t";
 	for (typename T::iterator it(map_cpy.begin()); it!=map_cpy.end(); ++it)
 		output << it->first << " => " << it->second << ((it != ft::prev(map_cpy.end())) ? " | " : "\n");
@@ -101,30 +112,9 @@ void	test_map()
 
 	stl_output.open(MAP_STL_OUTPUT);
 	ft_output.open(MAP_FT_OUTPUT);
-	// std::vector<std::pair<char,int> > vc_stl;
-	// ft::vector<std::pair<char,int> > vc_ft;
-	// vc_ft.push_back(std::pair<char,int>('r', 0));
-	// vc_ft.push_back(std::pair<char,int>('t', 0));
-	// vc_ft.push_back(std::pair<char,int>('i', 0));
-	// vc_ft.push_back(std::pair<char,int>('y', 0));
-	// vc_ft.push_back(std::pair<char,int>('w', 0));
-	// vc_ft.push_back(std::pair<char,int>('u', 0));
-	// vc_ft.push_back(std::pair<char,int>('a', 0));
-	// vc_stl.push_back(std::pair<char,int>('r', 0));
-	// vc_stl.push_back(std::pair<char,int>('t', 0));
-	// vc_stl.push_back(std::pair<char,int>('i', 0));
-	// vc_stl.push_back(std::pair<char,int>('y', 0));
-	// vc_stl.push_back(std::pair<char,int>('w', 0));
-	// vc_stl.push_back(std::pair<char,int>('u', 0));
-	// vc_stl.push_back(std::pair<char,int>('a', 0));
-	// ft.insert(vc_ft.begin(), vc_ft.end());
-	// for (ft::map<char,int>::iterator it(ft.begin()); it!=ft.end(); ++it)
-	// 	std::cout << it->first << " => " << it->second << ((it != ft::prev(ft.end())) ? " | " : "\n");	
-	// show content:
-	insertion_tests(stl, stl_output);
-	insertion_tests(ft, ft_output);
-	char *str;
 
-	str = reinterpret_cast<char*>(alloca(4));
+	// insertion_tests(stl, stl_output);
+	insertion_tests(ft, std::cout);
+
 
 }

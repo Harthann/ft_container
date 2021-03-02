@@ -311,7 +311,6 @@ void test_lists(void)
 
 	manipulation_tests(stl, stl_output, "std");
 	manipulation_tests(ft, ft_output, "ft");
-
 	stl.clear();
 	ft.clear();
 	stl.push_back(10); stl.push_back(20); stl.push_back(30);

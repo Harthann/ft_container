@@ -56,7 +56,7 @@ class map_iterator
 		};
 
 		map_iterator<value_type, Comp> operator--() {
-			if ((!node->left && Comp()(node->parent->__pair, node->__pair)) || (node->left == node->right))
+			if ((!node->left && Comp()(node->parent->__pair, node->__pair)) || (node->left == node->parent))
 				node = node->parent;
 			else if (!node->left && Comp()(node->__pair, node->parent->__pair))
 				node = node->parent->parent;
@@ -88,7 +88,7 @@ class map_iterator
 template <class T, class Comp>
 typename map_iterator<T,Comp>::__node_pointer map_iterator<T,Comp>::__findMin__(__node_pointer node)
 {
-	if (!node || (node->parent == node->left && node->parent == node->right))
+	if (!node || (node->parent == node->left))
 		return node;
 	while (node->left)
 		node= node->left;
@@ -98,7 +98,7 @@ typename map_iterator<T,Comp>::__node_pointer map_iterator<T,Comp>::__findMin__(
 template <class T, class Comp>
 typename map_iterator<T,Comp>::__node_pointer map_iterator<T,Comp>::__findMax__(__node_pointer node)
 {
-	if (!node)
+	if (!node || (node->parent == node->right))
 		return node;
 	while (node->right)
 		node= node->right;

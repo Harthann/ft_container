@@ -23,7 +23,7 @@ class reverse_iterator
 		reverse_iterator(const reverse_iterator&);
 
 		bool operator==(const reverse_iterator<Iter>& base) const {
-			return (&(*base) == &(*ptr)) ;
+			return (base.ptr == ptr) ;
 		}
 
 		reference operator*() {
@@ -32,6 +32,14 @@ class reverse_iterator
 
 		const_reference operator*() const {
 			return (*ptr);
+		}
+
+		pointer operator->() {
+			return (ptr.operator->());
+		}
+
+		const_pointer operator->() const {
+			return (ptr.operator->());
 		}
 
 		reverse_iterator<Iter> operator+(difference_type n ) const {
@@ -50,7 +58,7 @@ class reverse_iterator
 		}
 
 		bool operator!=(const reverse_iterator<Iter>& x) const {
-			return (&(*ptr) != &(*x));
+			return (x.ptr != ptr);
 		}
 		
 		reverse_iterator<Iter>& operator++() {
