@@ -49,17 +49,17 @@ void	insertion_tests(T &map, std::ostream& output)
 	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
 		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
 	output << "\t\t== CAPACITY CHECK ==\n";
-	// output << "Is container empty ? " << map.empty() << std::endl;
-	// output << "Map has " << map.size() << " keys\n";
-	// output << "Map max capacity is : " << map.max_size() << std::endl;
-	// output << "\t\t== ASSIGN MAP INTO MAP_CPY ==\n";
-	// map_cpy = map;
-	// output << "Map contains :\n\t";
-	// for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
-	// 	output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
-	// output << "Map_cpy contains :\n\t";
-	// for (typename T::iterator it(map_cpy.begin()); it!=map_cpy.end(); ++it)
-	// 	output << it->first << " => " << it->second << ((it != ft::prev(map_cpy.end())) ? " | " : "\n");
+	output << "Is container empty ? " << map.empty() << std::endl;
+	output << "Map has " << map.size() << " keys\n";
+	output << "Map max capacity is : " << map.max_size() << std::endl;
+	output << "\t\t== ASSIGN MAP INTO MAP_CPY ==\n";
+	map_cpy = map;
+	output << "Map contains :\n\t";
+	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map.end())) ? " | " : "\n");
+	output << "Map_cpy contains :\n\t";
+	for (typename T::iterator it(map_cpy.begin()); it!=map_cpy.end(); ++it)
+		output << it->first << " => " << it->second << ((it != ft::prev(map_cpy.end())) ? " | " : "\n");
 	output << "\t\t== CLEARING MAP ==\n";
 	output << "Map contains :\n\t";
 	for (typename T::iterator it(map.begin()); it!=map.end(); ++it)
@@ -113,8 +113,10 @@ void	test_map()
 	stl_output.open(MAP_STL_OUTPUT);
 	ft_output.open(MAP_FT_OUTPUT);
 
-	// insertion_tests(stl, stl_output);
-	insertion_tests(ft, std::cout);
+	insertion_tests(stl, stl_output);
+	insertion_tests(ft, ft_output);
 
-
+	ft::map<char, int>::const_iterator cit(ft.begin());
+	// cit = ft.begin();
+	// cit->second = 900;
 }

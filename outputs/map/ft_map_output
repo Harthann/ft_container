@@ -1,0 +1,47 @@
+		=======================
+		====== INSERTION ======
+		=======================
+
+		== INSERTION USING INSERT METHOD ==
+a => 100 | c => 300 | e => 600 | f => 200 | h => 3674 | i => 700 | j => 396 | q => 3346 | r => 42
+		== ERASE ELEMENT E ==
+a => 100 | c => 300 | f => 200 | h => 3674 | i => 700 | j => 396 | q => 3346 | r => 42
+		== ERASE ELEMENT J BASE ON POS ==
+a => 100 | c => 300 | f => 200 | h => 3674 | i => 700 | q => 3346 | r => 42
+		== ACCESS C THROUGH ITERATOR GAIN VIA FIND ==
+c => 300
+
+		== INSERTING AND MODIFYING VALUE THROUG OPERATOR[] ==
+a => 100 | c => 300 | e => -4 | f => 67 | h => 3674 | i => 700 | l => 564378 | q => 3346 | r => 21 | s => 4378 | u => 568
+		== CAPACITY CHECK ==
+Is container empty ? 0
+Map has 11 keys
+Map max capacity is : 461168601842738790
+		== ASSIGN MAP INTO MAP_CPY ==
+Map contains :
+	a => 100 | c => 300 | e => -4 | f => 67 | h => 3674 | i => 700 | l => 564378 | q => 3346 | r => 21 | s => 4378 | u => 568
+Map_cpy contains :
+	a => 100 | c => 300 | e => -4 | f => 67 | h => 3674 | i => 700 | l => 564378 | q => 3346 | r => 21 | s => 4378 | u => 568
+		== CLEARING MAP ==
+Map contains :
+	a => 100 | c => 300 | e => -4 | f => 67 | h => 3674 | i => 700 | l => 564378 | q => 3346 | r => 21 | s => 4378 | u => 568
+Map contains :
+	Map_cpy contains :
+	a => 100 | c => 300 | e => -4 | f => 67 | h => 3674 | i => 700 | l => 564378 | q => 3346 | r => 21 | s => 4378 | u => 568
+		== ERASE HEAD ELEMENT IN MAP_CPY ==
+		== INSERTING ELEMENT FROM MAP_CPY TO MAP USING RANGE INSERT ==
+Map contains :
+	i => 700 | l => 564378 | q => 3346
+Map_cpy contains :
+	a => 100 | c => 300 | e => -4 | h => 3674 | i => 700 | l => 564378 | q => 3346 | r => 21 | s => 4378 | u => 568
+		== LOOKING FOR BOUND OF D ==
+Lower bound is : e
+Upper bound is : r
+		== ERASING ELEMENT FROM LOWER_BOUND TO UPPER_BOUND IN MAP_CPY ==
+Map_cpy contains :
+	a => 100 | c => 300 | r => 21 | s => 4378 | u => 568
+		== SWAP MAP AND MAP_CPY ==
+Map contains :
+	a => 100 | c => 300 | r => 21 | s => 4378 | u => 568
+Map_cpy contains :
+	i => 700 | l => 564378 | q => 3346

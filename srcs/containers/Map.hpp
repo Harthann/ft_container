@@ -3,29 +3,16 @@
 
 #include <iostream>
 #include "map_iterator.hpp"
-#include "vector.hpp"
+#include "map_const_iterator.hpp"
+#include "Vector.hpp"
 #include "reverse_iterator.hpp"
 
 namespace ft {
 
-// template <class T1, class T2>
-// struct pair {
-// 	typedef T1 first_type;
-// 	typedef T2 second_type;
-
-// 	first_type	first;
-// 	second_type	second;
-
-// 	pair() : first(), second() {};
-// 	pair(first_type const &first, second_type const &second) : first(first), second(second) {};
-
-// 	pair &operator=(const pair& other) {this->first = other.first; this->second = other.second; return *this};
-// };
-
 template <class T>
 struct __map_node
 {
-	typedef T				value_type;
+	typedef T					value_type;
 	typedef	value_type*			pointer;
 	typedef	value_type&			reference;
 	typedef	std::ptrdiff_t	difference_type;
@@ -81,7 +68,8 @@ class map
 		typedef typename allocator_type::pointer					pointer;
 		typedef typename allocator_type::const_pointer				const_pointer;
 		typedef ft::map_iterator<value_type, value_compare>			iterator;
-		typedef ft::map_iterator<const value_type, value_compare>	const_iterator;
+		// typedef ft::map_iterator<const value_type, value_compare>	const_iterator;
+		typedef ft::map_const_iterator<value_type, value_compare>	const_iterator;
 		typedef	ft::reverse_iterator<iterator>						reverse_iterator;
 		typedef	ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 		typedef std::ptrdiff_t										difference_type;
@@ -105,6 +93,7 @@ class map
 			if (head != ghost)
 				clear();
 			__destroyNode__(ghost);
+			__destroyNode__(ghost_left);
 		};
 
 
@@ -184,7 +173,7 @@ class map
 		value_type		__findMin__(__node_pointer node);
 		iterator		__find__(__node_pointer node, const key_type& k);
 		size_type		__size__(__node_pointer) const;
-		void			__clear__(__node_pointer);
+		__node_pointer	__clear__(__node_pointer);
 		__node_pointer	__copy__(__node_pointer);
 		__node_pointer	__assign__(const __node_pointer xnode, __node_pointer node);
 		void			__update_left__();
@@ -254,7 +243,10 @@ map<T,Key,Compare,Alloc>& map<T, Key, Compare, Alloc>::operator=(const map &x)
 	__key_comp__ = key_comp();
 	__alloc = allocator_type();
 	__node_alloc = __node_allocator();
-	head = __assign__(x.head, head);
+	if (head == ghost)
+		head = __assign__(x.head, NULL);
+	else
+		head = __assign__(x.head, head);
 	if (!ghost) {
 		ghost = __node_alloc.allocate(1);
 		__node_alloc.construct(ghost, value_type());
@@ -263,7 +255,6 @@ map<T,Key,Compare,Alloc>& map<T, Key, Compare, Alloc>::operator=(const map &x)
 	__update_left__();
 	return *this;
 }
-
 
 /*###############################################################\
 **	 _____ _______ ______ _____         _______ ____  _____  	##
@@ -278,11 +269,11 @@ map<T,Key,Compare,Alloc>& map<T, Key, Compare, Alloc>::operator=(const map &x)
 template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::iterator	map<T, Key, Compare, Alloc>::begin()
 {
-	// __node_pointer tmp = head;
+	__node_pointer tmp = head;
 
-	// while (tmp->left && tmp->left != )
-	// 	tmp = tmp->left;
-	return (ghost_left->right);
+	while (tmp->left && tmp->left != ghost_left)
+		tmp = tmp->left;
+	return (tmp);
 }
 
 template <class T, class Key, class Compare, class Alloc>
@@ -441,6 +432,7 @@ void	map<T, Key, Compare, Alloc>::swap(map& x)
 {
 	std::swap(head, x.head);
 	std::swap(ghost, x.ghost);
+	std::swap(ghost_left, x.ghost_left);
 }
 
 /*###########################################################################\
@@ -696,13 +688,14 @@ typename map<T, Key, Compare, Alloc>::size_type		map<T, Key, Compare, Alloc>::__
 }
 
 template <class T, class Key, class Compare, class Alloc>
-void		map<T, Key, Compare, Alloc>::__clear__(__node_pointer node)
+typename map<T, Key, Compare, Alloc>::__node_pointer
+map<T, Key, Compare, Alloc>::__clear__(__node_pointer node)
 {
 	if (!node || node == ghost || node == ghost_left)
-		return ;
-	__clear__(node->left);
-	__clear__(node->right);
-	__destroyNode__(node);
+		return NULL;
+	node->left = __clear__(node->left);
+	node->right = __clear__(node->right);
+	return (__destroyNode__(node));
 }
 
 template <class T, class Key, class Compare, class Alloc>
@@ -721,8 +714,8 @@ typename map<T, Key, Compare, Alloc>::__node_pointer map<T, Key, Compare, Alloc>
 template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::__node_pointer map<T, Key, Compare, Alloc>::__assign__(const __node_pointer xnode, __node_pointer node)
 {
-	if (!xnode	|| (xnode->left == xnode->parent)
-				|| (xnode->right == xnode->parent)) {
+	if (!xnode	|| (xnode->left == xnode->parent && xnode->left)
+				|| (xnode->right == xnode->parent && xnode->right)) {
 		__clear__(node);
 		return NULL;
 	}

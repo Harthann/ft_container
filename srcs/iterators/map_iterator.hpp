@@ -23,6 +23,7 @@ class map_iterator
 		map_iterator(const map_iterator & x) : node(x.node) {};
 		map_iterator &operator=(const map_iterator & x) {node = x.node; return *this; };
 		map_iterator(ft::__map_node<value_type>* const x) : node(x) {};
+		// map_iterator(ft::__map_node<const value_type>* const x) : node(x) {};
 
 		bool operator!=(const map_iterator<value_type, Comp>& base) const {
 			return (node != base.node);
@@ -71,17 +72,18 @@ class map_iterator
 			return (tmp);
 		};
 
-	private:
+	protected:
 		typedef ft::__map_node<T>		__node;
 		typedef __node*					__node_pointer;
 		typedef	__node&					__node_reference;
 		typedef Comp					value_compare;
 		template<class, class, class, class> friend class map;
+		template<class, class> friend class map_const_iterator;
 
 		__node_pointer	__findMin__(__node_pointer);
 		__node_pointer	__findMax__(__node_pointer);
 
-	private:
+	protected:
 		__node_pointer node;
 };
 
