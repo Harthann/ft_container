@@ -436,8 +436,6 @@ void	vector<T,A>::__destroy_old__(pointer array, size_type allocated_size)
 	}
 }
 
-
-
 } // namespace decalaration end
 
 #endif

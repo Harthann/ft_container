@@ -315,6 +315,8 @@ void test_lists(void)
 	ft.clear();
 	stl.push_back(10); stl.push_back(20); stl.push_back(30);
 	ft.push_back(10); ft.push_back(20); ft.push_back(30);
+
+	// ft::list<my_type>::const_iterator cit = ft.begin();
 	// comparison_tests(stl, stl_output);
 	// comparison_tests(ft, ft_output);
 }

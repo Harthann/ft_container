@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2021/02/24 09:16:30 by nieyraud         ###   ########.fr        #
+#    Updated: 2021/03/04 14:53:14 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,12 +31,12 @@ orange=\033[33m
 
 NAME = a.out
 
-SRC_FILE = main.cpp test_vector.cpp test_list.cpp test_map.cpp
+include files.mk
 
 CONTAINERS = Vector.hpp List.hpp Map.hpp
 CONTAINER_DIRECTORY = srcs/containers
 CONTAINERS_INCLUDE = $(addprefix $(CONTAINER_DIRECTORY)/, $(CONTAINERS))
-ITERATORS = list_iterator.hpp reverse_iterator.hpp Vector_iterator.hpp
+ITERATORS = list_iterator.hpp reverse_iterator.hpp Vector_iterator.hpp map_iterator.hpp
 ITERATORS_DIRECTORY = srcs/iterators
 ITERATORS_INCLUDE = $(addprefix $(ITERATORS_DIRECTORY)/, $(ITERATORS))
 INCLUDE	= $(ITERATORS_INCLUDE) $(CONTAINERS_INCLUDE)
@@ -65,6 +65,7 @@ FLAGS = -Wall -Wextra -std=c++98 -ferror-limit=5
 SAN = -g
 OPT_FLAGS = -flto
 INCLUDE_FLAGS = -I $(CONTAINER_DIRECTORY) -I $(ITERATORS_DIRECTORY) -I srcs/ft_utils -I srcs/main_srcs
+
 #########################
 #		LIBRARIES		#
 #########################

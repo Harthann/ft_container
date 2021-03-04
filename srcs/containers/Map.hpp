@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include "map_iterator.hpp"
-#include "map_const_iterator.hpp"
 #include "Vector.hpp"
 #include "reverse_iterator.hpp"
 
@@ -37,26 +36,26 @@ struct __map_node
 	int					__node_weight;
 };
 
-
 template <class Key,
 			class T,
 			class Compare = std::less<Key>,
 			class Alloc = std::allocator<std::pair<const Key,T> > >
-class map 
+class map
 {
 	private:
-		typedef	__map_node<std::pair<const Key, T> >	__node;
-		typedef	__node*									__node_pointer;
-		typedef	__node&									__node_reference;
+		typedef	__map_node<std::pair<const Key, T> >		__node;
+		typedef	__map_node<const std::pair<const Key, T> >	__const_node;
+		typedef	__node*										__node_pointer;
+		typedef	__node&										__node_reference;
 
 	public:
-		typedef	Key												key_type;
-		typedef T												mapped_type;
-		typedef	std::pair<const Key, T> 						value_type;
-		typedef	Compare											key_compare;
+		typedef	Key											key_type;
+		typedef T											mapped_type;
+		typedef	std::pair<const Key, T> 					value_type;
+		typedef	Compare										key_compare;
 		struct value_compare {
 			value_compare(key_compare key_comp = key_compare()) : kc(key_comp) {};
-			bool operator()(value_type &first, value_type &second) {
+			bool operator()(const value_type &first,const value_type &second) {
 				return (kc(first.first, second.first));
 			}
 			key_compare kc;
@@ -68,8 +67,7 @@ class map
 		typedef typename allocator_type::pointer					pointer;
 		typedef typename allocator_type::const_pointer				const_pointer;
 		typedef ft::map_iterator<value_type, value_compare>			iterator;
-		// typedef ft::map_iterator<const value_type, value_compare>	const_iterator;
-		typedef ft::map_const_iterator<value_type, value_compare>	const_iterator;
+		typedef ft::map_iterator<value_type, value_compare, true>	const_iterator;
 		typedef	ft::reverse_iterator<iterator>						reverse_iterator;
 		typedef	ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 		typedef std::ptrdiff_t										difference_type;
@@ -78,7 +76,7 @@ class map
 		/*#######################\
 		##		CONSTRUCTOR		##
 		\#######################*/
-		
+
 		map(const key_compare& = key_compare(),
             const allocator_type& = allocator_type());
 		template <class InputIT>
@@ -234,7 +232,15 @@ map<T, Key, Compare, Alloc>::map(
 							const allocator_type& alloc)
 : head(0), __alloc(alloc), __key_comp__(comp)
 {
-	// while ()
+	ghost = __node_alloc.allocate(1);
+	ghost_left = __node_alloc.allocate(1);
+	__node_alloc.construct(ghost, value_type());
+	__node_alloc.construct(ghost_left, value_type());
+	while (first != last)
+	{
+		insert(*first);
+		++first;
+	}
 }
 
 template <class T, class Key, class Compare, class Alloc>

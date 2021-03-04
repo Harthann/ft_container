@@ -116,7 +116,8 @@ void	test_map()
 	insertion_tests(stl, stl_output);
 	insertion_tests(ft, ft_output);
 
-	ft::map<char, int>::const_iterator cit(ft.begin());
+	for (ft::map<char, int>::const_iterator cit = ft.begin(); cit != ft.end(); ++cit)
+		std::cout << cit->first << " => " << cit->second << ((cit != ft::prev(ft.end())) ? " | " : "\n");
 	// cit = ft.begin();
 	// cit->second = 900;
 }
