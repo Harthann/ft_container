@@ -45,3 +45,16 @@ Map contains :
 	a => 100 | c => 300 | r => 21 | s => 4378 | u => 568
 Map_cpy contains :
 	i => 700 | l => 564378 | q => 3346
+alice == bob returns 0
+alice != bob returns 1
+alice <  bob returns 0
+alice <= bob returns 0
+alice >  bob returns 1
+alice >= bob returns 1
+
+alice == eve returns 1
+alice != eve returns 0
+alice <  eve returns 0
+alice <= eve returns 1
+alice >  eve returns 0
+alice >= eve returns 1

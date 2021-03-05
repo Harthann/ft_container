@@ -325,7 +325,6 @@ template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::const_iterator	map<T, Key, Compare, Alloc>::end() const
 {
 	typedef __map_node<const value_type>* __const_node;
-	__const_node const_ghost = reinterpret_cast<__const_node>(ghost);
 	return (reinterpret_cast<__const_node>(ghost));
 }
 
@@ -805,6 +804,59 @@ typename map<T, Key, Compare, Alloc>::__node_pointer map<T, Key, Compare, Alloc>
 		node->right = __assign__(xnode->right, node->right);
 	}
 	return node;
+}
+
+template <class Key, class T, class Compare, class Alloc>
+bool operator==(const map<Key, T, Compare, Alloc>& lhs, const map<Key, T, Compare, Alloc>& rhs)
+{
+	typename map<Key, T, Compare, Alloc>::const_iterator lit;
+	typename map<Key, T, Compare, Alloc>::const_iterator rit;
+	if (lhs.size() != rhs.size())
+		return (0);
+	for (unsigned int i = 0; i < lhs.size(); ++i)
+	{
+		lit = ft::next(lhs.begin(), i);
+		rit = ft::next(rhs.begin(), i);
+		if (lit->first != rit->first || lit->second != rit->second)
+			return (0);
+	}
+	return (1);
+}
+
+template <class Key, class T, class Compare, class Alloc>
+bool operator!=(const map<Key, T, Compare, Alloc>& lhs, const map<Key, T, Compare, Alloc>& rhs)
+{
+	return (!(lhs == rhs));
+}
+
+template <class Key, class T, class Compare, class Alloc>
+bool operator<(const map<Key, T, Compare, Alloc>& lhs, const map<Key, T, Compare, Alloc>& rhs)
+{
+	return (std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+}
+
+template <class Key, class T, class Compare, class Alloc>
+bool operator<=(const map<Key, T, Compare, Alloc>& lhs, const map<Key, T, Compare, Alloc>& rhs)
+{
+	return (!(rhs < lhs));
+}
+
+template <class Key, class T, class Compare, class Alloc>
+bool operator>(const map<Key, T, Compare, Alloc>& lhs, const map<Key, T, Compare, Alloc>& rhs)
+{
+	return (rhs < lhs);
+}
+
+template <class Key, class T, class Compare, class Alloc>
+bool operator>=(const map<Key, T, Compare, Alloc>& lhs, const map<Key, T, Compare, Alloc>& rhs)
+{
+	return (!(lhs < rhs));
+}
+
+template< class Key, class T, class Compare, class Alloc >
+void	swap(map<Key,T,Compare,Alloc>& lhs, map<Key,T,Compare,Alloc>& rhs )
+{
+	lhs.swap(rhs);
 }
 
 }

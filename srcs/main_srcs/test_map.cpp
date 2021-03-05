@@ -101,6 +101,44 @@ void	insertion_tests(T &map, std::ostream& output)
 		output << it->first << " => " << it->second << ((it != ft::prev(map_cpy.end())) ? " | " : "\n");
 }
 
+
+template <class T>
+void comparison_tests(T &, std::ostream& output)
+{
+	T alice;
+    T bob;
+    T eve;
+ 
+	alice[1] = 'a';
+	alice[2] = 'b';
+	alice[3] = 'c';
+	bob[7] = 'Z';
+	bob[8] = 'Y';
+	bob[9] = 'X';
+	bob[1] = 'W';
+	eve[1] = 'a';
+	eve[2] = 'b';
+	eve[3] = 'c';
+ 
+    // Compare non equal containers
+    output << "alice == bob returns " << (alice == bob) << '\n';
+    output << "alice != bob returns " << (alice != bob) << '\n';
+    output << "alice <  bob returns " << (alice < bob) << '\n';
+    output << "alice <= bob returns " << (alice <= bob) << '\n';
+    output << "alice >  bob returns " << (alice > bob) << '\n';
+    output << "alice >= bob returns " << (alice >= bob) << '\n';
+ 
+    output << '\n';
+ 
+    // Compare equal containers
+    output << "alice == eve returns " << (alice == eve) << '\n';
+    output << "alice != eve returns " << (alice != eve) << '\n';
+    output << "alice <  eve returns " << (alice < eve) << '\n';
+    output << "alice <= eve returns " << (alice <= eve) << '\n';
+    output << "alice >  eve returns " << (alice > eve) << '\n';
+    output << "alice >= eve returns " << (alice >= eve) << '\n';
+}
+
 void	test_map()
 {
 	std::map<char,int> stl;
@@ -114,4 +152,7 @@ void	test_map()
 
 	insertion_tests(stl, stl_output);
 	insertion_tests(ft, ft_output);
+
+	comparison_tests(stl, stl_output);
+	comparison_tests(ft, ft_output);
 }

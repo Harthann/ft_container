@@ -158,18 +158,18 @@ void	test_access(T& vec, std::ostream& output)
 	print_container(vec.rbegin(), vec.rend(), output);
 }
 
-// template <class T>
-// void comparison_tests(T &, std::ostream& output)
-// {
-// 	T foo (3,100);
-// 	T bar (2,200);
-// 	if (foo==bar) output << "foo and bar are equal\n";
-// 	if (foo!=bar) output << "foo and bar are not equal\n";
-// 	if (foo< bar) output << "foo is less than bar\n";
-// 	if (foo> bar) output << "foo is greater than bar\n";
-// 	if (foo<=bar) output << "foo is less than or equal to bar\n";
-// 	if (foo>=bar) output << "foo is greater than or equal to bar\n";
-// }
+template <class T>
+void comparison_tests(T &, std::ostream& output)
+{
+	T foo (3,100);
+	T bar (2,200);
+	if (foo==bar) output << "foo and bar are equal\n";
+	if (foo!=bar) output << "foo and bar are not equal\n";
+	if (foo< bar) output << "foo is less than bar\n";
+	if (foo> bar) output << "foo is greater than bar\n";
+	if (foo<=bar) output << "foo is less than or equal to bar\n";
+	if (foo>=bar) output << "foo is greater than or equal to bar\n";
+}
 
 void test_vector(void)
 {
@@ -207,8 +207,8 @@ void test_vector(void)
 	stl.clear();
 	ft.clear();
 
-	// comparison_tests(stl, stl_output);
-	// comparison_tests(ft, ft_output);
+	comparison_tests(stl, stl_output);
+	comparison_tests(ft, ft_output);
 
 }
 

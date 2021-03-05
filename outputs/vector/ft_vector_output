@@ -86,3 +86,6 @@ Front element is : 0
 Back element is : 9
 		== PRINT VEC USING REVERSE ITERATOR ==
 9 : 9 : 9 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 0 : 4 : 4 : 4 : 4 : 4 : 0 : 0 : 0 : 0 : 0
+foo and bar are not equal
+foo is less than bar
+foo is less than or equal to bar
