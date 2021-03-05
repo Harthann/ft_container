@@ -18,7 +18,7 @@ Size now : 15 and capacity : 20
 vector::reserve
 Size now : 15 and capacity : 20
 0 : 0 : 0 : 0 : 0 : 0 : 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8 : 9
-Max size for the container is : 18446744073709551615
+Max size for the container is : 4611686018427387903
 		== RESIZE 5 ==
 Size now : 5 and capacity : 20
 0 : 0 : 0 : 0 : 0

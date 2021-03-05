@@ -153,10 +153,3 @@ Lst is now like this :
 	1.4 -> 2.2 -> 2.9 -> 3.1 -> 3.7 -> 7.1
 Lst_cpy is now like this : 
 	
-a and b are equal
-b and c are not equal
-b is less than c
-c is greater than b
-a is less than or equal to b
-a is greater than or equal to b
-b is geater than d

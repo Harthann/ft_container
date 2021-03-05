@@ -49,10 +49,15 @@ class map
 		typedef	__node&										__node_reference;
 
 	public:
-		typedef	Key											key_type;
-		typedef T											mapped_type;
-		typedef	std::pair<const Key, T> 					value_type;
-		typedef	Compare										key_compare;
+
+
+		typedef	Key													key_type;
+		typedef T													mapped_type;
+		typedef	std::pair<const Key, T> 							value_type;
+		typedef	size_t												size_type;
+		typedef std::ptrdiff_t										difference_type;
+		typedef	Compare												key_compare;
+		
 		struct value_compare {
 			value_compare(key_compare key_comp = key_compare()) : kc(key_comp) {};
 			bool operator()(const value_type &first,const value_type &second) {
@@ -60,18 +65,17 @@ class map
 			}
 			key_compare kc;
 		};
-		
+
 		typedef	Alloc												allocator_type;
 		typedef typename allocator_type::reference					reference;
 		typedef typename allocator_type::const_reference			const_reference;
 		typedef typename allocator_type::pointer					pointer;
 		typedef typename allocator_type::const_pointer				const_pointer;
-		typedef ft::map_iterator<value_type, value_compare>			iterator;
+		typedef ft::map_iterator<value_type, value_compare, false>	iterator;
 		typedef ft::map_iterator<value_type, value_compare, true>	const_iterator;
 		typedef	ft::reverse_iterator<iterator>						reverse_iterator;
 		typedef	ft::reverse_iterator<const_iterator>				const_reverse_iterator;
-		typedef std::ptrdiff_t										difference_type;
-		typedef	size_t												size_type;
+		
 
 		/*#######################\
 		##		CONSTRUCTOR		##
@@ -79,6 +83,7 @@ class map
 
 		map(const key_compare& = key_compare(),
             const allocator_type& = allocator_type());
+
 		template <class InputIT>
 		map(InputIT,
 			typename ft::enable_if<ft::is_input_iterator<InputIT>::value, InputIT>::type ,
@@ -86,21 +91,17 @@ class map
 			const allocator_type& = allocator_type());
 
 		map(const map&);
-		map& operator=(const map&);
-		~map() {
-			if (head != ghost)
-				clear();
-			__destroyNode__(ghost);
-			__destroyNode__(ghost_left);
-		};
 
+		map& operator=(const map&);
+
+		~map();
 
 		/*#######################\
 		##		CAPACITY		##
 		\#######################*/
-		size_type	max_size() const { return __node_allocator().max_size(); };
 		size_type	size() const;
 		bool		empty() const;
+		size_type	max_size() const { return __node_allocator().max_size(); };
 
 		mapped_type&	operator[](const key_type& k);
 
@@ -124,44 +125,42 @@ class map
 		key_compare		key_comp() const;
 		value_compare	value_comp() const { return value_compare();};
 
-
 		/*#######################\
 		##		MODIFIERS		##
 		\#######################*/
 
 		std::pair<iterator ,bool>	insert(const value_type& val);
+		iterator					insert(iterator position, const value_type& val);
 		template <class InputIT>
 		typename ft::enable_if<is_input_iterator<InputIT>::value, InputIT>::void_t
-			insert(InputIT, InputIT);
+									insert(InputIT, InputIT);
+		
 		size_type					erase(const key_type& k);
 		void						erase(iterator position);
 		void						erase(iterator first, iterator last);
 		void						clear();
 		void						swap(map& x);
 
-		void	print() {__print__(head); std::cout << std::endl;};
-		void	__print__(__node_pointer node);
 		/*#######################\
 		##		OPERATIONS		##
 		\#######################*/
 
-		iterator						find(const key_type& k);
-		const_iterator					find(const key_type& k) const;
-		iterator						lower_bound(const key_type& k);
-		// const_iterator	lower_bound(const key_type& k) const;
-		iterator						upper_bound(const key_type& k);
-		// const_iterator	lower_bound(const key_type& k) const;
-		std::pair<iterator,iterator>	equal_range(const key_type& k);
+		iterator									find(const key_type& k);
+		const_iterator								find(const key_type& k) const;
+		size_type									count(const key_type& k) const;
+		iterator									lower_bound(const key_type& k);
+		const_iterator								lower_bound(const key_type& k) const;
+		iterator									upper_bound(const key_type& k);
+		const_iterator								upper_bound(const key_type& k) const;
+		std::pair<iterator,iterator>				equal_range(const key_type& k);
+		std::pair<const_iterator,const_iterator>	equal_range(const key_type& k) const;
 
 	private:
 		typedef typename allocator_type::template rebind<__node>::other		__node_allocator;
 		typedef typename allocator_type::template rebind<value_type>::other	__pair_alloc;
-		// template <class T, class Comp> friend class map_iterator;
-
 
 		__node_pointer	__insert__(const value_type& val, __node_pointer node, std::pair<iterator ,bool>&,__node_pointer);
 		int				__weight__(__node_pointer node);
-		void			__print__(__node_pointer) const;
 		__node_pointer	__leftRotate__(__node_pointer node);
 		__node_pointer	__rightRotate__(__node_pointer node);
 		bool			__update__(__node_pointer , bool = false, __node_pointer = NULL);
@@ -262,6 +261,15 @@ map<T,Key,Compare,Alloc>& map<T, Key, Compare, Alloc>::operator=(const map &x)
 	return *this;
 }
 
+template <class T, class Key, class Compare, class Alloc>
+map<T, Key, Compare, Alloc>::~map()
+{
+	if (head != ghost)
+		clear();
+	__destroyNode__(ghost);
+	__destroyNode__(ghost_left);
+}
+
 /*###############################################################\
 **	 _____ _______ ______ _____         _______ ____  _____  	##
 **	|_   _|__   __|  ____|  __ \     /\|__   __/ __ \|  __ \ 	##
@@ -308,7 +316,7 @@ typename map<T, Key, Compare, Alloc>::const_iterator	map<T, Key, Compare, Alloc>
 	typedef __map_node<const value_type>*	__const_node;
 	__node_pointer	tmp = head;
 
-	while (tmp->left && tmp->__pair.first > tmp->left->__pair.first)
+	while (tmp->left && tmp->left != ghost_left)
 		tmp = tmp->left;
 	return (reinterpret_cast<__const_node>(tmp));
 }
@@ -317,8 +325,23 @@ template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::const_iterator	map<T, Key, Compare, Alloc>::end() const
 {
 	typedef __map_node<const value_type>* __const_node;
-	// __const_node const_ghost = reinterpret_cast<__const_node>(ghost);
+	__const_node const_ghost = reinterpret_cast<__const_node>(ghost);
 	return (reinterpret_cast<__const_node>(ghost));
+}
+
+
+template <class T, class Key, class Compare, class Alloc>
+typename map<T, Key, Compare, Alloc>::const_reverse_iterator	map<T, Key, Compare, Alloc>::rbegin() const
+{
+	typedef __map_node<const value_type>*	__const_node;
+	return (reinterpret_cast<__const_node>(ghost));
+}
+
+template <class T, class Key, class Compare, class Alloc>
+typename map<T, Key, Compare, Alloc>::const_reverse_iterator	map<T, Key, Compare, Alloc>::rend() const
+{
+	typedef __map_node<const value_type>* __const_node;
+	return (reinterpret_cast<__const_node>(ghost_left));
 }
 
 /*######################################################################*\
@@ -332,15 +355,15 @@ typename map<T, Key, Compare, Alloc>::const_iterator	map<T, Key, Compare, Alloc>
 \*######################################################################*/
 
 template <class T, class Key, class Compare, class Alloc>
-typename map<T, Key, Compare, Alloc>::size_type	map<T, Key, Compare, Alloc>::size() const
-{
-	return (__size__(head));
-}
-
-template <class T, class Key, class Compare, class Alloc>
 bool		map<T, Key, Compare, Alloc>::empty() const
 {
 	return (!size());
+}
+
+template <class T, class Key, class Compare, class Alloc>
+typename map<T, Key, Compare, Alloc>::size_type	map<T, Key, Compare, Alloc>::size() const
+{
+	return (__size__(head));
 }
 
 template <class T, class Key, class Compare, class Alloc>
@@ -379,6 +402,15 @@ std::pair<typename map<T, Key, Compare, Alloc>::iterator, bool> map<T, Key, Comp
 	__update_left__();
 
 	return (ret);
+}
+
+template <class T, class Key, class Compare, class Alloc>
+typename map<T, Key, Compare, Alloc>::iterator
+map<T, Key, Compare, Alloc>::insert(iterator , const value_type& val)
+{
+	std::pair<iterator, bool> ret;
+	ret = insert(val);
+	return (ret.first);
 }
 
 template <class T, class Key, class Compare, class Alloc>
@@ -452,19 +484,33 @@ void	map<T, Key, Compare, Alloc>::swap(map& x)
 \###########################################################################*/
 
 template <class T, class Key, class Compare, class Alloc>
-typename map<T, Key, Compare, Alloc>::iterator	map<T, Key, Compare, Alloc>::find(const key_type& k)
+typename map<T, Key, Compare, Alloc>::iterator
+map<T, Key, Compare, Alloc>::find(const key_type& k)
 {
 	return (__find__(head, k));
 }
 
-// template <class T, class Key, class Compare, class Alloc>
-// typename map<T, Key, Compare, Alloc>::const_iterator	map<T, Key, Compare, Alloc>::find(const key_type& k) const
-// {
-// 	return (__find__(head, k));
-// }
+template <class T, class Key, class Compare, class Alloc>		// Template format		
+typename map<T, Key, Compare, Alloc>::const_iterator			// return value type	
+map<T, Key, Compare, Alloc>::find(const key_type& k) const		// Function prototype	
+{
+	return (__find__(head, k));
+}
+
+template <class T, class Key, class Compare, class Alloc>		// Template format		
+typename map<T, Key, Compare, Alloc>::size_type 				// return value type	
+map<T, Key, Compare, Alloc>::count(const key_type& k) const		// Function prototype	
+{
+	const_iterator cit;
+
+	cit = find(k);
+	return(cit != end());
+}
+
 
 template <class T, class Key, class Compare, class Alloc>
-typename map<T, Key, Compare, Alloc>::iterator	map<T, Key, Compare, Alloc>::lower_bound(const key_type& k)
+typename map<T, Key, Compare, Alloc>::iterator
+map<T, Key, Compare, Alloc>::lower_bound(const key_type& k)
 {
 	for (iterator it = begin(); it !=end(); ++it)
 		if (!__key_comp__(it->first, k))
@@ -473,7 +519,28 @@ typename map<T, Key, Compare, Alloc>::iterator	map<T, Key, Compare, Alloc>::lowe
 }
 
 template <class T, class Key, class Compare, class Alloc>
-typename map<T, Key, Compare, Alloc>::iterator	map<T, Key, Compare, Alloc>::upper_bound(const key_type& k)
+typename map<T, Key, Compare, Alloc>::const_iterator
+map<T, Key, Compare, Alloc>::lower_bound(const key_type& k) const
+{
+	for (iterator it = begin(); it !=end(); ++it)
+		if (!__key_comp__(it->first, k))
+			return (it);
+	return end();
+}
+
+template <class T, class Key, class Compare, class Alloc>
+typename map<T, Key, Compare, Alloc>::iterator
+map<T, Key, Compare, Alloc>::upper_bound(const key_type& k)
+{
+	for (iterator it = begin(); it !=end(); ++it)
+		if (__key_comp__(k, it->first))
+			return (it);
+	return end();
+}
+
+template <class T, class Key, class Compare, class Alloc>
+typename map<T, Key, Compare, Alloc>::const_iterator
+map<T, Key, Compare, Alloc>::upper_bound(const key_type& k) const
 {
 	for (iterator it = begin(); it !=end(); ++it)
 		if (__key_comp__(k, it->first))
@@ -489,6 +556,16 @@ map<T, Key, Compare, Alloc>::equal_range (const key_type& k)
 
 	it = find(k);
 	return (std::pair<iterator,iterator>(it, it));
+}
+
+template <class T, class Key, class Compare, class Alloc>
+std::pair<typename map<T, Key, Compare, Alloc>::const_iterator,typename map<T, Key, Compare, Alloc>::const_iterator>
+map<T, Key, Compare, Alloc>::equal_range (const key_type& k) const
+{
+	const_iterator it;
+
+	it = find(k);
+	return (std::pair<const_iterator,const_iterator>(it, it));
 }
 
 /*###########################################################################################################\
@@ -673,16 +750,6 @@ typename map<T, Key, Compare, Alloc>::iterator	map<T, Key, Compare, Alloc>::__fi
 	if (__key_comp__(k, node->__pair.first))
 		return (__find__(node->left, k));
 	return (__find__(node->right, k));
-}
-
-template <class T, class Key, class Compare, class Alloc>
-void	map<T, Key, Compare, Alloc>::__print__(__node_pointer node)
-{
-	if (node && node != ghost) {
-		__print__(node->left);
-		std::cout << node->__pair.first << " | " << node << " | " << node->parent <<" | "<< node->right<<" | "<<node->left <<"\n";
-		__print__(node->right);
-	}
 }
 
 template <class T, class Key, class Compare, class Alloc>

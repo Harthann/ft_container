@@ -8,13 +8,13 @@
 #include "utils.hpp"
 typedef int my_type;
 
-static Counter counter;
+// static Counter counter;
 
-void check()
-{
-	counter.print();
-	std::getchar();
-}
+// void check()
+// {
+// 	counter.print();
+// 	std::getchar();
+// }
 
 template <class T>
 void	test_capacity(T& vec, std::ostream& output)
@@ -173,8 +173,8 @@ void	test_access(T& vec, std::ostream& output)
 
 void test_vector(void)
 {
-	ft::vector<my_type, alloc_ft<my_type> > ft(5);
-	std::vector<my_type, alloc_std<my_type> > stl(5);
+	ft::vector<my_type> ft(5);
+	std::vector<my_type> stl(5);
 	std::ofstream stl_output;
 	std::ofstream ft_output;
 

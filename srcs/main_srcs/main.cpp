@@ -27,8 +27,8 @@ bool mycomparison (double first, double second)
 
 int main(void)
 {
-	// test_vector();
-	// test_lists();
+	test_vector();
+	test_lists();
 	test_map();
 	std::cout << "\n\n\033[31mTest programm ended\033[0m\n\n";
 	return (0);
