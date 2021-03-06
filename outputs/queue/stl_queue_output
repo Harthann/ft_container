@@ -1,0 +1,53 @@
+		=======================
+		====== ALL_TESTS ======
+		=======================
+		== INSERTING AN ELEMENT ==
+ Queue is empty ? 1
+Queue size is : 0
+ Queue is empty ? 0
+Queue size is : 1
+Queue front is : 5
+Queue back is : 5
+		== INSERTING MULTIPLE ELEMENT ==
+ Queue is empty ? 0
+Queue size is : 8
+Queue front is : 5
+Queue back is : 63463
+		== RMOVING ALL ELEMENTS USING POP ==
+Queue size is : 8
+Queue front is : 5
+Queue back is : 63463
+Queue size is : 7
+Queue front is : 5
+Queue back is : 63463
+Queue size is : 6
+Queue front is : 56246
+Queue back is : 63463
+Queue size is : 5
+Queue front is : 6787
+Queue back is : 63463
+Queue size is : 4
+Queue front is : 912387
+Queue back is : 63463
+Queue size is : 3
+Queue front is : 234
+Queue back is : 63463
+Queue size is : 2
+Queue front is : -452523
+Queue back is : 63463
+Queue size is : 1
+Queue front is : 63463
+Queue back is : 63463
+A == B returns 0
+A != B returns 1
+A <  B returns 1
+A <= B returns 1
+A >  B returns 0
+A >= B returns 0
+
+A == C returns 1
+A != C returns 0
+A <  C returns 0
+A <= C returns 1
+A >  C returns 0
+A >= C returns 1

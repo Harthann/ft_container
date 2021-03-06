@@ -28,7 +28,7 @@ class vector {
 		typedef typename allocator_type::const_pointer			const_pointer;
 		
 		typedef ft::vector_iterator<T>							iterator;
-		typedef ft::vector_iterator<const T>					const_iterator;
+		typedef ft::vector_iterator<T, true>					const_iterator;
 		typedef ft::reverse_iterator<iterator>			reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 		
@@ -75,7 +75,7 @@ class vector {
 		//###########################
 
 		bool	empty() const { return (size_value == 0); } ;
-		size_t	size() { return (size_value); };
+		size_t	size() const { return (size_value); };
 		size_type max_size() const { return (allocator_type().max_size()) ; };
 		void	reserve(size_t new_cap);
 		void resize(size_type n, value_type value = value_type());
@@ -463,7 +463,18 @@ void	vector<T,A>::__destroy_old__(pointer array, size_type allocated_size)
 template <class T, class Alloc>
 bool operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 {
-	return (std::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	typename vector<T,Alloc>::const_iterator lit;
+	typename vector<T,Alloc>::const_iterator rit;
+	if (lhs.size() != rhs.size())
+		return (0);
+	for (unsigned int i = 0; i < lhs.size(); ++i)
+	{
+		lit = ft::next(lhs.begin(), i);
+		rit = ft::next(rhs.begin(), i);
+		if (*lit != *rit)
+			return (0);
+	}
+	return (1);
 }
 
 template <class T, class Alloc>
@@ -475,7 +486,7 @@ bool operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 template <class T, class Alloc>
 bool operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 {
-	return (std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 }
 
 template <class T, class Alloc>

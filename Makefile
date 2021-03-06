@@ -6,7 +6,7 @@
 #    By: nieyraud <nieyraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/10 16:28:15 by nieyraud          #+#    #+#              #
-#    Updated: 2021/03/04 14:53:14 by nieyraud         ###   ########.fr        #
+#    Updated: 2021/03/06 09:47:00 by nieyraud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ NAME = a.out
 
 include files.mk
 
-CONTAINERS = Vector.hpp List.hpp Map.hpp
+CONTAINERS = Vector.hpp List.hpp Map.hpp Queue.hpp Stack.hpp
 CONTAINER_DIRECTORY = srcs/containers
 CONTAINERS_INCLUDE = $(addprefix $(CONTAINER_DIRECTORY)/, $(CONTAINERS))
 ITERATORS = list_iterator.hpp reverse_iterator.hpp Vector_iterator.hpp map_iterator.hpp

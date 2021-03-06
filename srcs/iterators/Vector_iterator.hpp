@@ -3,13 +3,13 @@
 
 namespace ft {
 
-template <class T>
+template <class T, bool B = false>
 class vector_iterator
 {
 
 	public:
 		typedef std::ptrdiff_t					difference_type;
-		typedef T								value_type;
+		typedef typename ft::is_const_if<B, T>::value_type	value_type;
 		typedef value_type*						pointer;
 		typedef const value_type*				const_pointer;
 		typedef value_type&						reference;
@@ -17,15 +17,21 @@ class vector_iterator
 		typedef ft::random_access_iterator_tag	iterator_category;
 
 		vector_iterator() : ptr(0) { };
-		vector_iterator(T* ptr) : ptr(ptr) {} ;
-		vector_iterator(const vector_iterator&);
+		vector_iterator(value_type* ptr) : ptr(ptr) {} ;
+		vector_iterator(const vector_iterator<T>& x) {
+			ptr = reinterpret_cast<pointer>(x.ptr);
+		};
+		vector_iterator &operator=(const vector_iterator<T> & x) {
+			ptr = reinterpret_cast<pointer>(x.ptr);
+			return *this;
+		};
 
-		bool operator==(const vector_iterator<T>& base) const {
+		bool operator==(const vector_iterator& base) const {
 			return (base.ptr == this->ptr) ;
 		}
 		
-		bool operator!=(const vector_iterator<T>& base) const {
-			return (this->ptr != base.ptr);
+		bool operator!=(const vector_iterator& base) const {
+			return (!operator==(base));
 		}
 		
 		reference operator*() {
@@ -44,89 +50,86 @@ class vector_iterator
 			return (this->ptr);
 		}
 
-		vector_iterator<T>& operator++() {
+		vector_iterator& operator++() {
 			this->ptr++;
 			return (*this);
 		}
 
-		vector_iterator<T> operator++(int) {
-			vector_iterator<T> tmp(*this);
+		vector_iterator operator++(int) {
+			vector_iterator tmp(*this);
 			operator++();
 			return (tmp);
 		}
 
-		vector_iterator<T>& operator--() {
+		vector_iterator& operator--() {
 			ptr--;
 			return (*this);
 		}
 
-		vector_iterator<T> operator--(int) {
-			vector_iterator<T> tmp(*this);
+		vector_iterator operator--(int) {
+			vector_iterator tmp(*this);
 			operator--();
 			return (tmp);
 		}
 		
-		vector_iterator<T> operator+(size_t i) {
-			vector_iterator<T> tmp(this->ptr + i);
+		vector_iterator operator+(size_t i) {
+			vector_iterator tmp(this->ptr + i);
 			return (tmp);
 		}
 
-		vector_iterator<T> operator-(size_t i) {
-			vector_iterator<T> tmp(this->ptr - i);
+		vector_iterator operator-(size_t i) {
+			vector_iterator tmp(this->ptr - i);
 			return (tmp);
 		}
 
-		size_t operator-(vector_iterator<T> i) {
+		size_t operator-(vector_iterator i) {
 			return (**this - *i);
 		}
 
-		size_t operator+(vector_iterator<T> i) {
+		size_t operator+(vector_iterator i) {
 			return (**this + *i);
 		}
 
-		void operator=(const vector_iterator& base) {
-			this->ptr = base.ptr;
-		}
-		
-		vector_iterator<T> &operator+=(const int &n) {
+		vector_iterator &operator+=(const int &n) {
 			this->ptr += n;
 			return (*this);
 		}
 		
-		vector_iterator<T> &operator-=(const int &n) {
+		vector_iterator &operator-=(const int &n) {
 			this->ptr -= n;
 			return (*this);
 		}
 
-		bool	operator<(const vector_iterator<T> &rhs) const {
+		bool	operator<(const vector_iterator &rhs) const {
 			return (this->ptr < &(*rhs));
 		}
 
-		bool	operator>(const vector_iterator<T> &rhs) const {
+		bool	operator>(const vector_iterator &rhs) const {
 			return (this->ptr > &(*rhs));
 		}
 		
-		bool	operator<=(const vector_iterator<T> &rhs) const {
+		bool	operator<=(const vector_iterator &rhs) const {
 			return (this->ptr <= &(*rhs));
 		}
 		
-		bool	operator>=(const vector_iterator<T> &rhs) const {
+		bool	operator>=(const vector_iterator &rhs) const {
 			return (this->ptr >= &(*rhs));
 		}
 
 	private:
-		T *ptr;
+		template <class, bool> friend class vector_iterator;
+		value_type *ptr;
 };
 
 //###################################
 //##	CONSTRUCTOR/DESTRUCTOR		#
 //###################################
 
-template <class T>
-vector_iterator<T>::vector_iterator(const vector_iterator<T>& base)
-{
-	this->ptr = base.ptr;
-}
+// template <class T, bool B>
+// vector_iterator<T, B>::vector_iterator(const vector_iterator<T, B>& base)
+// {
+// 	this->ptr = base.ptr;
+// }
 
 //###################################
 //#		CONST VERSION OF ITERATOR	#

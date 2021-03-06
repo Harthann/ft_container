@@ -37,6 +37,7 @@ class map_iterator
 			return *this;
 		};
 		map_iterator(__node_pointer const x) : node(x) {};
+		
 		bool operator!=(const map_iterator& base) const {
 			return (node != base.node);
 		}

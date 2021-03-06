@@ -18,6 +18,12 @@
 #define MAP_STL_OUTPUT "outputs/map/stl_map_output"
 #define MAP_FT_OUTPUT "outputs/map/ft_map_output"
 
+#define QUEUE_STL_OUTPUT "outputs/queue/stl_queue_output"
+#define QUEUE_FT_OUTPUT "outputs/queue/ft_queue_output"
+
+#define STACK_STL_OUTPUT "outputs/stack/stl_stack_output"
+#define STACK_FT_OUTPUT "outputs/stack/ft_stack_output"
+
 struct Counter {
 	Counter() : destroy_ft_count(0), destroy_stl_count(0), construct_ft_count(0), construct_stl_count(0) {};
 	size_t destroy_ft_count;

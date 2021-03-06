@@ -12,7 +12,6 @@ diff_check() {
 
 
 valgrind --log-file="logs/val_log" ./a.out > /dev/null
-
 case $1 in
 	"map" )
 		diff_check $1

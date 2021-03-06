@@ -1,9 +1,14 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
 
-#include "list.hpp"
+#include "List.hpp"
 
 namespace ft {
+
+template <class T, class Container> class queue;
+
+template <class T, class Container>
+bool operator==(const queue<T,Container>& lhs, const queue<T,Container>& rhs);
 
 template <class T, class Container = ft::list<T> >
 class queue
@@ -11,7 +16,7 @@ class queue
 	public:
 		typedef T			value_type;
 		typedef Container	container_type;
-		typedef size_type	size_t;
+		typedef size_t		size_type;
 
 		queue(const container_type& ctnr = container_type()) : c(ctnr) {};
 		bool		empty() const {return c.empty();};
@@ -26,13 +31,18 @@ class queue
 		void	push(const value_type& val) { c.push_back(val); };
 		void	pop() { c.pop_front(); };
 
-
-		friend bool operator==(const queue<T,Alloc>& lhs, const queue<T,Alloc>& rhs);
-		friend bool operator!=(const queue<T,Alloc>& lhs, const queue<T,Alloc>& rhs);
-		friend bool operator<(const queue<T,Alloc>& lhs, const queue<T,Alloc>& rhs);
-		friend bool operator<=(const queue<T,Alloc>& lhs, const queue<T,Alloc>& rhs);
-		friend bool operator>(const queue<T,Alloc>& lhs, const queue<T,Alloc>& rhs);
-		friend bool operator>=(const queue<T,Alloc>& lhs, const queue<T,Alloc>& rhs);
+		template <class A, class C>
+		friend bool operator==(const ft::queue<A,C>& lhs, const ft::queue<A,C>& rhs);
+		template <class A, class C>
+		friend bool operator!=(const ft::queue<A,C>& lhs, const ft::queue<A,C>& rhs);
+		template <class A, class C>
+		friend bool operator<(const ft::queue<A,C>& lhs, const ft::queue<A,C>& rhs);
+		template <class A, class C>
+		friend bool operator<=(const ft::queue<A,C>& lhs, const ft::queue<A,C>& rhs);
+		template <class A, class C>
+		friend bool operator>(const ft::queue<A,C>& lhs, const ft::queue<A,C>& rhs);
+		template <class A, class C>
+		friend bool operator>=(const ft::queue<A,C>& lhs, const ft::queue<A,C>& rhs);
 	private:
 		container_type c;
 };
@@ -41,42 +51,41 @@ class queue
 //##	COMPARISON	##//
 //####################//
 
-template <class T, class Alloc>
-bool operator==(const queue<T,Alloc>& lhs, const queue<T,Alloc>& rhs)
+template <class T, class Container>
+bool operator==(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs)
 {
 	return (lhs.c == rhs.c);
 }
 
-template <class T, class Alloc>
-bool operator!=(const queue<T,Alloc>& lhs, const queue<T,Alloc>& rhs)
+template <class T, class Container>
+bool operator!=(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs)
 {
 	return (lhs.c != rhs.c);
 }
 
-template <class T, class Alloc>
-bool operator<(const queue<T,Alloc>& lhs, const queue<T,Alloc>& rhs)
+template <class T, class Container>
+bool operator<(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs)
 {
 	return (lhs.c < rhs.c);
 }
 
-template <class T, class Alloc>
-bool operator<=(const queue<T,Alloc>& lhs, const queue<T,Alloc>& rhs)
+template <class T, class Container>
+bool operator<=(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs)
 {
 	return (lhs.c <= rhs.c);
 }
 
-template <class T, class Alloc>
-bool operator>(const queue<T,Alloc>& lhs, const queue<T,Alloc>& rhs)
+template <class T, class Container>
+bool operator>(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs)
 {
 	return (lhs.c > rhs.c);
 }
 
-template <class T, class Alloc>
-bool operator>=(const queue<T,Alloc>& lhs, const queue<T,Alloc>& rhs)
+template <class T, class Container>
+bool operator>=(const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs)
 {
 	return (lhs.c >= rhs.c);
 }
-
 
 }
 

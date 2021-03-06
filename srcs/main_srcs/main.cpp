@@ -11,6 +11,8 @@
 void test_lists(void);
 void test_vector(void);
 void	test_map();
+void test_queue(void);
+void test_stack(void);
 
 
 void	header(std::string str, std::ostream& output)
@@ -30,6 +32,8 @@ int main(void)
 	test_vector();
 	test_lists();
 	test_map();
+	test_queue();
+	test_stack();
 	std::cout << "\n\n\033[31mTest programm ended\033[0m\n\n";
 	return (0);
 }
