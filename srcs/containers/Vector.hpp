@@ -47,7 +47,7 @@ class vector {
 				__alloc.deallocate(array, allocated_size);
 		};
 
-		ft::vector<T> & operator=(const ft::vector<int>& x);
+		ft::vector<value_type, allocator_type>& operator=(ft::vector<value_type, allocator_type> const& x);
 		//###########################
 		//#			ITERATORS		#
 		//###########################
@@ -153,6 +153,17 @@ vector<T, A>::vector(size_t value, const value_type& val, const A& alloc)
 		array = 0;
 	this->allocated_size = value;
 	this->size_value = value;
+}
+
+template <class T, class A>
+ft::vector<T, A>	&vector<T,A>::operator=(vector<T,A> const& x)
+{
+	if (!empty())
+		clear();
+	else
+		reserve(x.size());
+	assign(x.begin(), x.end());
+	return (*this);
 }
 
 template <class T, class A>
@@ -354,7 +365,7 @@ ft::vector_iterator<T> vector<T,A>::erase(ft::vector_iterator<T> start, ft::vect
 	while (start != end)
 	{
 		this->erase(start);
-		end--;
+		--end;
 	}
 	return (mem);
 }
@@ -379,12 +390,14 @@ ft::vector_iterator<T> vector<T,A>::insert(ft::vector_iterator<T> pos, const T& 
 	it = this->end();
 	while (it != pos)
 	{
-		*it = *(it - 1);
+		__alloc.destroy(&*it);
+		__alloc.construct(&*it, *(it - 1));
 		it--;
 	}
+	__alloc.destroy(&*it);
 	__alloc.construct(&*it, value);
 	size_value++;
-	return (pos);
+	return (it);
 }
 
 template <class T, class A>
@@ -397,8 +410,9 @@ void	ft::vector<T,A>::insert(ft::vector_iterator<T>  pos, size_t count, const T&
 		reserve(std::max(allocated_size * 2, count));
 		pos = this->begin() + delta;
 	}
-	for (ft::vector_iterator<T> it = this->end(); it != pos; it--)
-		*(this->end() + count - 1) = *it;
+	for (ft::vector_iterator<T> it = ft::prev(this->end()); it != pos; it--)
+		*ft::next(it, count) = *it;
+	*ft::next(pos, count) = *pos;
 	for (size_t i = 0; i < count; i++)
 		__alloc.construct(&*(pos + i), value);
 	size_value += count;
@@ -416,15 +430,10 @@ typename ft::enable_if<ft::is_input_iterator<InputIT>::value, InputIT>::void_t	v
 		pos = this->begin() + index;
 	}
 
-	for (ft::vector_iterator<T> it = this->end(); it != pos; it--)
-		*(this->end() + delta - 1) = *it;
-	this->size_value += delta;
-	while (delta > 0)
+	for (size_t i = 0; i < delta; ++i)
 	{
-		__alloc.construct(&*pos, *its);
-		--delta;
-		++pos;
-		++its;
+		--ite;
+		insert(pos, *ite);
 	}
 }
 

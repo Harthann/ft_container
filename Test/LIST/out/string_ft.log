@@ -1,0 +1,8 @@
+BOB(5, 8) : Hello Hello Hello Hello Hello 
+
+CTORS
+Empty is empty ? true
+BOB is empty? false
+Size of JOHN 0
+Size of BOB 5
+Size of MIKE 5

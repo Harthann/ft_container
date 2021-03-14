@@ -1,0 +1,14 @@
+In file included from mains/count_main.cpp:14:
+../.INCLUDES/MAP_UC.HPP:496:10: error: 'this' argument to member function '__find__' has type 'const ft::map<char, int, std::less<char>, std::allocator<std::pair<const char, int> > >', but function is not marked const
+        return (__find__(head, k));
+                ^~~~~~~~
+../.INCLUDES/MAP_UC.HPP:505:8: note: in instantiation of member function 'ft::map<char, int, std::less<char>, std::allocator<std::pair<const char, int> > >::find' requested here
+        cit = find(k);
+              ^
+mains/count_main.cpp:48:15: note: in instantiation of member function 'ft::map<char, int, std::less<char>, std::allocator<std::pair<const char, int> > >::count' requested here
+    if (mymap.count(c)>0)
+              ^
+../.INCLUDES/MAP_UC.HPP:171:13: note: '__find__' declared here
+                iterator                __find__(__node_pointer node, const key_type& k);
+                                        ^
+1 error generated.

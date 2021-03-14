@@ -1,0 +1,54 @@
+[37m# test_queue[0m
+[33m/* ********************************************************************** */
+/*                          [37mBASIC TESTS[33m                                   */
+/* ********************************************************************** */[0m
+queue<[35mint[0m> myqueue
+
+[37m# empty[0m
+myqueue.empty(): 1
+myqueue.size(): 0
+[37m# one element[0m
+myqueue.push(42)
+myqueue.empty(): 0
+myqueue.size(): 1
+myqueue.back(): 42
+myqueue.front(): 42
+[37m# two element[0m
+myqueue.push(2)
+myqueue.size(): 2
+myqueue.back(): 2
+myqueue.front(): 42
+[37m# pop element[0m
+myqueue.pop()
+myqueue.size(): 1
+myqueue.back(): 2
+myqueue.front(): 2
+
+queue<[35mint[0m, [35mlist[0m> myqueue2
+
+[37m# empty[0m
+myqueue2.empty(): 1
+myqueue2.size(): 0
+[37m# one element[0m
+myqueue2.push(42)
+myqueue2.empty(): 0
+myqueue2.size(): 1
+myqueue.back(): 2
+myqueue2.front(): 42
+[37m# two element[0m
+myqueue2.push(2)
+myqueue2.size(): 2
+myqueue.back(): 2
+myqueue2.front(): 42
+[37m# pop element[0m
+myqueue2.pop()
+myqueue2.size(): 1
+myqueue.back(): 2
+myqueue2.front(): 2
+
+[37m# test cpy and equality[0m
+queue<[35mint[0m> cpyqueue = myqueue
+
+cpyqueue == myqueue:1
+cpyqueue.push(7)
+cpyqueue == myqueue:0

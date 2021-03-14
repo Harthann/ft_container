@@ -1,0 +1,43 @@
+mains/lmartin_main.cpp:90:15: error: use of undeclared identifier 'pair'; did you mean 'std::pair'?
+        mymap.insert(pair<string, int>("ft", 42));
+                     ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_pair.h:211:12: note: 'std::pair' declared here
+    struct pair
+           ^
+mains/lmartin_main.cpp:93:15: error: use of undeclared identifier 'pair'; did you mean 'std::pair'?
+        mymap.insert(pair<string, int>("one", 1));
+                     ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_pair.h:211:12: note: 'std::pair' declared here
+    struct pair
+           ^
+mains/lmartin_main.cpp:168:15: error: use of undeclared identifier 'pair'; did you mean 'std::pair'?
+        mymap.insert(pair<string, int>("xD", 123));
+                     ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_pair.h:211:12: note: 'std::pair' declared here
+    struct pair
+           ^
+mains/lmartin_main.cpp:170:28: error: use of undeclared identifier 'pair'; did you mean 'std::pair'?
+        mymap.insert(mymap.end(), pair<string, int>("uch", 442));
+                                  ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_pair.h:211:12: note: 'std::pair' declared here
+    struct pair
+           ^
+mains/lmartin_main.cpp:172:30: error: use of undeclared identifier 'pair'; did you mean 'std::pair'?
+        mymap.insert(mymap.begin(), pair<string, int>("uch", 22));
+                                    ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_pair.h:211:12: note: 'std::pair' declared here
+    struct pair
+           ^
+mains/lmartin_main.cpp:174:28: error: use of undeclared identifier 'pair'; did you mean 'std::pair'?
+        mymap.insert(mymap.end(), pair<string, int>("uch", 23));
+                                  ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_pair.h:211:12: note: 'std::pair' declared here
+    struct pair
+           ^
+mains/lmartin_main.cpp:176:15: error: use of undeclared identifier 'pair'; did you mean 'std::pair'?
+        mymap.insert(pair<string, int>("uch", 23));
+                     ^
+/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_pair.h:211:12: note: 'std::pair' declared here
+    struct pair
+           ^
+7 errors generated.

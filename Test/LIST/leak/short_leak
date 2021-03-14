@@ -1,0 +1,27 @@
+==5897== Memcheck, a memory error detector
+==5897== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==5897== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==5897== Command: ./bin/short_ft
+==5897== 
+==5897== Conditional jump or move depends on uninitialised value(s)
+==5897==    at 0x4995AAA: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string() (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==5897==    by 0x402614: ft::__list_node<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::~__list_node() (in /home/nieyraud/Documents/ft_container/Test/LIST/bin/short_ft)
+==5897==    by 0x402044: ft::list<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~list() (in /home/nieyraud/Documents/ft_container/Test/LIST/bin/short_ft)
+==5897==    by 0x4018DD: main (in /home/nieyraud/Documents/ft_container/Test/LIST/bin/short_ft)
+==5897== 
+==5897== Conditional jump or move depends on uninitialised value(s)
+==5897==    at 0x4839E61: operator delete(void*) (vg_replace_malloc.c:584)
+==5897==    by 0x402614: ft::__list_node<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::~__list_node() (in /home/nieyraud/Documents/ft_container/Test/LIST/bin/short_ft)
+==5897==    by 0x402044: ft::list<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::~list() (in /home/nieyraud/Documents/ft_container/Test/LIST/bin/short_ft)
+==5897==    by 0x4018DD: main (in /home/nieyraud/Documents/ft_container/Test/LIST/bin/short_ft)
+==5897== 
+==5897== 
+==5897== HEAP SUMMARY:
+==5897==     in use at exit: 0 bytes in 0 blocks
+==5897==   total heap usage: 15 allocs, 15 frees, 77,136 bytes allocated
+==5897== 
+==5897== All heap blocks were freed -- no leaks are possible
+==5897== 
+==5897== Use --track-origins=yes to see where uninitialised values come from
+==5897== For lists of detected and suppressed errors, rerun with: -s
+==5897== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
