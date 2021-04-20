@@ -1,8 +1,0 @@
-mains/equalRange_main.cpp:40:3: error: no template named 'pair'; did you mean 'std::pair'?
-  pair<map<char,int>::iterator,map<char,int>::iterator> ret;
-  ^~~~
-  std::pair
-/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_pair.h:211:12: note: 'std::pair' declared here
-    struct pair
-           ^
-1 error generated.

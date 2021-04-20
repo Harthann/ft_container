@@ -3,7 +3,7 @@
 		==========================
 List size before push is = 0
 		== SIZE TESTS ==
-List max size = 768614336404564650
+List max size = 384307168202282325
 List actual size is = 4
 		== ITERATING THROUGH LIST USING ITERATOR AND REVERSE ==
 20.12 -> 15.876 -> 10.4 -> 5.67 -> 3.12 -> 9.56 -> 12.4232 -> 6.9

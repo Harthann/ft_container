@@ -83,11 +83,11 @@ class vector_iterator
 		}
 
 		size_t operator-(vector_iterator i) {
-			return (**this - *i);
+			return (this->ptr - i.ptr);
 		}
 
 		size_t operator+(vector_iterator i) {
-			return (**this + *i);
+			return (this->ptr + i.ptr);
 		}
 
 		vector_iterator &operator+=(const int &n) {

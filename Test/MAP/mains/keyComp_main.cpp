@@ -39,9 +39,7 @@ int main ()
   mymap['b']=200;
   mymap['c']=300;
 
-
   char highest = mymap.rbegin()->first;     // key value of last element
-
 
   cout << "mymap contains:\n";
   map<char,int>::iterator it = mymap.begin();

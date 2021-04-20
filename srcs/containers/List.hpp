@@ -4,6 +4,7 @@
 #include <iostream>
 #include "list_iterator.hpp"
 #include "reverse_iterator.hpp"
+#include "algorithm.hpp"
 
 namespace ft {
 
@@ -17,11 +18,16 @@ struct	__list_node {
 	typedef __node*					__node_pointer;
 	typedef __node&					__node_reference;
 
-	__list_node() : data(0), next(0), previous(0) {};
+	__list_node() : data(), next(0), previous(0) {};
+	__list_node(value_type const &data) : data(data), next(0), previous(0) {} ;
 	__list_node(value_type const &data, __node_pointer const &next, __node_pointer const& prev) : data(data), next(next), previous(prev) {};
 	__list_node(const __list_node& base) : data(base.data), next(base.next), previous(base.previous) {};
 
+	~__list_node() {
+	};
+
 	__list_node &operator=(const __list_node& base) {
+		this->data.value_type(base.data);
 		data = base.data;
 		next = base.next;
 		previous = base.previous;
@@ -52,25 +58,24 @@ class list
 		typedef size_t													size_type;
 
 
-		list(const allocator_type &alloc = allocator_type())
-			: __alloc(alloc), __node_alloc() { ghost = __node_alloc.allocate(1); ghost->next = ghost; ghost->previous = ghost; head = ghost;};
+		list(const allocator_type &alloc = allocator_type());
 		list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type());
 		template <class InputIT>
 		list(InputIT its, typename ft::enable_if<is_input_iterator<InputIT>::value, InputIT>::type ite, const allocator_type &alloc = allocator_type());
 		list(const list<T,Alloc>& tmp);
 		list<T,Alloc> & operator=(list<T,Alloc> const &base);
 		~list() {
-			while (!empty())
-				pop_front();
-			delete ghost;
+			erase(this->begin(), this->end());
+			this->__alloc.destroy(&ghost->data);
+			this->__node_alloc.deallocate(ghost, 1);
 		};
 		
 		//		ITERATORS
 
 		iterator begin() { return (head); };
 		iterator end() { return (ghost); };
-		reverse_iterator rbegin() { return (ft::prev(iterator(ghost))); };
-		reverse_iterator rend() { return (ft::prev(iterator(head))); };
+		reverse_iterator rbegin() { return (iterator(ghost)); };
+		reverse_iterator rend() { return (iterator(head)); };
 		const_iterator begin() const {
 			typedef __list_node<const value_type>* __const_node;
 			__const_node const_head = reinterpret_cast<__const_node>(head);
@@ -116,7 +121,7 @@ class list
 		iterator	erase(iterator pos);
 		iterator	erase(iterator first, iterator last);
 		void		resize (size_type n, value_type val = value_type());
-		void		clear() { while (!empty()) erase(begin(), end()); };
+		void		clear() {erase(begin(), end());};
 		void		swap(list& x);
 
 		//		OPERATIONS
@@ -147,6 +152,7 @@ class list
 		iterator	__link__(iterator pos, iterator it);
 		template <class Compare>
 		iterator	__find_sorted_pos__(value_type &val, Compare comp);
+		__node_pointer __create_block__(size_t n, __node_pointer prev, const value_type &val);
 		
 		__node_pointer		head;
 		__node_pointer		ghost;
@@ -160,20 +166,28 @@ class list
 //###################################
 
 template <class T, class A>
+list<T,A>::list(const allocator_type &alloc)
+: __alloc(alloc), __node_alloc()
+{
+	ghost = __node_alloc.allocate(1);
+	this->__node_alloc.construct(ghost, __node());
+	ghost->next = ghost;
+	ghost->previous = ghost;
+	head = ghost;
+}
+
+template <class T, class A>
 template <class InputIT>
 list<T,A>::list(InputIT its, typename ft::enable_if<is_input_iterator<InputIT>::value, InputIT>::type ite,  const allocator_type &alloc)
 {
 	__alloc = alloc;
 	__node_alloc = __node_allocator();
 	ghost = __node_alloc.allocate(1);
+	this->__node_alloc.construct(ghost, __node());
 	ghost->next = ghost;
 	ghost->previous = ghost;
 	head = ghost;
-	while (its != ite)
-	{
-		push_back(*its);
-		++its;
-	}
+	this->insert(this->begin(), its, ite);
 }
 
 template <class T, class A>
@@ -182,11 +196,11 @@ list<T,A>::list(const list<T,A>& base)
 	__alloc = base.__alloc;
 	__node_alloc = base.__node_alloc;
 	ghost = __node_alloc.allocate(1);
+	this->__node_alloc.construct(ghost, __node());
 	ghost->next = ghost;
 	ghost->previous = ghost;
 	head = ghost;
-	for (const_iterator cit = base.begin(); cit != base.end(); ++cit)
-		push_back(*cit);
+	this->insert(this->begin(), base.begin(), base.end());
 }
 
 template <class T, class A>
@@ -195,6 +209,7 @@ list<T,A>::list(size_type n, const value_type &val, const allocator_type &alloc)
 	__alloc = alloc;
 	__node_alloc = __node_allocator();
 	ghost = __node_alloc.allocate(1);
+	this->__node_alloc.construct(ghost, __node());
 	ghost->next = ghost;
 	ghost->previous = ghost;
 	head = ghost;
@@ -205,8 +220,8 @@ list<T,A>::list(size_type n, const value_type &val, const allocator_type &alloc)
 template <class T, class A>
 list<T,A> &list<T,A>::operator=(const list<T,A>& base)
 {
-	for (const_iterator cit = base.begin(); cit != base.end(); ++cit)
-		push_back(*cit);
+	this->clear();
+	this->insert(this->begin(), base.begin(), base.end());
 	return (*this);
 }
 
@@ -218,57 +233,25 @@ list<T,A> &list<T,A>::operator=(const list<T,A>& base)
 template <class T, class A>
 void list<T,A>::push_front(const value_type& value)
 {
-	__node_pointer tmp = __node_alloc.allocate(1);
-	tmp->data = value;
-	tmp->next = (head != ghost) ? head : ghost;
-	tmp->previous = ghost;
-	ghost->next = tmp;
-	head->previous = tmp;
-	head = tmp;
+	insert(this->begin(), 1, value);
 }
 
 template <class T, class A>
 void list<T,A>::push_back(const value_type& value)
 {
-	__node_pointer tmp = __node_alloc.allocate(1);
-	tmp->data = value;
-	tmp->next = ghost;
-	if (head == ghost) {
-		tmp->previous = ghost;
-		head = tmp;
-		ghost->next = tmp;
-	}
-	else {
-		tmp->previous = ghost->previous;
-		ghost->previous->next = tmp;
-	}
-	ghost->previous = tmp;
+	insert(this->end(), 1, value);
 }
 
 template <class T, class A>
 void	list<T,A>::pop_front()
 {
-	__node_pointer tmp = head->next;
-	__node_alloc.destroy(head);
-	delete head;
-	head = tmp;
+	erase(this->begin());
 }
 
 template <class T, class A>
 void	list<T,A>::pop_back()
 {
-	__node_pointer tmp = ghost->previous;
-	if (tmp == head) {
-		head = ghost;
-		ghost->next = 0;
-		ghost->previous = 0;
-	}
-	else {
-		tmp->previous->next = ghost;
-		ghost->previous = tmp->previous;
-	}
-	__node_alloc.destroy(tmp);
-	delete tmp;
+	erase(ft::prev(this->end()));
 }
 
 //###############################
@@ -280,8 +263,7 @@ template <class InputIT>
 typename ft::enable_if<ft::is_input_iterator<InputIT>::value, bool>::
 void_t	list<T,A>::assign(InputIT its, InputIT ite)
 {
-	while (!empty())
-		pop_front();
+	this->clear();
 	for (; its != ite; ++its)
 		push_back(*its);
 }
@@ -290,11 +272,9 @@ void_t	list<T,A>::assign(InputIT its, InputIT ite)
 template < class T, class A>
 void	list<T,A>::assign(size_type n, value_type const &val)
 {
-	while (!empty())
-		pop_front();
+	this->clear();
 	for (; n > 0; --n)
 		push_front(val);
-	
 }
 
 //############################
@@ -309,14 +289,16 @@ typename list<T,A>::iterator	list<T,A>::erase(list<T,A>::iterator pos)
 	pos.node->next->previous = pos.node->previous;
 	if (pos == begin())
 		head = pos.node->next;
-	__node_alloc.destroy(pos.node);
-	delete pos.node;
+	__alloc.destroy(&pos.node->data);
+	__node_alloc.deallocate(pos.node, 1);
 	return ret;
 }
 
 template <class T, class A>
 typename list<T,A>::iterator	list<T,A>::erase(list<T,A>::iterator first, list<T,A>::iterator last)
 {
+	if (first == last)
+		return this->end();
 	while (first != last) {
 		first = erase(first);
 	}
@@ -338,26 +320,21 @@ typename list<T,A>::iterator	list<T,A>::insert(iterator pos, const value_type &v
 template <class T, class A>
 void	list<T,A>::insert(iterator pos, size_type n, const value_type &val)
 {
-	__node_pointer new_node;
+	__node_pointer	new_node = NULL;
 
 	while (n > 0)
 	{
 		new_node = __node_alloc.allocate(1);
-		new_node->data = val;
+		this->__node_alloc.construct(new_node, __node(val));
 		new_node->next = pos.node;
 		new_node->previous = pos.node->previous;
-		if (pos == begin())
+		pos.node->previous = new_node;
+		new_node->previous->next = new_node;
+		if (pos.node == head)
 		{
 			head = new_node;
 			ghost->next = head;
 		}
-		else
-		{
-			pos.node->previous->next = new_node;
-			pos.node->previous = new_node;
-		}
-		if (pos == end())
-			ghost->previous = new_node;
 		--n;
 	}
 }
@@ -377,10 +354,13 @@ void_t	list<T,A>::insert(iterator pos, InputIT first, InputIT last)
 template <class T, class A>
 void	list<T,A>::resize(size_type n, value_type val)
 {
-	while (n > size())
-		push_back(val);
-	while (size() > n)
-		pop_back();
+	if (n > size())
+		insert(this->end(), n - size(), val);
+	else
+	{
+		while (size() > n)
+			pop_back();
+	}
 }
 
 template <class T, class A>
@@ -417,16 +397,11 @@ void	list<T,A>::splice(iterator pos, list&x)
 template <class T, class A>
 void	list<T,A>::splice(iterator pos, list&x, iterator first, iterator last)
 {
-	__node_pointer tmp = last.node->previous;
-
-	first.node->previous->next = last.node;
-	last.node->previous = first.node->previous;
-	if (first.node == x.head)
-		x.head = last.node;
-	first.node->previous = pos.node->previous;
-	first.node->previous->next = first.node;
-	pos.node->previous = tmp;
-	tmp->next = pos.node;
+	while (first != last)
+	{
+		++first;
+		this->splice(pos, x, ft::prev(first));
+	}
 }
 
 
@@ -475,7 +450,7 @@ template <class T, class A>
 void	list<T,A>::sort()
 {
 	iterator tmp;
-	for (size_type i = 0; i < size() - 1; ++i)
+	for (size_type i = 0; i < size() - 1 && !empty(); ++i)
 	{
 		tmp = ft::next(begin(), i);
 		for (iterator it = tmp; it != end(); ++it)
@@ -537,7 +512,7 @@ void	list<T,A>::unique(BinaryPredicate binary_pred)
 template <class T, class A>
 void	list<T,A>::reverse()
 {
-	std::swap(ghost->previous, ghost->next);
+	ft::swap(ghost->previous, ghost->next);
 	head = ghost->next;
 	for (iterator it = begin(); it != end(); ++it)
 		std::swap(it.node->previous, it.node->next);
@@ -552,14 +527,10 @@ void	list<T,A>::merge(list<T>& x)
 	{
 		tmp = x.begin();
 		x.__unlink__(tmp);
-		for (iterator it = begin(); it != end(); ++it)
-		{
-			if ( *tmp < *it)
-				break;
-			pos = it;
-		}
+		pos = this->begin();
 		__link__(pos, tmp);
 	}
+	this->sort();
 }
 
 template <class T, class A>

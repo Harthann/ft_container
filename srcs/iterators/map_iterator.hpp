@@ -12,8 +12,6 @@ template <class T, class Comp> class map_const_iterator;
 template <class T, class Comp, bool B = false>
 class map_iterator
 {
-
-
 	public:
 		typedef typename ft::is_const_if<B, T>::value_type	value_type;
 		typedef value_type&									reference;
@@ -84,6 +82,10 @@ class map_iterator
 			operator--();
 			return (tmp);
 		};
+
+		// operator map_iterator<T, Comp, true>() const {
+		// 	return (map_iterator<T, Comp, true>(*this));
+		// }
 
 	protected:
 		// typedef ft::__map_node<T>		__node;

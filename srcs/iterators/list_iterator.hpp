@@ -16,8 +16,6 @@ class   list_iterator
 		typedef typename ft::is_const_if<B, T>::value_type	value_type;
 		typedef value_type*								pointer;
 		typedef value_type&								reference;
-		// typedef const T*						const_pointer;
-		// typedef const T&						const_reference;
 		typedef std::ptrdiff_t					difference_type;
 		typedef ft::bidirectional_iterator_tag  iterator_category;
 		template<class, class> friend class list;
@@ -28,7 +26,6 @@ class   list_iterator
 	
 	public:
 		list_iterator() : node(0) {};
-		// list_iterator(ft::__list_node<T>* node) : node(node) {} ;
 		list_iterator(__node_pointer const node) : node(node) {} ;
 		list_iterator(const list_iterator<T>& base) : node(reinterpret_cast<__node_pointer>(base.node)) {} ;
 		list_iterator &operator=(const list_iterator<T>& base) {
@@ -37,10 +34,8 @@ class   list_iterator
 		};
 
 		reference operator*() { return node->data; };
-		// const_reference operator*() const { return node->data; };
 
 		pointer operator->() { return (&node->data); };
-		// const_pointer operator->() const { return (&node->data); };
 
 		bool operator!=(const list_iterator& base) const {
 			return (node != base.node);

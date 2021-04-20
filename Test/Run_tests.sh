@@ -46,7 +46,7 @@ else
 	rm .include_path .path 2> /dev/null
 fi
 
-for I in "${DIR[@]}"
+for I in "${DIR[@]}" 
 do
 	if (( $COUNT > 0 ))
 	then

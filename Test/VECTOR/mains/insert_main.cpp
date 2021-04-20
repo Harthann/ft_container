@@ -50,21 +50,16 @@ int main ()
   it = myvector.begin();
   it = myvector.insert ( it , 200 );
 
-  std::cout << *it << std::endl;
-  print(myvector);
   myvector.insert (it,2,300);
 
-  print(myvector);
   // "it" no longer valid, get a new one:
   it = myvector.begin();
 
   vector<int> anothervector (2,400);
   myvector.insert (it+2,anothervector.begin(),anothervector.end());
-  print(myvector);
 
   int myarray [] = { 501,502,503 };
   myvector.insert (myvector.begin(), myarray, myarray+3);
-  print(myvector);
 
   cout << "myvector contains:";
   for (it=myvector.begin(); it<myvector.end(); it++)

@@ -16,7 +16,7 @@ a => 100 | c => 300 | e => -4 | f => 67 | h => 3674 | i => 700 | l => 564378 | q
 		== CAPACITY CHECK ==
 Is container empty ? 0
 Map has 11 keys
-Map max capacity is : 461168601842738790
+Map max capacity is : 230584300921369395
 		== ASSIGN MAP INTO MAP_CPY ==
 Map contains :
 	a => 100 | c => 300 | e => -4 | f => 67 | h => 3674 | i => 700 | l => 564378 | q => 3346 | r => 21 | s => 4378 | u => 568

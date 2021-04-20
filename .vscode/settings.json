@@ -78,6 +78,7 @@
 		"__memory": "cpp",
 		"map": "cpp",
 		"__tree": "cpp",
-		"queue": "cpp"
+		"queue": "cpp",
+		"set": "cpp"
 	}
 }

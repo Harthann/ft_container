@@ -1,8 +1,0 @@
-mains/valueComp_main.cpp:42:3: error: no template named 'pair'; did you mean 'std::pair'?
-  pair<char,int> highest = *mymap.rbegin();          // last element
-  ^~~~
-  std::pair
-/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/stl_pair.h:211:12: note: 'std::pair' declared here
-    struct pair
-           ^
-1 error generated.

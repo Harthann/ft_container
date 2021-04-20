@@ -18,7 +18,6 @@ run_tests ()
 {
 	rm logs/"$1"_ft.error.log
 	rm logs/"$1"_std.error.log
-	#echo -e "\033[0;33mtesting" $1 "... \033[0m"
 	clang++ -Werror -Wextra -Werror -std=c++98 -I . -I "$INCLUDES" -I "$INCLUDES"/EMPTY -I ../"$2" -I "$INCLUDES"/EMPTY/JUST_IN_CASE \
 			mains/"$1"_main.cpp -o bin/"$1"_ft 2> logs/"$1"_ft.error.log
 	clang++ -Werror -Wextra -Werror -std=c++98 -D STD -I . -I "$INCLUDES" -I "$INCLUDES"/EMPTY \
@@ -33,20 +32,9 @@ run_tests ()
 			echo -e "\033[1m\033[31m\033[25m""$NOPE""\t""$1" "test does not compile!\033[0m"
 		else
 			./bin/"$1"_std > out/"$1"_std.log 2> /dev/null
-			timeout 5 ./bin/"$1"_ft > out/"$1"_ft.log 2> /dev/null
-			RET=$?
+			./bin/"$1"_ft > out/"$1"_ft.log 2> /dev/null
 			diff out/"$1"_std.log out/"$1"_ft.log > diff/"$1".diff
-			#echo "ret:$RET"
-			if [ $RET -eq 124 ]
-			then
-				echo -e "\033[31m""$NOPE""\t""$1" "timeout. No out provided.\033[0m"
-			elif [ $RET -eq 134 ]
-			then
-				echo -e "\033[31m""$NOPE""\t""$1" "free() : invalid pointer. No out provided.\033[0m"
-			elif [ $RET -eq 139 ]
-			then
-				echo -e "\033[31m""$NOPE""\t""$1" "Segfault detected. No out provided.\033[0m"
-			elif [ $(cat diff/"$1".diff | wc -l) -eq 0 ]
+			if [ $(cat diff/"$1".diff | wc -l) -eq 0 ]
 			then
 				if [[ "$OSTYPE" == "linux-gnu"* ]]
 				then

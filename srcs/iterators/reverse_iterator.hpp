@@ -3,116 +3,137 @@
 
 namespace ft {
 
-template <class Iter>
-class reverse_iterator
-{
+	template <class T, class Comp, bool B> class map_iterator;
+	template <class T, bool B> class list_iterator;
+	template <class T, bool B> class vector_iterator;
 
-	public:
-		typedef Iter													iterator_type;
-		typedef typename ft::iterator_traits<Iter>::difference_type		difference_type;
-		typedef typename ft::iterator_traits<Iter>::value_type			value_type;
-		typedef typename ft::iterator_traits<Iter>::pointer				pointer;
-		typedef typename ft::iterator_traits<Iter>::reference			reference;
-		typedef const value_type&											const_reference;
-		typedef const value_type*											const_pointer;
-		typedef typename ft::iterator_traits<Iter>::iterator_category	iterator_category;
+	template <class Iter>
+	class reverse_iterator
+	{
 
-		reverse_iterator() : ptr(0) { };
-		reverse_iterator(pointer &ptr) : ptr(ptr) {} ;
-		reverse_iterator(const iterator_type &base) : ptr(base) {};
-		reverse_iterator(const reverse_iterator&);
+		public:
+			typedef Iter													iterator_type;
+			typedef typename ft::iterator_traits<Iter>::difference_type		difference_type;
+			typedef typename ft::iterator_traits<Iter>::value_type			value_type;
+			typedef typename ft::iterator_traits<Iter>::pointer				pointer;
+			typedef typename ft::iterator_traits<Iter>::reference			reference;
+			typedef const value_type&											const_reference;
+			typedef const value_type*											const_pointer;
+			typedef typename ft::iterator_traits<Iter>::iterator_category	iterator_category;
 
-		bool operator==(const reverse_iterator<Iter>& base) const {
-			return (base.ptr == ptr) ;
-		}
+			reverse_iterator() : ptr() { };
+			reverse_iterator(pointer &ptr) : ptr(ptr) {} ;
+			reverse_iterator(const iterator_type &base) : ptr(base) {};
+			reverse_iterator(const reverse_iterator&);
 
-		reference operator*() {
-			return (*ptr);
-		}
+			template <class T, class Comp>
+			operator reverse_iterator<ft::map_iterator<T, Comp, true> >() {
+				return (reverse_iterator<ft::map_iterator<T, Comp, true> >(this->ptr));
+			}
 
-		const_reference operator*() const {
-			return (*ptr);
-		}
+			template <class T>
+			operator reverse_iterator<ft::list_iterator<T,true> >() {
+				return (reverse_iterator<ft::list_iterator<T,true> >(this->ptr));
+			}
 
-		pointer operator->() {
-			return (ptr.operator->());
-		}
+			template <class T>
+			operator reverse_iterator<ft::vector_iterator<T,true> >() {
+				return (reverse_iterator<ft::vector_iterator<T,true> >(this->ptr));
+			}
 
-		const_pointer operator->() const {
-			return (ptr.operator->());
-		}
+			bool operator==(const reverse_iterator<Iter>& base) const {
+				return (base.ptr == ptr);
+			}
 
-		reverse_iterator<Iter> operator+(difference_type n ) const {
-			reverse_iterator<Iter> tmp(*(ptr - n));
-			return (tmp);
-		}
+			reference operator*() {
+				Iter tmp = ptr;
+				return *--tmp;
+				return (*ptr);
+			}
 
-		reverse_iterator<Iter> operator-( difference_type n ) const {
-			reverse_iterator<Iter> tmp(*(ptr + n));
-			return (tmp);
-		}
-		//reverse_iterator<Iter>& operator+=( difference_type n );
-		//reverse_iterator<Iter>& operator-=( difference_type n );
-		void operator=(const reverse_iterator& base) {
-			this->ptr = base.ptr;
-		}
+			const_reference operator*() const {
+				return (*ptr);
+			}
 
-		bool operator!=(const reverse_iterator<Iter>& x) const {
-			return (x.ptr != ptr);
-		}
-		
-		reverse_iterator<Iter>& operator++() {
-			ptr--;
-			return (*this);
-		}
-		
-		reverse_iterator<Iter>& operator--() {
-			ptr++;
-			return (*this);
-		}
+			pointer operator->() {
+				Iter tmp = ptr;
+				--tmp;
+				return (tmp.operator->());
+			}
 
-		reverse_iterator<Iter> operator++(int) {
-			reverse_iterator<Iter> tmp(*this);
-			operator++();
-			return (tmp);
-		}
+			const_pointer operator->() const {
+				return (ptr.operator->());
+			}
 
-		reverse_iterator<Iter> operator--(int) {
-			reverse_iterator<Iter> tmp(*this);
-			operator--();
-			return (tmp);
-		}
+			reverse_iterator<Iter> operator+(difference_type n ) const {
+				reverse_iterator<Iter> tmp(ptr - n);
+				return (tmp);
+			}
 
-		bool	operator<(const reverse_iterator &rhs) const {
-			return (&(*ptr) < &(*rhs));
-		}
+			reverse_iterator<Iter> operator-( difference_type n ) const {
+				reverse_iterator<Iter> tmp(ptr + n);
+				return (tmp);
+			}
+			void operator=(const reverse_iterator& base) {
+				this->ptr = base.ptr;
+			}
 
-		bool	operator>(const reverse_iterator &rhs) const {
-			return (&(*ptr) > &(*rhs));
-		}
-		
-		bool	operator<=(const reverse_iterator &rhs) const {
-			return (&(*ptr) <= &(*rhs));
-		}
-		
-		bool	operator>=(const reverse_iterator &rhs) const {
-			return (&(*ptr) >= &(*rhs));
-		}
+			bool operator!=(const reverse_iterator<Iter>& x) const {
+				return (x.ptr != ptr);
+			}
+			
+			reverse_iterator<Iter>& operator++() {
+				--ptr;
+				return (*this);
+			}
+			
+			reverse_iterator<Iter>& operator--() {
+				++ptr;
+				return (*this);
+			}
 
-	private:
-		Iter ptr;
+			reverse_iterator<Iter> operator++(int) {
+				reverse_iterator<Iter> tmp(*this);
+				--ptr;
+				return (tmp);
+			}
 
-};
+			reverse_iterator<Iter> operator--(int) {
+				reverse_iterator<Iter> tmp(*this);
+				++ptr;
+				return (tmp);
+			}
 
-//###################################
-//##	CONSTRUCTOR/DESTRUCTOR		#
-//###################################
+			bool	operator<(const reverse_iterator &rhs) const {
+				return (&(*ptr) < &(*rhs));
+			}
 
-template <class Iter>
-reverse_iterator<Iter>::reverse_iterator(const reverse_iterator<Iter>& base)
-{
-	this->ptr = base.ptr;
-}
+			bool	operator>(const reverse_iterator &rhs) const {
+				return (&(*ptr) > &(*rhs));
+			}
+			
+			bool	operator<=(const reverse_iterator &rhs) const {
+				return (&(*ptr) <= &(*rhs));
+			}
+			
+			bool	operator>=(const reverse_iterator &rhs) const {
+				return (&(*ptr) >= &(*rhs));
+			}
+
+		private:
+			Iter ptr;
+
+	};
+
+	//###################################
+	//##	CONSTRUCTOR/DESTRUCTOR		#
+	//###################################
+
+	template <class Iter>
+	reverse_iterator<Iter>::reverse_iterator(const reverse_iterator<Iter>& base)
+	{
+		this->ptr = base.ptr;
+	}
 
 } // end namespace definition
 
