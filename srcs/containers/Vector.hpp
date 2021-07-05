@@ -105,8 +105,8 @@ class vector {
 		iterator	insert(iterator pos, const T& value);
 		void		insert(iterator pos, size_t count,const T& value );
 		template <class InputIT>
-		typename ft::enable_if<ft::is_input_iterator<InputIT>::value, InputIT>::void_t
-					insert(iterator pos,InputIT its, InputIT ite);
+		void insert(iterator pos,	InputIT its,
+					typename ft::enable_if<ft::is_input_iterator<InputIT>::value, InputIT>::type ite);
 		iterator	erase(iterator start);
 		iterator	erase(iterator start, iterator end);
 		void		swap(vector& x);
@@ -349,7 +349,9 @@ void	ft::vector<T,A>::insert(ft::vector_iterator<T>  pos, size_t count, const T&
 
 template <class T, class A>
 template <class InputIT>
-typename ft::enable_if<ft::is_input_iterator<InputIT>::value, InputIT>::void_t	vector<T,A>::insert(ft::vector_iterator<T> pos, InputIT its, InputIT ite)
+void	vector<T,A>::insert(ft::vector_iterator<T> pos,
+							InputIT its,
+							typename ft::enable_if<is_input_iterator<InputIT>::value, InputIT>::type ite)
 {
 	size_t delta = ft::distance(its, ite);
 	size_t index = ft::distance(this->begin(), pos);
