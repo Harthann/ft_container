@@ -1,10 +1,10 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 
-#include "List.hpp"
+#include "Vector.hpp"
 namespace ft {
 
-template <class T, class Container = ft::list<T> >
+template <class T, class Container = ft::vector<T> >
 class stack
 {
 	public:
@@ -36,7 +36,7 @@ class stack
 		template <class A, class C>
 		friend bool operator>=(const stack<A,C>& lhs, const stack<A,C>& rhs);
 
-	private:
+	protected:
 		container_type c;
 };
 
