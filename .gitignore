@@ -3,3 +3,8 @@ objs
 *.swp
 a.out
 
+Test/**/bin/
+Test/**/diff/
+Test/**/leak/
+Test/**/logs/
+Test/**/out/
