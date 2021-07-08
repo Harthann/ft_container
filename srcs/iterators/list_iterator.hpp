@@ -1,7 +1,7 @@
 #ifndef LIST_ITERATOR_HPP
 #define LIST_ITERATOR_HPP
 
-#include "List.hpp"
+#include "list.hpp"
 #include "ft_iterator.hpp"
 
 namespace ft {

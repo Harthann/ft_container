@@ -208,7 +208,6 @@ void vector<T,A>::reserve(size_t new_cap)
 		value_type	*tmp = new value_type[new_cap];
 		for (size_type i = 0; i < this->size_value; i++)
 			tmp[i] = this->array[i];
-		this->clear();
 		delete[] this->array;
 		this->array = tmp;
 		this->size_value = size;

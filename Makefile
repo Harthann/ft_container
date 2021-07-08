@@ -33,7 +33,7 @@ NAME = a.out
 
 include files.mk
 
-CONTAINERS = Vector.hpp List.hpp Map.hpp Queue.hpp Stack.hpp
+CONTAINERS = vector.hpp list.hpp map.hpp queue.hpp stack.hpp
 CONTAINER_DIRECTORY = srcs/containers
 CONTAINERS_INCLUDE = $(addprefix $(CONTAINER_DIRECTORY)/, $(CONTAINERS))
 ITERATORS = list_iterator.hpp reverse_iterator.hpp Vector_iterator.hpp map_iterator.hpp
@@ -98,12 +98,8 @@ $(NAME) : ${INCLUDE} ${OBJ}
 ${OBJ_PATH}/%.o: %.cpp ${INCLUDE}
 	@$(MKDIR) -p ${OBJ_PATH}
 	@$(ECHO) "${cyanfonce}Compiling ${notdir $(basename $@)}"
-	@$(CC) $(FLAGS) -c -o $@ $(INCLUDE_FLAGS) $<
+	@$(CC) $(FLAGS) ${OPT_FLAGS} -c -o $@ $(INCLUDE_FLAGS) $<
 
-# sanitize: ${OBJ} ${INCLUDE} 
-# 	@$(ECHO) "${vertclair}Creating ${NAME}"
-# 	@$(CC) ${FLAGS} ${OPT_FLAGS} ${SAN} -I. ${OBJ} -o ${NAME}
-# 	@$(ECHO) "${vertclair}[$(NAME) ready to use]"
 debug: extend_flags re
 
 extend_flags:
