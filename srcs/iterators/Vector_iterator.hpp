@@ -16,6 +16,9 @@ class vector_iterator
 		typedef const value_type&				const_reference;
 		typedef ft::random_access_iterator_tag	iterator_category;
 
+		template <class T1, class A>
+		friend class vector;
+
 		vector_iterator() : ptr(0) { };
 		vector_iterator(value_type* ptr) : ptr(ptr) {} ;
 		vector_iterator(const vector_iterator<T>& x) {

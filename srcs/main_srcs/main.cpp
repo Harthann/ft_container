@@ -23,8 +23,8 @@ struct Buffer
 };
 
 
-// #define COUNT (MAX_RAM / (int)sizeof(Buffer))
-#define COUNT 4096 * 2
+#define COUNT (MAX_RAM / (int)sizeof(Buffer))
+// #define COUNT 4096
 
 template<typename T>
 class MutantStack : public ft::stack<T>
@@ -65,7 +65,8 @@ int main(int argc, char** argv) {
 
 	for (int i = 0; i < COUNT; i++)
 	{
-		vector_buffer.push_back(Buffer());
+		// vector_buffer.push_back(Buffer());
+		vector_buffer.insert(vector_buffer.end(), Buffer());
 	}
 
 	for (int i = 0; i < COUNT; i++)
@@ -73,7 +74,7 @@ int main(int argc, char** argv) {
 		const int idx = rand() % COUNT;
 		vector_buffer[idx].idx = 5;
 	}
-	return 0;
+	// return 0;
 	ft::vector<Buffer>().swap(vector_buffer);
 
 	try
@@ -90,6 +91,7 @@ int main(int argc, char** argv) {
 		//NORMAL ! :P
 	}
 	
+	return 0;
 	for (int i = 0; i < COUNT; ++i)
 	{
 		map_int.insert(ft::make_pair(rand(), rand()));

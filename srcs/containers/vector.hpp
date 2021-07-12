@@ -193,7 +193,6 @@ void	vector<T, A>::resize(size_type count, T value)
 		this->size_value = count;
 	}
 }
-#include <unistd.h>
 
 template <class T, class A>
 void vector<T,A>::reserve(size_t new_cap)
@@ -206,11 +205,11 @@ void vector<T,A>::reserve(size_t new_cap)
 		size_type	size;
 		size = this->size();
 		value_type	*tmp = new value_type[new_cap];
-		for (size_type i = 0; i < this->size_value; i++)
+		for (size_type i = 0; i < this->size_value; i++) {
 			tmp[i] = this->array[i];
+		}
 		delete[] this->array;
 		this->array = tmp;
-		this->size_value = size;
 		this->allocated_size = new_cap;
 	}
 }
@@ -289,27 +288,22 @@ void vector<T,A>::clear()
 template <class T, class A>
 ft::vector_iterator<T> vector<T,A>::erase(ft::vector_iterator<T> pos)
 {
-	iterator	ret;
-
-	ret = pos;
-	while (pos + 1 != this->end())
-	{
-		*pos = *(pos + 1);
-		pos++;
-	}
-	this->size_value--;
-	return ret;
+	return erase(pos, pos + 1);
 }
 
 template <class T, class A>
-ft::vector_iterator<T> vector<T,A>::erase(ft::vector_iterator<T> start, ft::vector_iterator<T> last)
+typename vector<T, A>::iterator vector<T, A>::erase(iterator first, iterator last)
 {
-	while (start != last)
-	{
-		erase(start);
-		--last;
-	}
-	return (start);
+    size_type       n = last.ptr - first.ptr;
+    size_type       offset = first.ptr - array;
+    allocator_type  actr;
+ 
+    for (size_type i = 0; i < size_value - n - offset; i++)
+    {
+		array[offset + i] = array[offset + i + n];
+    }
+    size_value -= n;
+    return (iterator(array + offset));
 }
 
 //################################################
@@ -331,7 +325,7 @@ ft::vector_iterator<T> vector<T,A>::insert(ft::vector_iterator<T> pos, const T& 
 template <class T, class A>
 void	ft::vector<T,A>::insert(ft::vector_iterator<T>  pos, size_t count, const T& value )
 {
-	size_t delta = ft::distance(this->begin(), pos);
+	size_t delta = pos - this->begin();
 	size_t	capa;
 
 	capa = 1;
@@ -352,8 +346,8 @@ void	vector<T,A>::insert(ft::vector_iterator<T> pos,
 							InputIT its,
 							typename ft::enable_if<is_input_iterator<InputIT>::value, InputIT>::type ite)
 {
-	size_t delta = ft::distance(its, ite);
-	size_t index = ft::distance(this->begin(), pos);
+	size_t delta = ite - its;
+	size_t index = pos - this->begin();
 
 	this->reserve(this->size() + delta);
 	pos = this->begin() + index;
