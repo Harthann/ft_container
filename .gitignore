@@ -2,7 +2,7 @@ objs
 *.o
 *.swp
 a.out
-
+.vscode
 Test/**/bin/*
 Test/**/diff/*
 Test/**/leak/*
