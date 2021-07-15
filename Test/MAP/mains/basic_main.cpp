@@ -38,9 +38,9 @@ int main()
 
 	test.insert(my_pair);
 	test.insert(pair<int, string>(-4, "bar"));
-	test.insert(pair<int, string>(2, "machin"));
-	test.insert(pair<int, string>(3, "foo"));
-	test.insert(pair<int, string>(746, "Marcel"));
+	// test.insert(pair<int, string>(2, "machin"));
+	// test.insert(pair<int, string>(3, "foo"));
+	// test.insert(pair<int, string>(746, "Marcel"));
 	test.insert(pair<int, string>(1, "truc"));
 	it = test.begin();
 	cout << '\n';
