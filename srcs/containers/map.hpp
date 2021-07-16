@@ -381,14 +381,10 @@ template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::iterator
 map<T, Key, Compare, Alloc>::insert(iterator , const value_type& val)
 {
-	// ft::pair<iterator, bool> ret;
-	// ret = insert(val);
-	// return (ret.first);
 	ft::pair<iterator, bool> ret;
 
 	__disableGhost__();
 	head = __insert__(val, head, ret, NULL);
-	// __update__(head);
 	__update_left__();
 	__update_right__();
 	return (ret.first);
@@ -401,17 +397,11 @@ map<T, Key, Compare, Alloc>::insert(InputIT first, InputIT last)
 {
 	ft::pair<iterator, bool> ret;
 
-	// while (first != last)
-	// {
-	// 	insert(*first);
-	// 	++first;
-	// }
 	__disableGhost__();
 	while (first != last) {
 		head = __insert__(*first, head, ret, NULL);
 		++first;
 	}
-	// __update__(head);
 	__update_left__();
 	__update_right__();
 }
@@ -420,10 +410,7 @@ template <class T, class Key, class Compare, class Alloc>
 void	 map<T, Key, Compare, Alloc>::erase(iterator pos)
 {
 	if (pos.node != ghost && pos.node != ghost_left) {
-		// __disableGhost__();
 		head = __erase__(head, pos.node->__pair.first);
-		// __update__(head);
-		// __update_left__();
 	}
 }
 
@@ -433,7 +420,6 @@ map<T, Key, Compare, Alloc>::erase(const key_type& k)
 {
 	__disableGhost__();
 	head = __erase__(head, k);
-	// __update__(head);
 	__update_left__();
 	__update_right__();
 	return (1);

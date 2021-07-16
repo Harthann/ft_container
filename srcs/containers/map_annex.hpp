@@ -39,7 +39,6 @@ namespace ft {
 		first_type	first;
 		second_type	second;
 
-		// pair() : first(), second() {};
 		pair(const T1& x = first_type(), const T2& y = second_type()) : first(x), second(y) {};
 		~pair() {};
 

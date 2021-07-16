@@ -31,7 +31,7 @@ namespace ft {
 	struct less
 	{
 		bool operator()(const T &lhs, const T &rhs) const {
-			return lhs < rhs; // assumes that the implementation uses a flat address space
+			return lhs < rhs;
 		};
 	};
 
