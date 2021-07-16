@@ -45,16 +45,16 @@ INCLUDE	= $(ITERATORS_INCLUDE) $(CONTAINERS_INCLUDE)
 #		DIRCTORIES PATH		#
 #############################
 
-PATH = ${shell find srcs -type d}
+FPATH = ${shell find srcs -type d}
 OBJ_PATH = objs
-vpath %.cpp $(foreach dir, $(PATH), $(dir))
+vpath %.cpp $(foreach dir, $(FPATH), $(dir))
 
 #################################
 #		FILES	VARIABLE		#
 #################################
 
 SRC		= ${SRC_FILE}
-SRCS	= $(addprefix ${PATH}, ${SRC_FILE})
+SRCS	= $(addprefix ${FPATH}, ${SRC_FILE})
 OBJ		= ${addprefix ${OBJ_PATH}/, ${SRC_FILE:%.cpp=%.o}}
 
 #########################
@@ -100,6 +100,9 @@ ${OBJ_PATH}/%.o: %.cpp ${INCLUDE}
 	@$(ECHO) "${cyanfonce}Compiling ${notdir $(basename $@)}"
 	@$(CC) $(FLAGS) ${OPT_FLAGS} -c -o $@ $(INCLUDE_FLAGS) $<
 
+test:
+	@cd Test && ./Run_tests.sh
+
 debug: extend_flags re
 
 extend_flags:
@@ -115,4 +118,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY : all clean fclean re f
+.PHONY : all clean fclean re test

@@ -52,9 +52,9 @@ class map_iterator
 		}
 
 		map_iterator operator++() {
-			if (!node->right && value_compare()(node->__pair, node->parent->__pair))
+			if (!node->right && node->parent && value_compare()(node->__pair, node->parent->__pair))
 				node = node->parent;
-			else if (!node->right && value_compare()(node->parent->__pair, node->__pair))
+			else if (!node->right && node->parent && value_compare()(node->parent->__pair, node->__pair))
 				node = node->parent->parent;
 			else
 				node = __findMin__(node->right);
@@ -68,9 +68,9 @@ class map_iterator
 		};
 
 		map_iterator operator--() {
-			if ((!node->left && Comp()(node->parent->__pair, node->__pair)) || (node->left == node->parent))
+			if ((!node->left && node->parent && Comp()(node->parent->__pair, node->__pair)) || (node->left == node->parent))
 				node = node->parent;
-			else if (!node->left && Comp()(node->__pair, node->parent->__pair))
+			else if (!node->left && node->parent && Comp()(node->__pair, node->parent->__pair))
 				node = node->parent->parent;
 			else
 				node = __findMax__(node->left);
