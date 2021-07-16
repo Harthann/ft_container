@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #include "STACK_UC.HPP"
-#include <list>
+#include <vector>
 #include "test_utils.hpp"
-#include "LIST_UC.HPP"
+#include "VECTOR_UC.HPP"
 #include <stack>
 
 #ifndef STD
@@ -26,15 +26,15 @@ using namespace NAMESPACE;
 
 int main()
 {
-	stack<float>								other_stack;
-	list<string>							lst;
+	stack<float>					other_stack;
+	vector<string>					lst;
 
 	lst.push_back("salut");
 	lst.push_back("tu vas bien?");
 	lst.push_back("super");
 	lst.push_back("et toi?");
 
-	stack<string, list<string> >	my_stack(lst);
+	stack<string, vector<string> >	my_stack(lst);
 
 	cout << std::boolalpha << other_stack.empty() << std::endl;
 	other_stack.push(8.5); // 8.5;

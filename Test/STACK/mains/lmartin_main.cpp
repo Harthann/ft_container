@@ -12,7 +12,7 @@
 
 #include "STACK_UC.HPP"
 #include <list>
-#include "LIST_UC.HPP"
+#include "VECTOR_UC.HPP"
 #include "test_utils.hpp"
 #include <stack>
 
@@ -90,7 +90,7 @@ int	main(void)
 	cout << "mystack.top(): " << mystack.top() << std::endl;
 	cout << std::endl;
 
-	stack<int, ft::list<int> > mystack2;
+	stack<int, ft::vector<int> > mystack2;
 
 	cout << "stack<" << _PURPLE << "int" << _END << ", " << _PURPLE << "ft::list" << _END << "> mystack2" << std::endl;
 	cout << std::endl;
