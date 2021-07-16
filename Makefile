@@ -33,7 +33,7 @@ NAME = a.out
 
 include files.mk
 
-CONTAINERS = vector.hpp list.hpp map.hpp queue.hpp stack.hpp
+CONTAINERS = vector.hpp map.hpp stack.hpp
 CONTAINER_DIRECTORY = srcs/containers
 CONTAINERS_INCLUDE = $(addprefix $(CONTAINER_DIRECTORY)/, $(CONTAINERS))
 ITERATORS = list_iterator.hpp reverse_iterator.hpp Vector_iterator.hpp map_iterator.hpp
