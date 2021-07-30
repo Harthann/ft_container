@@ -31,6 +31,7 @@ namespace ft {
 	struct is_input_iterator<T*> {
 		static const bool value = true;
 	};
+
 	template <class it>
 	struct iterator_traits {
 		typedef typename it::difference_type	difference_type;

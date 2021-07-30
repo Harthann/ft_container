@@ -75,6 +75,10 @@ namespace ft {
 				return (tmp);
 			}
 
+			reverse_iterator<Iter> operator-(reverse_iterator<Iter> x) const {
+				return (this->ptr - x.ptr);
+			}
+
 			void operator=(const reverse_iterator& base) {
 				this->ptr = base.ptr;
 			}

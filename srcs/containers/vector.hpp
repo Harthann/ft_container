@@ -366,8 +366,12 @@ namespace ft
 							  InputIT its,
 							  typename ft::enable_if<is_input_iterator<InputIT>::value, InputIT>::type ite)
 	{
-		size_t delta = ite - its;
+		// size_t delta = ite - its;
+		size_t delta = 0;
 		size_t index = pos - this->begin();
+
+		for (InputIT tmp = its; tmp != ite; ++tmp)
+			++delta;
 
 		if (this->allocated_size < this->size_value + delta)
 		{

@@ -29,11 +29,11 @@ class vector_iterator
 			return *this;
 		};
 
-		bool operator==(const vector_iterator& base) const {
+		bool operator==(const vector_iterator<T, true> & base) const {
 			return (base.ptr == this->ptr) ;
 		}
 		
-		bool operator!=(const vector_iterator& base) const {
+		bool operator!=(const vector_iterator<T,true> & base) const {
 			return (!operator==(base));
 		}
 		
@@ -117,11 +117,15 @@ class vector_iterator
 			return (tmp);
 		}
 
-		size_t operator-(vector_iterator i) {
+		difference_type operator-(vector_iterator<T, true> i) {
 			return (this->ptr - i.ptr);
 		}
 
-		size_t operator+(vector_iterator i) {
+		difference_type operator-(const vector_iterator<T, true> i) const {
+			return (this->ptr - i.ptr);
+		}
+
+		difference_type operator+(vector_iterator i) {
 			return (this->ptr + i.ptr);
 		}
 
@@ -168,11 +172,17 @@ class vector_iterator
 //##	CONSTRUCTOR/DESTRUCTOR		#
 //###################################
 
-// template <class T, bool B>
-// vector_iterator<T, B>::vector_iterator(const vector_iterator<T, B>& base)
-// {
-// 	this->ptr = base.ptr;
-// }
+template <class T>
+ft::vector_iterator<T> operator+(size_t lhs, ft::vector_iterator<T> rhs)
+{
+	return rhs + lhs;
+}
+
+template <class T>
+ft::vector_iterator<T> operator-(size_t lhs, ft::vector_iterator<T> rhs)
+{
+	return rhs - lhs;
+}
 
 //###################################
 //#		CONST VERSION OF ITERATOR	#
