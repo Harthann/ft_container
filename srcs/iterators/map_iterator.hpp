@@ -1,7 +1,9 @@
 #ifndef MAP_ITERATOR_HPP
 #define MAP_ITERATOR_HPP
 
-#include "map.hpp"
+// #include "map.hpp"
+// #include "ft_iterator.hpp"
+#include "sfinae_template.hpp"
 #include "ft_iterator.hpp"
 
 namespace ft {
@@ -24,7 +26,8 @@ class map_iterator
 		typedef __node*							__node_pointer;
 		typedef	__node&							__node_reference;
 		typedef Comp							value_compare;
-		template<class, class, class, class> friend class map;
+		template<class, class, class, class>
+		friend class map;
 		template<class, class, bool> friend class map_iterator;
 
 	public:
@@ -50,6 +53,8 @@ class map_iterator
 		pointer	operator->() {
 			return (&(*node).__pair);
 		}
+
+		// operator on const
 
 		map_iterator operator++() {
 			if (!node->right && node->parent && value_compare()(node->__pair, node->parent->__pair))

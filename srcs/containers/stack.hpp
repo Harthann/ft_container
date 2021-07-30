@@ -1,11 +1,16 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 
+
+ //	missing operaotr []
+ //	operator non member =/-
+ //	const/non const comparison it
+
 #include "vector.hpp"
 
 namespace ft {
 
-template <class T, class Container = ft::vector<T> >
+template <class T, class Container = std::vector<T> >
 class stack
 {
 	public:

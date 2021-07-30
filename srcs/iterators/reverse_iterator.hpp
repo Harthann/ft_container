@@ -65,15 +65,16 @@ namespace ft {
 				return (ptr.operator->());
 			}
 
-			reverse_iterator<Iter> operator+(difference_type n ) const {
+			reverse_iterator<Iter> operator+(size_t n ) const {
 				reverse_iterator<Iter> tmp(ptr - n);
 				return (tmp);
 			}
 
-			reverse_iterator<Iter> operator-( difference_type n ) const {
+			reverse_iterator<Iter> operator-(size_t n ) const {
 				reverse_iterator<Iter> tmp(ptr + n);
 				return (tmp);
 			}
+
 			void operator=(const reverse_iterator& base) {
 				this->ptr = base.ptr;
 			}
@@ -102,6 +103,54 @@ namespace ft {
 				reverse_iterator<Iter> tmp(*this);
 				++ptr;
 				return (tmp);
+			}
+
+						
+			reverse_iterator<Iter>& operator++() const {
+				--ptr;
+				return (*this);
+			}
+			
+			reverse_iterator<Iter>& operator--() const {
+				++ptr;
+				return (*this);
+			}
+
+			reverse_iterator<Iter> operator++(int) const {
+				reverse_iterator<Iter> tmp(*this);
+				--ptr;
+				return (tmp);
+			}
+
+			reverse_iterator<Iter> operator--(int) const {
+				reverse_iterator<Iter> tmp(*this);
+				++ptr;
+				return (tmp);
+			}
+
+			reverse_iterator<Iter> operator-=(const int & i) {
+				return (this->ptr - i);
+			}
+
+			reverse_iterator<Iter> operator-=(const int & i) const {
+				return (this->ptr - i);
+			}
+
+			reverse_iterator<Iter> operator+=(const int & i) {
+				return (this->ptr + i);
+			}
+
+			reverse_iterator<Iter> operator+=(const int & i) const {
+				return (this->ptr + i);
+			}
+
+
+			value_type &operator[](size_t i) {
+				return ptr[i];
+			}
+
+			const value_type &operator[](size_t i) const {
+				return ptr[i];
 			}
 
 			bool	operator<(const reverse_iterator &rhs) const {

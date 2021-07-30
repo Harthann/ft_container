@@ -2,11 +2,16 @@
 #define MAP_HPP
 
 #include <iostream>
+// #include "../iterators/map_iterator.hpp"
+// #include "vector.hpp"
+// #include "../iterators/reverse_iterator.hpp"
 #include "map_iterator.hpp"
-#include "vector.hpp"
 #include "reverse_iterator.hpp"
-#include "map_annex.hpp"
 #include "algorithm.hpp"
+#include "map_annex.hpp"
+#include "sfinae_template.hpp"
+#include "vector.hpp"
+// #include "../ft_utils/algorithm.hpp"
 
 namespace ft {
 
@@ -23,7 +28,6 @@ class map
 		typedef	__node&										__node_reference;
 
 	public:
-
 
 		typedef	Key													key_type;
 		typedef T													mapped_type;
@@ -197,7 +201,6 @@ map<T, Key, Compare, Alloc>::map(const map &x)
 	ghost_left = __node_alloc.allocate(1);
 	__node_alloc.construct(ghost, value_type());
 	__node_alloc.construct(ghost_left, value_type());
-	// __update__(head);
 	__update_left__();
 	__update_right__();
 }

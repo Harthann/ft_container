@@ -58,7 +58,18 @@ class vector_iterator
 			return (*this);
 		}
 
+		vector_iterator& operator++() const {
+			this->ptr++;
+			return (*this);
+		}
+
 		vector_iterator operator++(int) {
+			vector_iterator tmp(*this);
+			operator++();
+			return (tmp);
+		}
+
+		vector_iterator operator++(int) const {
 			vector_iterator tmp(*this);
 			operator++();
 			return (tmp);
@@ -69,7 +80,18 @@ class vector_iterator
 			return (*this);
 		}
 
+		vector_iterator& operator--() const {
+			ptr--;
+			return (*this);
+		}
+
 		vector_iterator operator--(int) {
+			vector_iterator tmp(*this);
+			operator--();
+			return (tmp);
+		}
+
+		vector_iterator operator--(int) const {
 			vector_iterator tmp(*this);
 			operator--();
 			return (tmp);
@@ -80,7 +102,17 @@ class vector_iterator
 			return (tmp);
 		}
 
+		vector_iterator operator+(size_t i) const {
+			vector_iterator tmp(this->ptr + i);
+			return (tmp);
+		}
+
 		vector_iterator operator-(size_t i) {
+			vector_iterator tmp(this->ptr - i);
+			return (tmp);
+		}
+
+		vector_iterator operator-(size_t i) const {
 			vector_iterator tmp(this->ptr - i);
 			return (tmp);
 		}
@@ -101,6 +133,14 @@ class vector_iterator
 		vector_iterator &operator-=(const int &n) {
 			this->ptr -= n;
 			return (*this);
+		}
+
+		value_type &operator[](size_t i) {
+			return this->ptr[i];
+		}
+
+		const value_type &operator[](size_t i) const {
+			return this->ptr[i];
 		}
 
 		bool	operator<(const vector_iterator &rhs) const {

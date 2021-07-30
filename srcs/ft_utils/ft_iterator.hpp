@@ -10,25 +10,27 @@ namespace ft {
 	struct bidirectional_iterator_tag : forward_iterator_tag {};
 	struct random_access_iterator_tag : bidirectional_iterator_tag {};
 
-	template <class T = void, bool B = !ft::is_arithmetic<T>::value >
+	template <class T>
+	struct void_t {};
+
+	template <class T>
 	struct is_input_iterator {
-		static const bool value = false;
+		typedef char yes[1];
+		typedef char no[2];
+
+		template <typename C>
+		static yes& test(typename C::iterator_category *);
+
+		template <typename>
+		static no& test(...);
+	
+		static const bool value = sizeof(test<T>(NULL)) == sizeof(yes);
 	};
 
 	template <class T>
-	struct is_input_iterator<T, true> {
-		static const bool value =
-			ft::is_same<typename T::iterator_category, ft::input_iterator_tag>::value ||
-			ft::is_same<typename T::iterator_category, ft::forward_iterator_tag>::value ||
-			ft::is_same<typename T::iterator_category, ft::bidirectional_iterator_tag>::value ||
-			ft::is_same<typename T::iterator_category, ft::random_access_iterator_tag>::value;
-	};
-
-	template <class T>
-	struct is_input_iterator<T*, true> {
+	struct is_input_iterator<T*> {
 		static const bool value = true;
 	};
-
 	template <class it>
 	struct iterator_traits {
 		typedef typename it::difference_type	difference_type;
@@ -46,8 +48,6 @@ namespace ft {
 		typedef it&								reference;
 		typedef ft::random_access_iterator_tag	iterator_category;
 	};
-
-
 	//		Iterator operator
 
 	template<class It>
