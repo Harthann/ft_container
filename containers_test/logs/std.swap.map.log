@@ -1,0 +1,51 @@
+BEFORE SWAP
+foo contains:
+size: 7
+max_size: 230584300921369395
+
+Content is:
+- key: a | value: 7
+- key: b | value: 6
+- key: c | value: 5
+- key: d | value: 4
+- key: e | value: 3
+- key: f | value: 2
+- key: g | value: 1
+###############################################
+bar contains:
+size: 4
+max_size: 230584300921369395
+
+Content is:
+- key: w | value: 15
+- key: x | value: 10
+- key: y | value: 5
+- key: z | value: 0
+###############################################
+AFTER SWAP
+foo contains:
+size: 4
+max_size: 230584300921369395
+
+Content is:
+- key: w | value: 15
+- key: x | value: 10
+- key: y | value: 5
+- key: z | value: 0
+###############################################
+bar contains:
+size: 7
+max_size: 230584300921369395
+
+Content is:
+- key: a | value: 7
+- key: b | value: 6
+- key: c | value: 5
+- key: d | value: 4
+- key: e | value: 3
+- key: f | value: 2
+- key: g | value: 1
+###############################################
+Iterator validity:
+1
+1

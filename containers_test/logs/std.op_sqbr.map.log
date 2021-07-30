@@ -1,0 +1,18 @@
+size: 3
+max_size: 115292150460684697
+
+Content is:
+- key: a | value: an element
+- key: b | value: old element
+- key: c | value: another element
+###############################################
+insert a new element via operator[]: 
+size: 4
+max_size: 115292150460684697
+
+Content is:
+- key: a | value: an element
+- key: b | value: old element
+- key: c | value: another element
+- key: d | value: 
+###############################################
