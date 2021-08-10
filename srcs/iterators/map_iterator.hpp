@@ -38,6 +38,11 @@ class map_iterator
 			return *this;
 		};
 		map_iterator(__node_pointer const x) : node(x) {};
+
+		template <class Type, class Comp>
+		operator map_iterator<Type, Comp, true>() {
+			return (map_iterator<Type, Comp, true>(this->ptr));
+		}
 		
 		bool operator!=(const map_iterator& base) const {
 			return (node != base.node);

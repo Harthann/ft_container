@@ -19,11 +19,17 @@ class vector_iterator
 		template <class T1, class A>
 		friend class vector;
 
+		template <class Type>
+		operator vector_iterator<Type, true>() {
+			return (vector_iterator<Type, true>(this->ptr));
+		}
+
 		vector_iterator() : ptr(0) { };
 		vector_iterator(value_type* ptr) : ptr(ptr) {} ;
 		vector_iterator(const vector_iterator<T>& x) {
 			ptr = reinterpret_cast<pointer>(x.ptr);
 		};
+
 		vector_iterator &operator=(const vector_iterator<T> & x) {
 			ptr = reinterpret_cast<pointer>(x.ptr);
 			return *this;
@@ -147,19 +153,19 @@ class vector_iterator
 			return this->ptr[i];
 		}
 
-		bool	operator<(const vector_iterator &rhs) const {
+		bool	operator<(const vector_iterator<T, true> &rhs) const {
 			return (this->ptr < &(*rhs));
 		}
 
-		bool	operator>(const vector_iterator &rhs) const {
+		bool	operator>(const vector_iterator<T, true> &rhs) const {
 			return (this->ptr > &(*rhs));
 		}
 		
-		bool	operator<=(const vector_iterator &rhs) const {
+		bool	operator<=(const vector_iterator<T, true> &rhs) const {
 			return (this->ptr <= &(*rhs));
 		}
 		
-		bool	operator>=(const vector_iterator &rhs) const {
+		bool	operator>=(const vector_iterator<T, true> &rhs) const {
 			return (this->ptr >= &(*rhs));
 		}
 

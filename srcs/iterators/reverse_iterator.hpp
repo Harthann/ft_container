@@ -32,17 +32,16 @@ namespace ft {
 			}
 
 			template <class T>
-			operator reverse_iterator<ft::list_iterator<T,true> >() {
-				return (reverse_iterator<ft::list_iterator<T,true> >(this->ptr));
-			}
-
-			template <class T>
 			operator reverse_iterator<ft::vector_iterator<T,true> >() {
 				return (reverse_iterator<ft::vector_iterator<T,true> >(this->ptr));
 			}
 
 			bool operator==(const reverse_iterator<Iter>& base) const {
 				return (base.ptr == ptr);
+			}
+
+			bool operator!=(const reverse_iterator<Iter>& x) const {
+				return (x.ptr != ptr);
 			}
 
 			reference operator*() {
@@ -75,17 +74,18 @@ namespace ft {
 				return (tmp);
 			}
 
-			reverse_iterator<Iter> operator-(reverse_iterator<Iter> x) const {
+			difference_type operator-(reverse_iterator<Iter> x) const {
 				return (this->ptr - x.ptr);
+			}
+
+			difference_type operator+(reverse_iterator<Iter> x) const {
+				return (this->ptr + x.ptr);
 			}
 
 			void operator=(const reverse_iterator& base) {
 				this->ptr = base.ptr;
 			}
 
-			bool operator!=(const reverse_iterator<Iter>& x) const {
-				return (x.ptr != ptr);
-			}
 			
 			reverse_iterator<Iter>& operator++() {
 				--ptr;
@@ -187,6 +187,19 @@ namespace ft {
 	{
 		this->ptr = base.ptr;
 	}
+
+template <class Iter>
+ft::reverse_iterator<Iter> operator+(size_t lhs, ft::reverse_iterator<Iter> rhs)
+{
+	return rhs + lhs;
+}
+
+template <class Iter>
+ft::reverse_iterator<Iter> operator-(size_t lhs, ft::reverse_iterator<Iter> rhs)
+{
+	return rhs - lhs;
+}
+
 
 } // end namespace definition
 
