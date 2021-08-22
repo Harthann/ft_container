@@ -10,5 +10,6 @@ if [ -z "$3" ]; then 3=".."; fi
 
 CC="clang++"
 CFLAGS="-Wall -Wextra -Werror -std=c++98"
+VALGRIND=$4
 
-eval "$CC $CFLAGS $1 -DTESTED_NAMESPACE=$2 -I$3 && ./a.out"
+eval $VALGRIND "$CC $CFLAGS $1 -DTESTED_NAMESPACE=$2 -I$3 && ./a.out"
