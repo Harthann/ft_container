@@ -2,6 +2,7 @@
 # define RANDOM_ACCESS_IT_HPP
 
 #include "ft_iterator.hpp"
+#include <cstddef>
 
 namespace ft {
 

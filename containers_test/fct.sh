@@ -10,7 +10,7 @@ PURPLE="\e[95m"
 CYAN="\e[96m"
 DGREY="\e[1;90m"
 
-tested_path="../srcs/containers"
+tested_path="incredir"
 incl_path="$tested_path"
 srcs="srcs"
 
@@ -39,7 +39,7 @@ printf "\e[0;1;94m\
 
 compile () {
 	# 1=file 2=define used {ft/std} 3=output_file 4=compile_log
-	$CC $CFLAGS -o "$3" -I./$incl_path -I../srcs/ft_utils -I../srcs/iterators -DTESTED_NAMESPACE=$2 $1 &>$4
+	$CC $CFLAGS -o "$3" -I./$incl_path -DTESTED_NAMESPACE=$2 $1 &>$4
 	return $?
 }
 

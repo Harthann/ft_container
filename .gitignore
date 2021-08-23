@@ -3,6 +3,10 @@ objs
 *.swp
 a.out
 .vscode
+containers_test/logs
+containers_test/deepthought
+containers_test/compile_log
+
 Test/**/bin/*
 Test/**/diff/*
 Test/**/leak/*
