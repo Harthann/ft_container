@@ -2,16 +2,13 @@
 #define MAP_HPP
 
 #include <iostream>
-// #include "../iterators/map_iterator.hpp"
-// #include "vector.hpp"
-// #include "../iterators/reverse_iterator.hpp"
 #include "map_iterator.hpp"
+#include "const_map_iterator.hpp"
 #include "reverse_iterator.hpp"
 #include "algorithm.hpp"
 #include "map_annex.hpp"
 #include "sfinae_template.hpp"
 #include "vector.hpp"
-// #include "../ft_utils/algorithm.hpp"
 
 namespace ft {
 
@@ -22,8 +19,7 @@ template <class Key,
 class map
 {
 	private:
-		typedef	__map_node<ft::pair<Key, T> >				__node;
-		typedef	__map_node<const ft::pair<Key, T> >			__const_node;
+		typedef	__map_node<ft::pair<const Key, T> >				__node;
 		typedef	__node*										__node_pointer;
 		typedef	__node&										__node_reference;
 
@@ -31,7 +27,7 @@ class map
 
 		typedef	Key													key_type;
 		typedef T													mapped_type;
-		typedef	ft::pair<Key, T> 									value_type;
+		typedef	ft::pair<const Key, T> 									value_type;
 		typedef	size_t												size_type;
 		typedef std::ptrdiff_t										difference_type;
 		typedef	Compare												key_compare;
@@ -49,8 +45,8 @@ class map
 		typedef typename allocator_type::const_reference			const_reference;
 		typedef typename allocator_type::pointer					pointer;
 		typedef typename allocator_type::const_pointer				const_pointer;
-		typedef ft::map_iterator<value_type, value_compare, false>	iterator;
-		typedef ft::map_iterator<value_type, value_compare, true>	const_iterator;
+		typedef ft::map_iterator<value_type, value_compare>			iterator;
+		typedef ft::const_map_iterator<value_type, value_compare>	const_iterator;
 		typedef	ft::reverse_iterator<iterator>						reverse_iterator;
 		typedef	ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 		
@@ -290,34 +286,30 @@ map<T, Key, Compare, Alloc>::rend()
 template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::const_iterator	map<T, Key, Compare, Alloc>::begin() const
 {
-	typedef __map_node<const value_type>*	__const_node;
 	__node_pointer	tmp = head;
 
 	while (tmp->left && tmp->left != ghost_left)
 		tmp = tmp->left;
-	return (reinterpret_cast<__const_node>(tmp));
+	return tmp;
 }
 
 template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::const_iterator	map<T, Key, Compare, Alloc>::end() const
 {
-	typedef __map_node<const value_type>* __const_node;
-	return (reinterpret_cast<__const_node>(ghost));
+	return ghost;
 }
 
 
 template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::const_reverse_iterator	map<T, Key, Compare, Alloc>::rbegin() const
 {
-	typedef __map_node<const value_type>*	__const_node;
-	return (reinterpret_cast<__const_node>(ghost));
+	return ghost;
 }
 
 template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::const_reverse_iterator	map<T, Key, Compare, Alloc>::rend() const
 {
-	typedef __map_node<const value_type>* __const_node;
-	return (reinterpret_cast<__const_node>(ghost_left));
+	return ghost_left;
 }
 
 /*######################################################################*\
@@ -431,13 +423,15 @@ map<T, Key, Compare, Alloc>::erase(const key_type& k)
 template <class T, class Key, class Compare, class Alloc>
 void	map<T, Key, Compare, Alloc>::erase(iterator first, iterator last)
 {
-	ft::vector<value_type> tmp;
+	// ft::vector<value_type> tmp;
+	iterator tmp;
 	while (first != last) {
-		tmp.push_back(*first);
+		tmp = first;
 		++first;
+		erase(tmp);
 	}
-	for (typename ft::vector<value_type>::iterator it = tmp.begin(); it != tmp.end(); ++it)
-		erase((*it).first);
+	// for (typename ft::vector<value_type>::iterator it = tmp.begin(); it != tmp.end(); ++it)
+	// 	erase((*it).first);
 }
 
 template <class T, class Key, class Compare, class Alloc>

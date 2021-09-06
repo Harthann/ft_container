@@ -21,21 +21,37 @@ namespace ft {
 			typedef const T*		pointer;
 			typedef	ptrdiff_t		difference_type;
 
-			reference			operator*(void) const;
-			pointer				operator->(void) const;
+			reference					operator*(void) const;
+			pointer						operator->(void) const;
 			const_vector_iterator		&operator+=(difference_type n);
 			const_vector_iterator		&operator-=(difference_type n);
-			reference			operator[](difference_type n) const;
+			reference					operator[](difference_type n) const;
 
-			difference_type		operator-(const random_access_iterator<T> &n) const { return __it__::operator-(n); };
-			const_vector_iterator		operator-(difference_type n) const { return __it__::operator-(n); };
-			const_vector_iterator		operator+(difference_type n) const { return __it__::operator+(n); };
-			friend const_vector_iterator	operator+(difference_type n, const const_vector_iterator &rhs) { return rhs.operator+(n); };
+			difference_type				operator-(const random_access_iterator<T> &n) const {
+				return __it__::operator-(n);
+			};
+			const_vector_iterator		operator-(difference_type n) const {
+				return __it__::operator-(n);
+			};
+			const_vector_iterator		operator+(difference_type n) const {
+				return __it__::operator+(n);
+			};
+			friend const_vector_iterator	operator+(difference_type n, const const_vector_iterator &rhs) {
+				return rhs.operator+(n);
+			};
 
-			const_vector_iterator		&operator++(void) { __it__::operator++(); return *this; };
-			const_vector_iterator		operator++(int) { return __it__::operator++(0); };
-			const_vector_iterator		&operator--(void) { __it__::operator--(); return *this; };
-			const_vector_iterator		operator--(int) { return __it__::operator--(0); };
+			const_vector_iterator		&operator++(void) {
+				__it__::operator++(); return *this;
+			};
+			const_vector_iterator		operator++(int) {
+				return __it__::operator++(0);
+			};
+			const_vector_iterator		&operator--(void) {
+				__it__::operator--(); return *this;
+			};
+			const_vector_iterator		operator--(int) {
+				return __it__::operator--(0);
+			};
 
 			template <class Type, class A>
 			friend class vector;

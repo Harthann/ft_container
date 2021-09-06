@@ -1,5 +1,5 @@
 size: 4
-max_size: 192153584101141162
+max_size: 461168601842738790
 
 Content is:
 - key: a | value: 2.3
@@ -40,7 +40,7 @@ with [d and c]: key_comp: 0 | value_comp: 0
 	-- [16] --
 with [d and d]: key_comp: 0 | value_comp: 0
 size: 4
-max_size: 192153584101141162
+max_size: 461168601842738790
 
 Content is:
 - key: a | value: 2.3

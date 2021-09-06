@@ -1,32 +1,8 @@
-1,63d0
-< 	-- PART ONE --
-< size: 7
-< max_size: 230584300921369395
-< 
-< Content is:
-< - key: 1 | value: 7
-< - key: 2 | value: 14
-< - key: 3 | value: 21
-< - key: 4 | value: 28
-< - key: 5 | value: 35
+11c11
 < - key: 6 | value: 1
-< - key: 7 | value: 0
-< ###############################################
-< size: 5
-< max_size: 230584300921369395
-< 
-< Content is:
-< - key: 1 | value: 6
-< - key: 2 | value: 5
-< - key: 3 | value: 4
-< - key: 4 | value: 3
-< - key: 5 | value: 2
-< ###############################################
-< size: 7
-< max_size: 230584300921369395
-< 
-< Content is:
-< - key: 1 | value: 5
+---
+> - key: 6 | value: 30
+29,63d28
 < - key: 2 | value: 10
 < - key: 3 | value: 15
 < - key: 4 | value: 20
@@ -36,7 +12,7 @@
 < ###############################################
 < 	-- PART TWO --
 < size: 7
-< max_size: 230584300921369395
+< max_size: 461168601842738790
 < 
 < Content is:
 < - key: 1 | value: 5
@@ -48,12 +24,12 @@
 < - key: 7 | value: 0
 < ###############################################
 < size: 0
-< max_size: 230584300921369395
+< max_size: 461168601842738790
 < 
 < Content is:
 < ###############################################
 < size: 5
-< max_size: 230584300921369395
+< max_size: 461168601842738790
 < 
 < Content is:
 < - key: 1 | value: 6

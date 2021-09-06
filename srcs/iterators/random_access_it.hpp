@@ -16,11 +16,11 @@ namespace ft {
 			typedef ptrdiff_t	difference_type;
 			typedef	ft::random_access_iterator_tag iterator_category;
 			
-			random_access_iterator(void);
-			random_access_iterator(value_type *src);
-			random_access_iterator(const random_access_iterator &src);
-			virtual ~random_access_iterator(void);
+			random_access_iterator();
+			random_access_iterator(value_type *x);
+			random_access_iterator(const random_access_iterator &x);
 			random_access_iterator	&operator=(random_access_iterator const &rhs);
+			virtual ~random_access_iterator();
 
 			bool	operator==(const random_access_iterator &rhs) const;
 			bool	operator!=(const random_access_iterator &rhs) const;
@@ -29,9 +29,9 @@ namespace ft {
 			bool	operator>(const random_access_iterator &rhs) const;
 			bool	operator>=(const random_access_iterator &rhs) const;
 
-			random_access_iterator<value_type>	&operator++(void);
+			random_access_iterator<value_type>	&operator++();
 			random_access_iterator<value_type>	operator++(int);
-			random_access_iterator<value_type>	&operator--(void);
+			random_access_iterator<value_type>	&operator--();
 			random_access_iterator<value_type>	operator--(int);
 
 			difference_type			operator-(const random_access_iterator &rhs) const;
@@ -40,28 +40,27 @@ namespace ft {
 			friend random_access_iterator<value_type>	operator+(difference_type n, const random_access_iterator &rhs)
 				{ return rhs.operator+(n); };
 
-
 		protected:
 			pointer		ptr;
 	};
 
 	template <typename T>
-	random_access_iterator<T>::random_access_iterator(void) : ptr(NULL) {
+	random_access_iterator<T>::random_access_iterator() : ptr(NULL) {
 		return ;
 	}
 
 	template <typename T>
-	random_access_iterator<T>::random_access_iterator(T *src) : ptr(src) {
+	random_access_iterator<T>::random_access_iterator(T *x) : ptr(x) {
 		return ;
 	}
 
 	template <typename T>
-	random_access_iterator<T>::random_access_iterator(const random_access_iterator &src) {
-		*this = src;
+	random_access_iterator<T>::random_access_iterator(const random_access_iterator &x) {
+		*this = x;
 	}
 
 	template <typename T>
-	random_access_iterator<T>::~random_access_iterator(void) {
+	random_access_iterator<T>::~random_access_iterator() {
 		return ;
 	}
 
@@ -104,7 +103,7 @@ namespace ft {
 	}
 
 	template <typename T>
-	random_access_iterator<T> &random_access_iterator<T>::operator++(void) {
+	random_access_iterator<T> &random_access_iterator<T>::operator++() {
 		++this->ptr;
 		return (*this);
 	}
@@ -117,7 +116,7 @@ namespace ft {
 	}
 
 	template <typename T>
-	random_access_iterator<T>& random_access_iterator<T>::operator--(void) {
+	random_access_iterator<T>& random_access_iterator<T>::operator--() {
 		--this->ptr;
 		return (*this);
 	}
