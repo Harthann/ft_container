@@ -405,7 +405,10 @@ template <class T, class Key, class Compare, class Alloc>
 void	 map<T, Key, Compare, Alloc>::erase(iterator pos)
 {
 	if (pos.node != ghost && pos.node != ghost_left) {
+		__disableGhost__();
 		head = __erase__(head, pos.node->__pair.first);
+		__update_left__();
+		__update_right__();
 	}
 }
 
@@ -423,15 +426,8 @@ map<T, Key, Compare, Alloc>::erase(const key_type& k)
 template <class T, class Key, class Compare, class Alloc>
 void	map<T, Key, Compare, Alloc>::erase(iterator first, iterator last)
 {
-	// ft::vector<value_type> tmp;
-	iterator tmp;
-	while (first != last) {
-		tmp = first;
-		++first;
-		erase(tmp);
-	}
-	// for (typename ft::vector<value_type>::iterator it = tmp.begin(); it != tmp.end(); ++it)
-	// 	erase((*it).first);
+	while (first != last)
+		this->erase(first++);
 }
 
 template <class T, class Key, class Compare, class Alloc>
