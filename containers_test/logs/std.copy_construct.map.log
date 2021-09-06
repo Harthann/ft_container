@@ -1,6 +1,6 @@
 	-- PART ONE --
 size: 7
-max_size: 461168601842738790
+max_size: 230584300921369395
 
 Content is:
 - key: 1 | value: 7
@@ -12,7 +12,7 @@ Content is:
 - key: 7 | value: 0
 ###############################################
 size: 5
-max_size: 461168601842738790
+max_size: 230584300921369395
 
 Content is:
 - key: 1 | value: 6
@@ -22,7 +22,7 @@ Content is:
 - key: 5 | value: 2
 ###############################################
 size: 7
-max_size: 461168601842738790
+max_size: 230584300921369395
 
 Content is:
 - key: 1 | value: 5
@@ -35,7 +35,7 @@ Content is:
 ###############################################
 	-- PART TWO --
 size: 7
-max_size: 461168601842738790
+max_size: 230584300921369395
 
 Content is:
 - key: 1 | value: 5
@@ -47,12 +47,12 @@ Content is:
 - key: 7 | value: 0
 ###############################################
 size: 0
-max_size: 461168601842738790
+max_size: 230584300921369395
 
 Content is:
 ###############################################
 size: 5
-max_size: 461168601842738790
+max_size: 230584300921369395
 
 Content is:
 - key: 1 | value: 6

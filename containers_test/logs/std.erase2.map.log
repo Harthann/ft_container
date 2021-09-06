@@ -1,5 +1,5 @@
 size: 6
-max_size: 288230376151711743
+max_size: 128102389400760775
 
 Content is:
 - key: 0 | value: AAAAAA
@@ -12,7 +12,7 @@ Content is:
 	-- [0] --
 ret: 1
 size: 5
-max_size: 288230376151711743
+max_size: 128102389400760775
 
 Content is:
 - key: 0 | value: AAAAAA
@@ -24,7 +24,7 @@ Content is:
 	-- [1] --
 ret: 1
 size: 4
-max_size: 288230376151711743
+max_size: 128102389400760775
 
 Content is:
 - key: 0 | value: AAAAAA
@@ -35,7 +35,7 @@ Content is:
 	-- [2] --
 ret: 1
 size: 3
-max_size: 288230376151711743
+max_size: 128102389400760775
 
 Content is:
 - key: 1 | value: BBBBB
@@ -45,14 +45,14 @@ Content is:
 	-- [3] --
 ret: 1
 size: 2
-max_size: 288230376151711743
+max_size: 128102389400760775
 
 Content is:
 - key: 1 | value: BBBBB
 - key: 4 | value: EE
 ###############################################
 size: 4
-max_size: 288230376151711743
+max_size: 128102389400760775
 
 Content is:
 - key: -1 | value: Hello
@@ -63,7 +63,7 @@ Content is:
 	-- [4] --
 ret: 0
 size: 4
-max_size: 288230376151711743
+max_size: 128102389400760775
 
 Content is:
 - key: -1 | value: Hello
@@ -74,7 +74,7 @@ Content is:
 	-- [5] --
 ret: 1
 size: 3
-max_size: 288230376151711743
+max_size: 128102389400760775
 
 Content is:
 - key: -1 | value: Hello
