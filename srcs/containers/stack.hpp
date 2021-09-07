@@ -46,8 +46,6 @@ class stack
 		container_type c;
 };
 
-
-
 //####################//
 //##	COMPARISON	##//
 //####################//
