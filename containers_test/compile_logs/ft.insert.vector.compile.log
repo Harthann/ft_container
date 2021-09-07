@@ -1,0 +1,8 @@
+In file included from srcs/vector/common.hpp:1,
+                 from srcs/vector/insert.cpp:1:
+./incredir/vector.hpp: In instantiation of ‘void ft::vector<T, A>::insert(ft::vector_iterator<T>, size_t, const T&) [with T = int; A = std::allocator<int>; size_t = long unsigned int]’:
+srcs/vector/insert.cpp:27:33:   required from here
+./incredir/vector.hpp:339:10: error: variable ‘capa’ set but not used [-Werror=unused-but-set-variable]
+  339 |   size_t capa;
+      |          ^~~~
+cc1plus: all warnings being treated as errors

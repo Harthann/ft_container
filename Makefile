@@ -61,7 +61,7 @@ OBJ		= ${addprefix ${OBJ_PATH}/, ${SRC_FILE:%.cpp=%.o}}
 #			FLAGS		#
 #########################
 
-FLAGS = -Wall -Wextra -std=c++98 -ferror-limit=5
+FLAGS = -Wall -Wextra -std=c++98
 SAN = -g
 OPT_FLAGS = -flto
 INCLUDE_FLAGS = -I $(CONTAINER_DIRECTORY) -I $(ITERATORS_DIRECTORY) -I srcs/ft_utils -I srcs/main_srcs
@@ -78,11 +78,11 @@ LIBS = ${addprefix $(LIB), ${LIBFT}}
 #		COMMAND			#
 #######################
 
-CC= /usr/bin/clang++
-DIFF = /usr/bin/diff
-MKDIR= /bin/mkdir
+CC= g++
+DIFF = diff
+MKDIR= mkdir
 ECHO=echo
-RM=/bin/rm
+RM=rm
 
 #############################
 #			RULES			#

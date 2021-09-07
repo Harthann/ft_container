@@ -10,12 +10,12 @@ PURPLE="\e[95m"
 CYAN="\e[96m"
 DGREY="\e[1;90m"
 
-tested_path="../srcs/containers"
+tested_path="incredir"
 incl_path="$tested_path"
 srcs="srcs"
 
 CC="clang++"
-CFLAGS="-Wall -Wextra -Werror -std=c++98"
+CFLAGS="-Wall -Wextra -Werror -std=c++98 -Wl,-V"
 
 if false; then
 	CFLAGS+=" -fsanitize=address -g3"
@@ -39,7 +39,7 @@ printf "\e[0;1;94m\
 
 compile () {
 	# 1=file 2=define used {ft/std} 3=output_file 4=compile_log
-	$CC $CFLAGS -o "$3" -I./$incl_path -I../srcs/ft_utils -I../srcs/iterators -DTESTED_NAMESPACE=$2 $1 &>$4
+	$CC $CFLAGS -o "$3" -I./$incl_path -DTESTED_NAMESPACE=$2 $1 &>$4
 	return $?
 }
 
@@ -64,9 +64,10 @@ cmp_one () {
 	testname=$(echo $file | cut -d "." -f 1)
 	ft_bin="ft.$container.out"; ft_log="$logdir/ft.$testname.$container.log"
 	std_bin="std.$container.out"; std_log="$logdir/std.$testname.$container.log"
-	std_compile_log="std.$testname.$container.compile.log"
+	std_compile_log="compile_logs/std.$testname.$container.compile.log"
+	ft_compile_log="compile_logs/ft.$testname.$container.compile.log"
 
-	compile "$1" "ft"  "$ft_bin" /dev/null;  ft_ret=$?
+	compile "$1" "ft"  "$ft_bin" $ft_compile_log;  ft_ret=$?
 	compile "$1" "std" "$std_bin" $std_compile_log; std_ret=$?
 	same_compilation=$(isEq $ft_ret $std_ret)
 	std_compile=$std_ret

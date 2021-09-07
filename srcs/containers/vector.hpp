@@ -9,13 +9,10 @@
 #include "sfinae_template.hpp"
 #include "ft_iterator.hpp"
 #include "Vector_iterator.hpp"
+#include "Const_Vector_iterator.hpp"
 #include "reverse_iterator.hpp"
 #include "algorithm.hpp"
-// #include "../ft_utils/sfinae_template.hpp"
-// #include "../ft_utils/ft_iterator.hpp"
-// #include "../iterators/Vector_iterator.hpp"
-// #include "../iterators/reverse_iterator.hpp"
-// #include "../ft_utils/algorithm.hpp"
+#include <cstddef>
 
 namespace ft
 {
@@ -24,112 +21,112 @@ namespace ft
 	class vector
 	{
 
-	public:
-		typedef T value_type;
-		typedef A allocator_type;
-		typedef std::size_t size_type;
-		typedef std::ptrdiff_t difference_type;
-		typedef typename allocator_type::reference reference;
-		typedef typename allocator_type::const_reference const_reference;
-		typedef typename allocator_type::pointer pointer;
-		typedef typename allocator_type::const_pointer const_pointer;
+		public:
+			typedef T											value_type;
+			typedef A											allocator_type;
+			typedef std::size_t									size_type;
+			typedef std::ptrdiff_t								difference_type;
+			typedef typename allocator_type::reference			reference;
+			typedef typename allocator_type::const_reference	const_reference;
+			typedef typename allocator_type::pointer			pointer;
+			typedef typename allocator_type::const_pointer		const_pointer;
 
-		typedef ft::vector_iterator<T> iterator;
-		typedef ft::vector_iterator<T, true> const_iterator;
-		typedef ft::reverse_iterator<iterator> reverse_iterator;
-		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+			typedef ft::vector_iterator<T>						iterator;
+			typedef ft::const_vector_iterator<T>				const_iterator;
+			typedef ft::reverse_iterator<iterator>				reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
-		vector(const allocator_type &alloc = allocator_type());
-		vector(size_t size, const value_type &val = value_type(),
-			   const allocator_type &alloc = allocator_type());
-		template <class InputIT>
-		vector(typename ft::enable_if<is_input_iterator<InputIT>::value, InputIT>::type first,
-			   InputIT last,  const allocator_type &alloc = allocator_type());
-		vector(const vector &);
-		~vector()
-		{
-			this->clear();
-			delete[] this->array;
-		};
+			vector(const allocator_type &alloc = allocator_type());
+			vector(size_t size, const value_type &val = value_type(),
+				const allocator_type &alloc = allocator_type());
+			template <class InputIT>
+			vector(typename ft::enable_if<is_input_iterator<InputIT>::value, InputIT>::type first,
+				InputIT last,  const allocator_type &alloc = allocator_type());
+			vector(const vector &);
+			~vector()
+			{
+				this->clear();
+				delete[] this->array;
+			};
 
-		ft::vector<value_type, allocator_type> &operator=(ft::vector<value_type, allocator_type> const &x);
-		//###########################
-		//#			ITERATORS		#
-		//###########################
+			ft::vector<value_type, allocator_type> &operator=(ft::vector<value_type, allocator_type> const &x);
+			//###########################
+			//#			ITERATORS		#
+			//###########################
 
-		iterator begin() { return (array); };
-		iterator end() { return (array + size_value); };
-		const_iterator begin() const { return (array); };
-		const_iterator end() const { return (array + size_value); };
+			iterator begin() { return (array); };
+			iterator end() { return (array + size_value); };
+			const_iterator begin() const { return (array); };
+			const_iterator end() const { return (array + size_value); };
 
-		reverse_iterator rbegin()
-		{
-			return (end());
-		};
-		const_reverse_iterator rbegin() const
-		{
-			return (end());
-		};
-		reverse_iterator rend()
-		{
-			return (begin());
-		};
-		const_reverse_iterator rend() const
-		{
-			return (begin());
-		};
+			reverse_iterator rbegin()
+			{
+				return (end());
+			};
+			const_reverse_iterator rbegin() const
+			{
+				return (end());
+			};
+			reverse_iterator rend()
+			{
+				return (begin());
+			};
+			const_reverse_iterator rend() const
+			{
+				return (begin());
+			};
 
-		//###########################
-		//#			CAPACITY		#
-		//###########################
+			//###########################
+			//#			CAPACITY		#
+			//###########################
 
-		bool empty() const { return (size_value == 0); };
-		size_t size() const { return (size_value); };
-		size_type max_size() const { return (allocator_type().max_size()); };
-		void reserve(size_t new_cap);
-		void resize(size_type n, value_type value = value_type());
-		size_t capacity() const { return (allocated_size); };
+			bool empty() const { return (size_value == 0); };
+			size_t size() const { return (size_value); };
+			size_type max_size() const { return (allocator_type().max_size()); };
+			void reserve(size_t new_cap);
+			void resize(size_type n, value_type value = value_type());
+			size_t capacity() const { return (allocated_size); };
 
-		//###########################
-		//#			ELEMENT ACCESS	#
-		//###########################
+			//###########################
+			//#			ELEMENT ACCESS	#
+			//###########################
 
-		reference at(size_type pos);
-		const_reference at(size_type pos) const;
-		reference operator[](size_type pos) { return (this->array[pos]); };
-		const_reference operator[](size_type pos) const { return (this->array[pos]); };
-		reference front() { return (*(this->begin())); };
-		const_reference front() const { return (*(this->begin())); };
-		reference back() { return (*ft::prev(this->end())); };
-		const_reference back() const { return (*ft::prev(this->end())); };
+			reference at(size_type pos);
+			const_reference at(size_type pos) const;
+			reference operator[](size_type pos) { return (this->array[pos]); };
+			const_reference operator[](size_type pos) const { return (this->array[pos]); };
+			reference front() { return (*(this->begin())); };
+			const_reference front() const { return (*(this->begin())); };
+			reference back() { return (*ft::prev(this->end())); };
+			const_reference back() const { return (*ft::prev(this->end())); };
 
-		//###########################
-		//#			MODIFIERS		#
-		//###########################
+			//###########################
+			//#			MODIFIERS		#
+			//###########################
 
-		template <class InputIT>
-		void assign(typename ft::enable_if<is_input_iterator<InputIT>::value, InputIT>::type its, InputIT ite);
-		void assign(size_t count, const value_type &value);
-		void push_back(T value);
-		void pop_back() { resize(this->size() - 1); };
-		iterator insert(iterator pos, const T &value);
-		void insert(iterator pos, size_t count, const T &value);
-		template <class InputIT>
-		void insert(iterator pos, InputIT its,
-					typename ft::enable_if<ft::is_input_iterator<InputIT>::value, InputIT>::type ite);
-		iterator erase(iterator start);
-		iterator erase(iterator start, iterator end);
-		void swap(vector &x);
-		void clear();
+			template <class InputIT>
+			void assign(typename ft::enable_if<is_input_iterator<InputIT>::value, InputIT>::type its, InputIT ite);
+			void assign(size_t count, const value_type &value);
+			void push_back(T value);
+			void pop_back() { resize(this->size() - 1); };
+			iterator insert(iterator pos, const T &value);
+			void insert(iterator pos, size_t count, const T &value);
+			template <class InputIT>
+			void insert(iterator pos, InputIT its,
+						typename ft::enable_if<ft::is_input_iterator<InputIT>::value, InputIT>::type ite);
+			iterator erase(iterator start);
+			iterator erase(iterator start, iterator end);
+			void swap(vector &x);
+			void clear();
 
-	private:
-		T *array;
-		size_t size_value;
-		size_t allocated_size;
-		A __alloc;
+		private:
+			T *array;
+			size_t size_value;
+			size_t allocated_size;
+			A __alloc;
 	};
 
-	/*###################################################################################\
+/*###################################################################################\
 **	  _____ ____  _   _  _____ _______ _____  _    _  _____ _______ ____  _____  	##
 **	 / ____/ __ \| \ | |/ ____|__   __|  __ \| |  | |/ ____|__   __/ __ \|  __ \ 	##
 **	| |   | |  | |  \| | (___    | |  | |__) | |  | | |       | | | |  | | |__) |	##
@@ -349,9 +346,6 @@ namespace ft
 			else
 				this->reserve(this->allocated_size * 2 + !this->allocated_size);
 		}
-		// while (this->allocated_size < this->size_value + count && capa < count + this->size_value)
-		// 	capa *= 2;
-		// this->reserve(capa);
 		pos = this->begin() + delta;
 		size_value += count;
 		for (iterator it = ft::prev(this->end()); it != ft::next(pos, count - 1); --it)
@@ -366,7 +360,6 @@ namespace ft
 							  InputIT its,
 							  typename ft::enable_if<is_input_iterator<InputIT>::value, InputIT>::type ite)
 	{
-		// size_t delta = ite - its;
 		size_t delta = 0;
 		size_t index = pos - this->begin();
 
@@ -380,7 +373,6 @@ namespace ft
 			else
 				this->reserve(this->size_value * 2 + !this->allocated_size);
 		}
-		// this->reserve(this->size() + delta);
 		pos = this->begin() + index;
 		this->size_value += delta;
 		for (iterator it = ft::prev(this->end()); it != pos + delta - 1; --it)

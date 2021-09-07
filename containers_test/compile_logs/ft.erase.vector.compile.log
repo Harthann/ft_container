@@ -1,0 +1,10 @@
+In file included from srcs/vector/common.hpp:1,
+                 from srcs/vector/erase.cpp:1:
+./incredir/vector.hpp: In instantiation of ‘void ft::vector<T, A>::insert(ft::vector_iterator<T>, size_t, const T&) [with T = std::__cxx11::basic_string<char>; A = std::allocator<std::__cxx11::basic_string<char> >; size_t = long unsigned int]’:
+./incredir/vector.hpp:331:3:   required from ‘ft::vector_iterator<T> ft::vector<T, A>::insert(ft::vector_iterator<T>, const T&) [with T = std::__cxx11::basic_string<char>; A = std::allocator<std::__cxx11::basic_string<char> >]’
+./incredir/vector.hpp:186:3:   required from ‘void ft::vector<T, A>::push_back(T) [with T = std::__cxx11::basic_string<char>; A = std::allocator<std::__cxx11::basic_string<char> >]’
+srcs/vector/erase.cpp:29:23:   required from here
+./incredir/vector.hpp:339:10: error: variable ‘capa’ set but not used [-Werror=unused-but-set-variable]
+  339 |   size_t capa;
+      |          ^~~~
+cc1plus: all warnings being treated as errors

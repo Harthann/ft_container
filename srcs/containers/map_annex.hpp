@@ -1,7 +1,10 @@
 #ifndef MAP_ANNEX_HPP
 #define MAP_ANNEX_HPP
 
+#include <cstddef>
+
 namespace ft {
+
 
 	template <class T>
 	struct __map_node
@@ -39,7 +42,8 @@ namespace ft {
 		first_type	first;
 		second_type	second;
 
-		pair(const T1& x = first_type(), const T2& y = second_type()) : first(x), second(y) {};
+		pair() : first(), second() {};
+		pair(const T1& x, const T2& y) : first(x), second(y) {};
 		~pair() {};
 
 		pair&	operator=(const pair& p)

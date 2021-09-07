@@ -1,0 +1,48 @@
+srcs/map/ite_type.cpp: In function ‘int main()’:
+srcs/map/ite_type.cpp:8:19: error: no match for ‘operator!=’ (operand types are ‘ft::map<char, int>::iterator’ {aka ‘ft::map_iterator<ft::pair<const char, int>, ft::map<char, int>::value_compare>’} and ‘ft::map<char, float>::const_iterator’ {aka ‘ft::const_map_iterator<ft::pair<const char, float>, ft::map<char, float>::value_compare>’})
+    8 |  std::cout << (it != ite) << std::endl;
+      |                ~~ ^~ ~~~
+      |                |     |
+      |                |     ft::map<char, float>::const_iterator {aka ft::const_map_iterator<ft::pair<const char, float>, ft::map<char, float>::value_compare>}
+      |                ft::map<char, int>::iterator {aka ft::map_iterator<ft::pair<const char, int>, ft::map<char, int>::value_compare>}
+In file included from ./incredir/map_iterator.hpp:4,
+                 from ./incredir/map.hpp:5,
+                 from srcs/map/common.hpp:1,
+                 from srcs/map/ite_type.cpp:1:
+./incredir/tree_iterator.hpp:97:7: note: candidate: ‘bool ft::tree_iterator<T, Comp>::operator!=(const ft::tree_iterator<T, Comp>&) const [with T = ft::pair<const char, int>; Comp = ft::map<char, int>::value_compare]’
+   97 |  bool tree_iterator<T, Comp>::operator!=(const tree_iterator &rhs) const {
+      |       ^~~~~~~~~~~~~~~~~~~~~~
+./incredir/tree_iterator.hpp:97:63: note:   no known conversion for argument 1 from ‘ft::map<char, float>::const_iterator’ {aka ‘ft::const_map_iterator<ft::pair<const char, float>, ft::map<char, float>::value_compare>’} to ‘const ft::tree_iterator<ft::pair<const char, int>, ft::map<char, int>::value_compare>&’
+   97 |  bool tree_iterator<T, Comp>::operator!=(const tree_iterator &rhs) const {
+      |                                          ~~~~~~~~~~~~~~~~~~~~~^~~
+In file included from ./incredir/tree_iterator.hpp:4,
+                 from ./incredir/map_iterator.hpp:4,
+                 from ./incredir/map.hpp:5,
+                 from srcs/map/common.hpp:1,
+                 from srcs/map/ite_type.cpp:1:
+./incredir/map_annex.hpp:82:8: note: candidate: ‘template<class T1, class T2> bool ft::operator!=(const ft::pair<T1, T2>&, const ft::pair<T1, T2>&)’
+   82 |   bool operator!=(const ft::pair<T1, T2>& left, const ft::pair<T1, T2>& right)
+      |        ^~~~~~~~
+./incredir/map_annex.hpp:82:8: note:   template argument deduction/substitution failed:
+srcs/map/ite_type.cpp:8:22: note:   ‘ft::map<char, int>::iterator’ {aka ‘ft::map_iterator<ft::pair<const char, int>, ft::map<char, int>::value_compare>’} is not derived from ‘const ft::pair<T1, T2>’
+    8 |  std::cout << (it != ite) << std::endl;
+      |                      ^~~
+In file included from ./incredir/map.hpp:11,
+                 from srcs/map/common.hpp:1,
+                 from srcs/map/ite_type.cpp:1:
+./incredir/vector.hpp:432:7: note: candidate: ‘template<class T, class Alloc> bool ft::operator!=(const ft::vector<T, A>&, const ft::vector<T, A>&)’
+  432 |  bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+      |       ^~~~~~~~
+./incredir/vector.hpp:432:7: note:   template argument deduction/substitution failed:
+srcs/map/ite_type.cpp:8:22: note:   ‘ft::map<char, int>::iterator’ {aka ‘ft::map_iterator<ft::pair<const char, int>, ft::map<char, int>::value_compare>’} is not derived from ‘const ft::vector<T, A>’
+    8 |  std::cout << (it != ite) << std::endl;
+      |                      ^~~
+In file included from srcs/map/common.hpp:1,
+                 from srcs/map/ite_type.cpp:1:
+./incredir/map.hpp:812:6: note: candidate: ‘template<class Key, class T, class Compare, class Alloc> bool ft::operator!=(const ft::map<T, Key, Compare, Alloc>&, const ft::map<T, Key, Compare, Alloc>&)’
+  812 | bool operator!=(const map<Key, T, Compare, Alloc>& lhs, const map<Key, T, Compare, Alloc>& rhs)
+      |      ^~~~~~~~
+./incredir/map.hpp:812:6: note:   template argument deduction/substitution failed:
+srcs/map/ite_type.cpp:8:22: note:   ‘ft::map<char, int>::iterator’ {aka ‘ft::map_iterator<ft::pair<const char, int>, ft::map<char, int>::value_compare>’} is not derived from ‘const ft::map<T, Key, Compare, Alloc>’
+    8 |  std::cout << (it != ite) << std::endl;
+      |                      ^~~
