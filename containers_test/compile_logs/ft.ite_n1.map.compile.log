@@ -1,4 +1,0 @@
-srcs/map/ite_n1.cpp: In function ‘int main()’:
-srcs/map/ite_n1.cpp:9:55: error: conversion from ‘ft::map<int, int>::const_iterator’ {aka ‘ft::const_map_iterator<ft::pair<const int, int>, ft::map<int, int>::value_compare>’} to non-scalar type ‘ft::map<int, int>::iterator’ {aka ‘ft::map_iterator<ft::pair<const int, int>, ft::map<int, int>::value_compare>’} requested
-    9 |  TESTED_NAMESPACE::map<T1, T2>::iterator it = mp.begin(); // <-- error expected
-      |                                               ~~~~~~~~^~

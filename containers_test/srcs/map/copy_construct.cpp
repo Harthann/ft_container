@@ -20,14 +20,14 @@ int		main(void)
 		it->second = ++i * 5;
 
 	it = mp.begin(); ite = --(--mp.end());
+	printSize(mp);
 	TESTED_NAMESPACE::map<T1, T2> mp_copy(mp);
+	printSize(mp_copy);
 	for (int i = 0; it != ite; ++it)
 		it->second = ++i * 7;
 
 	std::cout << "\t-- PART ONE --" << std::endl;
-	printSize(mp);
 	printSize(mp_range);
-	printSize(mp_copy);
 
 	mp = mp_copy;
 	mp_copy = mp_range;

@@ -36,14 +36,12 @@ namespace ft {
 				map_iterator tmp(*this);
 				operator++();
 				return tmp;
-				// return __it__::operator++(0);
 			};
 			map_iterator	operator--(int)  {
 				map_iterator tmp(*this);
 				operator--();
 				return tmp;
 			};
-			// { return __it__::operator--(0); };
 
 			reference operator*() const {
 				return (this->node->__pair);

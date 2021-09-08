@@ -12,11 +12,6 @@ namespace ft {
 		typedef T type;
 	};
 
-	template <bool B,class T = void>
-	struct is_const_if {
-		typedef T value_type;
-	};
-
 	template <class T>
 	struct is_const_if<true, T> {
 		typedef const T value_type;
@@ -24,7 +19,6 @@ namespace ft {
 
 	template <typename T, typename U>
 	struct is_same { static const bool value = false; };
-
 
 	template <typename T>
 	struct is_same<T,T> { static const bool value = true; };

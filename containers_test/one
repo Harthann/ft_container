@@ -12,4 +12,4 @@ CC="clang++"
 CFLAGS="-Wall -Wextra -Werror -std=c++98"
 VALGRIND=$4
 
-eval $VALGRIND "$CC $CFLAGS $1 -DTESTED_NAMESPACE=$2 -I$3 && ./a.out"
+eval "$CC $CFLAGS $1 -DTESTED_NAMESPACE=$2 -I$3 && $VALGRIND ./a.out"

@@ -1,4 +1,0 @@
-srcs/vector/ite_n0.cpp: In function ‘int main()’:
-srcs/vector/ite_n0.cpp:15:7: error: assignment of read-only location ‘ite.ft::const_vector_iterator<int>::operator*()’
-   15 |  *ite = 42; // < -- error
-      |  ~~~~~^~~~

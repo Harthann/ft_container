@@ -57,7 +57,12 @@ namespace ft {
         if (!node->right && node->parent && value_compare()(node->__pair, node->parent->__pair))
 			node = node->parent;
 		else if (!node->right && node->parent && value_compare()(node->parent->__pair, node->__pair))
-			node = node->parent->parent;
+		{
+			__node_pointer dest = node->parent;
+			while (value_compare()(dest->__pair, node->__pair) && dest->parent)
+				dest = dest->parent;
+			node = dest;
+		}
 		else
 			node = __findMin__(node->right);
 		return *this;
@@ -68,7 +73,12 @@ namespace ft {
         if ((!node->left && node->parent && Comp()(node->parent->__pair, node->__pair)) || (node->left == node->parent))
 			node = node->parent;
 		else if (!node->left && node->parent && Comp()(node->__pair, node->parent->__pair))
-			node = node->parent->parent;
+		{
+			__node_pointer dest = node->parent;
+			while (value_compare()(node->__pair, dest->__pair) && dest->parent)
+				dest = dest->parent;
+			node = dest;
+		}
 		else
 			node = __findMax__(node->left);
 		return *this;

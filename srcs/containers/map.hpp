@@ -142,13 +142,14 @@ class map
 		__node_pointer	__erase__(__node_pointer, const key_type&);
 		__node_pointer	__destroyNode__(__node_pointer node, __node_pointer ret = NULL);
 		void			__disableGhost__();
-		value_type		__findMin__(__node_pointer node);
+		__node_pointer	__findMin__(__node_pointer node);
 		iterator		__find__(__node_pointer node, const key_type& k) const;
 		size_type		__size__(__node_pointer) const;
 		__node_pointer	__clear__(__node_pointer);
-		__node_pointer	__copy__(__node_pointer);
+		__node_pointer	__copy__(__node_pointer, __node_pointer);
 		void			__update_left__();
 		void			__update_right__();
+		__node_pointer	__balance__(__node_pointer, int, const key_type&);
 
 		__node_pointer		head;
 		__node_pointer		ghost;
@@ -193,7 +194,7 @@ map<T, Key, Compare, Alloc>::map(const map &x)
 	__key_comp__ = x.__key_comp__;
 	__alloc = x.__alloc;
 	__node_alloc = __node_allocator();
-	head = __copy__(x.head);
+	head = __copy__(x.head, NULL);
 	ghost = __node_alloc.allocate(1);
 	ghost_left = __node_alloc.allocate(1);
 	__node_alloc.construct(ghost, value_type());
@@ -287,11 +288,13 @@ map<T, Key, Compare, Alloc>::rend()
 template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::const_iterator	map<T, Key, Compare, Alloc>::begin() const
 {
-	__node_pointer	tmp = head;
+	__node_pointer tmp = head;
 
-	while (tmp->left && tmp->left != ghost_left)
+	if (!head)
+		return (end());
+	while (tmp && tmp->left && tmp->left != ghost_left)
 		tmp = tmp->left;
-	return tmp;
+	return (tmp);
 }
 
 template <class T, class Key, class Compare, class Alloc>
@@ -367,7 +370,6 @@ ft::pair<typename map<T, Key, Compare, Alloc>::iterator, bool> map<T, Key, Compa
 
 	__disableGhost__();
 	head = __insert__(val, head, ret, NULL);
-	// __update__(head);
 	__update_left__();
 	__update_right__();
 	return (ret);
@@ -427,8 +429,14 @@ map<T, Key, Compare, Alloc>::erase(const key_type& k)
 template <class T, class Key, class Compare, class Alloc>
 void	map<T, Key, Compare, Alloc>::erase(iterator first, iterator last)
 {
-	while (first != last)
-		this->erase(first++);
+	ft::vector<key_type> tmp;
+
+	while (first != last) {
+		tmp.push_back(first->first);
+		++first;
+	}
+	for (typename ft::vector<key_type>::iterator it = tmp.begin(); it != tmp.end(); ++it)
+		this->erase(*it);
 }
 
 template <class T, class Key, class Compare, class Alloc>
@@ -537,10 +545,11 @@ template <class T, class Key, class Compare, class Alloc>
 ft::pair<typename map<T, Key, Compare, Alloc>::const_iterator,typename map<T, Key, Compare, Alloc>::const_iterator>
 map<T, Key, Compare, Alloc>::equal_range (const key_type& k) const
 {
-	const_iterator it;
+	ft::pair<const_iterator,const_iterator> tmp;
 
-	it = find(k);
-	return (ft::pair<const_iterator,const_iterator>(it, it));
+	tmp.first = lower_bound(k);
+	tmp.second = upper_bound(k);
+	return (tmp);
 }
 
 /*###########################################################################################################\
@@ -595,6 +604,24 @@ ft::pair<typename map<T, Key, Compare, Alloc>::iterator, bool> &ret, __node_poin
 	}
 	return (node);
 }
+
+// template <class T, class Key, class Compare, class Alloc>
+// typename map<T,Key,Compare,Alloc>::__node_pointer map<T,Key,Compare,Alloc>::__balance__(__node_pointer node, int balance, const key_type& val)
+// {
+// 	if (balance < -1 && val > node->right->__pair.first) // RR
+// 		return (__leftRotate__(node));
+// 	if (balance < -1 && val < node->right->__pair.first) { // RL
+// 		node->right = __rightRotate__(node->right);
+// 		return (__leftRotate__(node));
+// 	}
+// 	if (balance > 1 && val < node->left->__pair.first) // LL
+// 		return (__rightRotate__(node));
+// 	if (balance > 1 && val > node->left->__pair.first) { // LR
+// 		node->left = __leftRotate__(node->left);
+// 		return (__rightRotate__(node));
+// 	}
+// 	return node;
+// }
 
 template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::__node_pointer
@@ -663,6 +690,8 @@ template <class T, class Key, class Compare, class Alloc>
 void map<T, Key, Compare, Alloc>::__update_left__()
 {
 	__node_pointer tmp = head;
+	if (!tmp)
+		return ;
 	while (tmp->left)
 		tmp = tmp->left;
 	tmp->left = ghost_left;
@@ -675,6 +704,8 @@ template <class T, class Key, class Compare, class Alloc>
 void map<T, Key, Compare, Alloc>::__update_right__()
 {
 	__node_pointer tmp = head;
+	if (!tmp)
+		return ;
 	while (tmp->right)
 		tmp = tmp->right;
 	tmp->right = ghost;
@@ -687,6 +718,9 @@ template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::__node_pointer
 map<T, Key, Compare, Alloc>::__erase__(__node_pointer node, const key_type& val)
 {
+	int balance = 0;
+	// __node_pointer tmp;
+
 	if (!node)
 		return (NULL);
 	if (node->__pair.first > val)
@@ -694,27 +728,66 @@ map<T, Key, Compare, Alloc>::__erase__(__node_pointer node, const key_type& val)
 	else if (node->__pair.first < val)
 		node->right = __erase__(node->right, val);
 	else {
-		if (!node->left && (!node->right || node->right == ghost))
+		if (!node->left && !node->right)
 			return (__destroyNode__(node));
-		else if (!node->left || !node->right || node->right == ghost) {
+		else if (!node->left || !node->right) {
 			return (__destroyNode__(node, !node->left ? node->right : node->left));
 		}
 		else {
+			// tmp = __findMin__(node->right);
+			// tmp->parent->left = NULL;
+			// tmp->right = node->right;
+			// tmp->parent = node->parent;
+			// tmp->left = node->left;
+			// if (tmp->left)
+			// 	tmp->left->parent = tmp;
+			// if (tmp->right)
+			// 	tmp->right->parent = tmp;
+			// if (tmp->parent && tmp->parent->right == node)
+			// 	tmp->parent->right = tmp;
+			// else if (tmp->parent && tmp->parent->left == node)
+			// 	tmp->parent->left = tmp;
+			// __pair_alloc().destroy(&node->__pair);
+			// __node_allocator().deallocate(node,1 );
 			__pair_alloc().destroy(&node->__pair);
-			__pair_alloc().construct(&node->__pair, __findMin__(node->right));
+			__pair_alloc().construct(&node->__pair, __findMin__(node->right)->__pair);
 			node->right = __erase__(node->right, node->__pair.first);
 		}
 	}
+	node->__node_weight = 1 + ft::max(__weight__(node->left), __weight__(node->right));
+	balance = __weight__(node->left) - __weight__(node->right);
+	// 	return this->__balance__(node, balance, val);
+	if (balance > 1 &&
+        getBalance(root->left) >= 0)
+        return rightRotate(root);
+    // Left Right Case
+    if (balance > 1 &&
+        getBalance(root->left) < 0)
+    {
+        root->left = leftRotate(root->left);
+        return rightRotate(root);
+    }
+    // Right Right Case
+    if (balance < -1 &&
+        getBalance(root->right) <= 0)
+        return leftRotate(root);
+    // Right Left Case
+    if (balance < -1 &&
+        getBalance(root->right) > 0)
+    {
+        root->right = rightRotate(root->right);
+        return leftRotate(root);
+    }
 	return (node);
 }
 
 template <class T, class Key, class Compare, class Alloc>
-typename map<T, Key, Compare, Alloc>::value_type
+typename map<T, Key, Compare, Alloc>::__node_pointer
 map<T, Key, Compare, Alloc>::__findMin__(__node_pointer node)
 {
 	while (node->left)
 		node = node->left;
-	return node->__pair;
+	return node;
 }
 
 template <class T, class Key, class Compare, class Alloc>
@@ -779,14 +852,15 @@ map<T, Key, Compare, Alloc>::__clear__(__node_pointer node)
 }
 
 template <class T, class Key, class Compare, class Alloc>
-typename map<T, Key, Compare, Alloc>::__node_pointer map<T, Key, Compare, Alloc>::__copy__(const __node_pointer xnode)
+typename map<T, Key, Compare, Alloc>::__node_pointer map<T, Key, Compare, Alloc>::__copy__(const __node_pointer xnode, __node_pointer parent)
 {
 	__node_pointer node = NULL;
 	if (xnode && ((!xnode->left && !xnode->right) || xnode->left != xnode->right)) {
 		node = __node_alloc.allocate(1);
 		__node_alloc.construct(node, xnode->__pair);
-		node->left = __copy__(xnode->left);
-		node->right = __copy__(xnode->right);
+		node->parent = parent;
+		node->left = __copy__(xnode->left, node);
+		node->right = __copy__(xnode->right, node);
 	}
 	return node;
 }
