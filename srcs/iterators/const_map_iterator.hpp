@@ -13,8 +13,8 @@ namespace ft {
         	
 		public:
 			typedef	typename __it__::value_type				value_type;
-			typedef	const typename __it__::reference		reference;
-			typedef	const typename __it__::pointer			pointer;
+			typedef	const value_type &						reference;
+			typedef	const value_type *						pointer;
 			typedef	typename __it__::difference_type		difference_type;
 			typedef	typename __it__::iterator_category		iterator_category;
 		

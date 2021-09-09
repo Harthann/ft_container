@@ -43,6 +43,8 @@ namespace ft {
 		second_type	second;
 
 		pair() : first(), second() {};
+		template <class U, class V>
+		pair(const pair<U,V>& x) : first(x.first), second(x.second) {};
 		pair(const T1& x, const T2& y) : first(x), second(y) {};
 		~pair() {};
 

@@ -143,6 +143,7 @@ class map
 		__node_pointer	__destroyNode__(__node_pointer node, __node_pointer ret = NULL);
 		void			__disableGhost__();
 		__node_pointer	__findMin__(__node_pointer node);
+		__node_pointer	__findMax__(__node_pointer node);
 		iterator		__find__(__node_pointer node, const key_type& k) const;
 		size_type		__size__(__node_pointer) const;
 		__node_pointer	__clear__(__node_pointer);
@@ -150,6 +151,7 @@ class map
 		void			__update_left__();
 		void			__update_right__();
 		__node_pointer	__balance__(__node_pointer, int, const key_type&);
+		int				__getBalance__(__node_pointer node);
 
 		__node_pointer		head;
 		__node_pointer		ghost;
@@ -419,11 +421,12 @@ template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::size_type
 map<T, Key, Compare, Alloc>::erase(const key_type& k)
 {
+	size_t	size = this->size();
 	__disableGhost__();
 	head = __erase__(head, k);
 	__update_left__();
 	__update_right__();
-	return (1);
+	return (size - this->size());
 }
 
 template <class T, class Key, class Compare, class Alloc>
@@ -581,47 +584,29 @@ ft::pair<typename map<T, Key, Compare, Alloc>::iterator, bool> &ret, __node_poin
 		ret = ft::pair<iterator, bool>(node, false);
 		return (node);
 	}
-	else if (val.first < node->__pair.first) {
+	else if (__key_comp__(val.first, node->__pair.first)) {
 		node->left = __insert__(val, node->left, ret, node);
 	}
-	else if (val.first > node->__pair.first) {
+	else if (__key_comp__(node->__pair.first, val.first)) {
 		node->right = __insert__(val, node->right, ret, node);
 	}
 
 	node->__node_weight = 1 + ft::max(__weight__(node->left), __weight__(node->right));
-	balance = __weight__(node->left) - __weight__(node->right);
-	if (balance < -1 && val.first > node->right->__pair.first) // RR
+	balance = __getBalance__(node);
+	if (balance < -1 && __key_comp__(node->right->__pair.first, val.first)) // RR
 		return (__leftRotate__(node));
-	if (balance < -1 && val.first < node->right->__pair.first) { // RL
+	if (balance < -1 && __key_comp__(val.first, node->right->__pair.first)) { // RL
 		node->right = __rightRotate__(node->right);
 		return (__leftRotate__(node));
 	}
-	if (balance > 1 && val.first < node->left->__pair.first) // LL
+	if (balance > 1 && __key_comp__(val.first, node->left->__pair.first)) // LL
 		return (__rightRotate__(node));
-	if (balance > 1 && val.first > node->left->__pair.first) { // LR
+	if (balance > 1 && __key_comp__(node->left->__pair.first, val.first)) { // LR
 		node->left = __leftRotate__(node->left);
 		return (__rightRotate__(node));
 	}
 	return (node);
 }
-
-// template <class T, class Key, class Compare, class Alloc>
-// typename map<T,Key,Compare,Alloc>::__node_pointer map<T,Key,Compare,Alloc>::__balance__(__node_pointer node, int balance, const key_type& val)
-// {
-// 	if (balance < -1 && val > node->right->__pair.first) // RR
-// 		return (__leftRotate__(node));
-// 	if (balance < -1 && val < node->right->__pair.first) { // RL
-// 		node->right = __rightRotate__(node->right);
-// 		return (__leftRotate__(node));
-// 	}
-// 	if (balance > 1 && val < node->left->__pair.first) // LL
-// 		return (__rightRotate__(node));
-// 	if (balance > 1 && val > node->left->__pair.first) { // LR
-// 		node->left = __leftRotate__(node->left);
-// 		return (__rightRotate__(node));
-// 	}
-// 	return node;
-// }
 
 template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::__node_pointer
@@ -719,13 +704,12 @@ typename map<T, Key, Compare, Alloc>::__node_pointer
 map<T, Key, Compare, Alloc>::__erase__(__node_pointer node, const key_type& val)
 {
 	int balance = 0;
-	// __node_pointer tmp;
 
 	if (!node)
 		return (NULL);
-	if (node->__pair.first > val)
+	if (__key_comp__(val, node->__pair.first))
 		node->left = __erase__(node->left, val);
-	else if (node->__pair.first < val)
+	else if (__key_comp__(node->__pair.first,val))
 		node->right = __erase__(node->right, val);
 	else {
 		if (!node->left && !node->right)
@@ -734,59 +718,53 @@ map<T, Key, Compare, Alloc>::__erase__(__node_pointer node, const key_type& val)
 			return (__destroyNode__(node, !node->left ? node->right : node->left));
 		}
 		else {
-			// tmp = __findMin__(node->right);
-			// tmp->parent->left = NULL;
-			// tmp->right = node->right;
-			// tmp->parent = node->parent;
-			// tmp->left = node->left;
-			// if (tmp->left)
-			// 	tmp->left->parent = tmp;
-			// if (tmp->right)
-			// 	tmp->right->parent = tmp;
-			// if (tmp->parent && tmp->parent->right == node)
-			// 	tmp->parent->right = tmp;
-			// else if (tmp->parent && tmp->parent->left == node)
-			// 	tmp->parent->left = tmp;
-			// __pair_alloc().destroy(&node->__pair);
-			// __node_allocator().deallocate(node,1 );
 			__pair_alloc().destroy(&node->__pair);
 			__pair_alloc().construct(&node->__pair, __findMin__(node->right)->__pair);
 			node->right = __erase__(node->right, node->__pair.first);
 		}
 	}
 	node->__node_weight = 1 + ft::max(__weight__(node->left), __weight__(node->right));
-	balance = __weight__(node->left) - __weight__(node->right);
-	// 	return this->__balance__(node, balance, val);
-	if (balance > 1 &&
-        getBalance(root->left) >= 0)
-        return rightRotate(root);
+	balance = __getBalance__(node);
+	if (balance > 1 && __getBalance__(node->left) >= 0)
+        return __rightRotate__(node);
     // Left Right Case
-    if (balance > 1 &&
-        getBalance(root->left) < 0)
+    if (balance > 1 && __getBalance__(node->left) < 0)
     {
-        root->left = leftRotate(root->left);
-        return rightRotate(root);
+        node->left = __leftRotate__(node->left);
+        return __rightRotate__(node);
     }
     // Right Right Case
-    if (balance < -1 &&
-        getBalance(root->right) <= 0)
-        return leftRotate(root);
+    if (balance < -1 && __getBalance__(node->right) <= 0)
+        return __leftRotate__(node);
     // Right Left Case
-    if (balance < -1 &&
-        getBalance(root->right) > 0)
+    if (balance < -1 && __getBalance__(node->right) > 0)
     {
-        root->right = rightRotate(root->right);
-        return leftRotate(root);
+        node->right = __rightRotate__(node->right);
+        return __leftRotate__(node);
     }
 	return (node);
+}
+
+template <class T, class Key, class Compare, class Alloc>
+int		map<T,Key,Compare,Alloc>::__getBalance__(__node_pointer node) {
+	return (__weight__(node->left) - __weight__(node->right));
 }
 
 template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::__node_pointer
 map<T, Key, Compare, Alloc>::__findMin__(__node_pointer node)
 {
-	while (node->left)
+	while (node && node->left)
 		node = node->left;
+	return node;
+}
+
+template <class T, class Key, class Compare, class Alloc>
+typename map<T, Key, Compare, Alloc>::__node_pointer
+map<T, Key, Compare, Alloc>::__findMax__(__node_pointer node)
+{
+	while (node && node->right)
+		node = node->right;
 	return node;
 }
 
@@ -823,7 +801,7 @@ void	map<T, Key, Compare, Alloc>::__disableGhost__()
 template <class T, class Key, class Compare, class Alloc>
 typename map<T, Key, Compare, Alloc>::iterator	map<T, Key, Compare, Alloc>::__find__(__node_pointer node, const key_type& k) const
 {
-	if (!node || node == ghost)
+	if (!node || node == ghost || node == ghost_left)
 		return ghost;
 	if (!__key_comp__(k, node->__pair.first) && !__key_comp__(node->__pair.first, k))
 		return (node);
